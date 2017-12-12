@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+      "outDir": "dist/",
+      "module": "commonjs",
+      "target": "es6",
+      "newLine": "LF",
+      "jsx": "react",
+      "declaration": true,
+      "forceConsistentCasingInFileNames": true,
+      "allowSyntheticDefaultImports": true
+  },
+  "files": [
+      "src/index.ts"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

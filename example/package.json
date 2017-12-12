@@ -1,11 +1,10 @@
 {
-  "name": "i18n",
+  "name": "i18n-example",
   "author": {
     "name": "Mikkel Hansen",
     "email": "mh@connectedcars.io"
   },
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

@@ -1,0 +1,37 @@
+{
+  "name": "i18n",
+  "author": {
+    "name": "Mikkel Hansen",
+    "email": "mh@connectedcars.io"
+  },
+  "version": "0.1.0",
+  "description": "Translations!",
+  "main": "dist/index.js",
+  "bin": {
+    "i18n-import": "bin/import",
+    "i18n-export": "bin/export"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "i18n",
+    "translations",
+    "react",
+    "reactjs",
+    "redux",
+    "po",
+    "poedit"
+  ],
+  "dependencies": {
+    "@types/react": "^16.0.29",
+    "@types/react-dom": "^16.0.3",
+    "pofile": "^1.0.10",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2"
+  }
+}
