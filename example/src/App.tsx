@@ -6,19 +6,23 @@ const logo = require('./logo.svg')
 
 class App extends Component<{}> {
   static contextTypes = {
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    tn: PropTypes.func.isRequired
   }
 
   render() {
-    const { t } = this.context
+    const { t, tn } = this.context
+
+    const daysAgo = (days: number) => tn(days, '{n} day ago', '{n} days ago')
+
     return (
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>{t('Hello')}</h2>
+          <h2>{t('Hello {name}', { name: 'Mikkel' })}</h2>
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
+          {daysAgo(1)}, {daysAgo(2)}
         </p>
       </div>
     )

@@ -5,6 +5,7 @@ const po2json = require('po2json')
 
 const localesPath = 'locales/*.po'
 const outputFile = 'src/translations.json'
+const prettyPrint = true
 
 let translations = {}
 
@@ -32,6 +33,6 @@ glob(localesPath, (err, files) => {
   })
 
   const stream = fs.createWriteStream(outputFile)
-  stream.write(JSON.stringify(translations))
+  stream.write(JSON.stringify(translations, null, prettyPrint ? 2 : 0))
   stream.close()
 })

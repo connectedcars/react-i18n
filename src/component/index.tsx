@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
+import { getTranslation, replace, Translations } from '../translate'
 
-export interface Translations {
-  [lang: string]: Object
-}
+const DEFAULT_LANG = 'en'
 
 export interface ProviderProps {
   lang?: string
@@ -12,7 +11,8 @@ export interface ProviderProps {
 
 class Provider extends Component<ProviderProps> {
   static childContextTypes = {
-    t: PropTypes.func.isRequired
+    t: PropTypes.func.isRequired,
+    tn: PropTypes.func.isRequired
   }
 
   static propTypes = {
@@ -27,12 +27,23 @@ class Provider extends Component<ProviderProps> {
   getChildContext() {
     const { lang, translations } = this.props
     return {
-      t: this.translate(lang || 'en', translations)
+      t: this.translate(translations, lang),
+      tn: this.ntranslate(translations, lang)
     }
   }
 
-  translate = (lang: string, translations: Translations) => (text: string) => {
-    return translations[lang][text]
+  translate = (translations: Translations, lang: string = DEFAULT_LANG) => {
+    return (text: string, data?: Object, context?: string) => {
+      const str = getTranslation(translations, lang)(0, text, null, context)
+      return replace(str, 0, data)
+    }
+  }
+
+  ntranslate = (translations: Translations, lang: string = DEFAULT_LANG) => {
+    return (n: number, text: string, textPlural: string, data?: Object, context?: string | null) => {
+      const str = getTranslation(translations, lang)(n, text, textPlural, context)
+      return replace(str, n, data)
+    }
   }
 
   render() {
