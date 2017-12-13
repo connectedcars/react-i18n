@@ -6,10 +6,13 @@ const DEFAULT_LANG = 'en'
 
 export interface ProviderProps {
   lang?: string
+  initialLang?: string
   translations: Translations
+
+  setLanguage?(lang: string): void
 }
 
-class Provider extends Component<ProviderProps> {
+export class Provider extends Component<ProviderProps> {
   static childContextTypes = {
     t: PropTypes.func.isRequired,
     tn: PropTypes.func.isRequired
@@ -22,6 +25,13 @@ class Provider extends Component<ProviderProps> {
 
   static defaultProps = {
     lang: 'en'
+  }
+
+  componentWillMount() {
+    const { setLanguage, initialLang } = this.props
+    if (setLanguage && initialLang) {
+      setLanguage(initialLang)
+    }
   }
 
   getChildContext() {
@@ -47,8 +57,7 @@ class Provider extends Component<ProviderProps> {
   }
 
   render() {
+    console.log('render language:', this.props.lang)
     return this.props.children
   }
 }
-
-export default Provider

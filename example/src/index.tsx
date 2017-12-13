@@ -4,14 +4,23 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
-import { Provider as I18NProvider } from 'cc-i18n'
+import { ReduxProvider as I18NProvider, cci18n } from 'cc-i18n'
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux'
 
 const translations = require('./translations.json')
 
+const appReducer = combineReducers({
+  cci18n
+})
+const store = createStore(appReducer)
+
 ReactDOM.render(
-  <I18NProvider lang="da" translations={translations}>
-    <App />
-  </I18NProvider>,
+  <Provider store={store}>
+    <I18NProvider translations={translations} initialLang="da">
+      <App />
+    </I18NProvider>
+  </Provider>,
   document.getElementById('root') as HTMLElement
 )
 registerServiceWorker()

@@ -1,0 +1,1 @@
+export const SET_LANGUAGE = '__CCI18N_SET_LANGUAGE__'

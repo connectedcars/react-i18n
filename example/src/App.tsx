@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import './App.css'
+import LanguageSelector from './LanguageSelector'
 
 const logo = require('./logo.svg')
 
-class App extends Component<{}> {
+class App extends Component {
   static contextTypes = {
     t: PropTypes.func.isRequired,
     tn: PropTypes.func.isRequired
@@ -24,6 +25,8 @@ class App extends Component<{}> {
         <p className="App-intro">
           {daysAgo(1)}, {daysAgo(2)}
         </p>
+
+        <LanguageSelector />
       </div>
     )
   }
