@@ -34,6 +34,7 @@
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.29",
     "@types/react-dom": "^16.0.3",
+    "po2json": "^0.4.5",
     "pofile": "^1.0.10",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
