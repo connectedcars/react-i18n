@@ -1,5 +1,5 @@
 {
-  "name": "i18n",
+  "name": "cc-i18n",
   "author": {
     "name": "Mikkel Hansen",
     "email": "mh@connectedcars.io"
@@ -7,14 +7,20 @@
   "version": "0.1.0",
   "description": "Translations!",
   "main": "dist/index.js",
+  "typings": "./dist/index.d.ts",
   "bin": {
-    "i18n-import": "bin/import",
-    "i18n-export": "bin/export"
+    "i18n-import": "bin/import.js",
+    "i18n-export": "bin/export.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist/ && tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "node_modules",
+    "dist",
+    "src"
+  ],
   "keywords": [
     "i18n",
     "translations",
@@ -25,6 +31,7 @@
     "poedit"
   ],
   "dependencies": {
+    "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.29",
     "@types/react-dom": "^16.0.3",
     "pofile": "^1.0.10",

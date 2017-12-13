@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import * as PropTypes from 'prop-types'
 
 export interface Translations {
   [lang: string]: Object
 }
 
 export interface ProviderProps {
-  lang: string
+  lang?: string
   translations: Translations
 }
 
@@ -27,7 +27,7 @@ class Provider extends Component<ProviderProps> {
   getChildContext() {
     const { lang, translations } = this.props
     return {
-      t: this.translate(lang, translations)
+      t: this.translate(lang || 'en', translations)
     }
   }
 

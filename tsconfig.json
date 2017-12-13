@@ -2,7 +2,7 @@
   "compilerOptions": {
       "outDir": "dist/",
       "module": "commonjs",
-      "target": "es6",
+      "target": "es5",
       "newLine": "LF",
       "jsx": "react",
       "declaration": true,
@@ -13,6 +13,6 @@
       "src/index.ts"
   ],
   "exclude": [
-      "node_modules"
+    "node_modules"
   ]
 }
