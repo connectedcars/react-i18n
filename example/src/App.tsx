@@ -25,8 +25,9 @@ class App extends Component {
         <p className="App-intro">
           {daysAgo(1)}, {daysAgo(2)}
         </p>
-
-        <LanguageSelector />
+        <div>
+          {t('Current language:')} <LanguageSelector />
+        </div>
       </div>
     )
   }

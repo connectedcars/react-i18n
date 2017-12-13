@@ -18,6 +18,10 @@
       "{n} dag siden",
       "{n} dage siden"
     ],
+    "Current language:": [
+      null,
+      "Valgt sprog:"
+    ],
     "Hello {name}": [
       null,
       "Hej {name}"

@@ -2,12 +2,16 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: src/App.tsx:16
-msgid "{n} day"
-msgid_plural "{n} days"
+#: src/App.tsx:17
+msgid "{n} day ago"
+msgid_plural "{n} days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/App.tsx:22
+#: src/App.tsx:30
+msgid "Current language:"
+msgstr ""
+
+#: src/App.tsx:23
 msgid "Hello {name}"
 msgstr ""

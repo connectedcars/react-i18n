@@ -18,6 +18,10 @@ msgid_plural "{n} days ago"
 msgstr[0] "{n} dag siden"
 msgstr[1] "{n} dage siden"
 
+#: src/App.tsx:30
+msgid "Current language:"
+msgstr "Valgt sprog:"
+
 #: src/App.tsx:22
 msgid "Hello {name}"
 msgstr "Hej {name}"
