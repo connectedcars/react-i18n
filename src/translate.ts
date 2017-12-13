@@ -1,5 +1,6 @@
-const CONTEXT_GLUE = '\u0004'
+const DEFAULT_LANG = 'en'
 const DEFAULT_PLURAL = 'nplurals=2; plural=(n != 1);'
+const CONTEXT_GLUE = '\u0004'
 
 export type TranslationBlock = string | null
 
@@ -17,8 +18,13 @@ export const getTranslation = (translations: Translations, lang: string) => (
   textPlural?: string | null,
   context?: string | null
 ): string => {
+  lang = lang || DEFAULT_LANG
 
   const fallback = getFallbackTranslation(n, text, textPlural)
+
+  if (lang === DEFAULT_LANG) {
+    return fallback
+  }
 
   // Make sure the language exists in our translation set.
   if (translations.hasOwnProperty(lang) === false) {

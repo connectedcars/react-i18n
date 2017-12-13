@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import { getTranslation, replace, Translations } from '../translate'
 
-const DEFAULT_LANG = 'en'
-
 export interface ProviderProps {
   lang?: string
   initialLang?: string
@@ -42,14 +40,14 @@ export class Provider extends Component<ProviderProps> {
     }
   }
 
-  translate = (translations: Translations, lang: string = DEFAULT_LANG) => {
+  translate = (translations: Translations, lang?: string) => {
     return (text: string, data?: Object, context?: string) => {
       const str = getTranslation(translations, lang)(0, text, null, context)
       return replace(str, 0, data)
     }
   }
 
-  ntranslate = (translations: Translations, lang: string = DEFAULT_LANG) => {
+  ntranslate = (translations: Translations, lang?: string) => {
     return (n: number, text: string, textPlural: string, data?: Object, context?: string | null) => {
       const str = getTranslation(translations, lang)(n, text, textPlural, context)
       return replace(str, n, data)
@@ -57,7 +55,6 @@ export class Provider extends Component<ProviderProps> {
   }
 
   render() {
-    console.log('render language:', this.props.lang)
     return this.props.children
   }
 }
