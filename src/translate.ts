@@ -12,7 +12,9 @@ export interface Translations {
   [lang: string]: TranslationSet
 }
 
-export const getTranslation = (translations: Translations, lang: string) => (
+export const getTranslation = (
+  translations: Translations,
+  lang: string,
   n: number,
   text: string,
   textPlural?: string | null,
