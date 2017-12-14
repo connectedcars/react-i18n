@@ -5,7 +5,7 @@ const initialState = {
   lang: 'en'
 }
 
-export const cci18n = (state = initialState, action: AnyAction) => {
+export const I18NReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case SET_LANGUAGE:
       return { ...state, lang: action.lang }

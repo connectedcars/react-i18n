@@ -3,8 +3,6 @@ const { GettextExtractor, JsExtractors, HtmlExtractors } = require('gettext-extr
 
 let extractor = new GettextExtractor()
 
-extractor.callExpression = null
-
 extractor
   .createJsParser([
     JsExtractors.callExpression(['t', '[this].context.t'], {

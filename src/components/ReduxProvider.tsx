@@ -4,7 +4,7 @@ import { Provider } from './Provider'
 import { setLanguage } from '../redux/actions'
 
 const mapStateToProps = (state: any) => ({
-  lang: state.cci18n.lang
+  lang: state.i18n.lang
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({

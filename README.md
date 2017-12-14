@@ -1,20 +1,20 @@
-# node-react-i18n
+# @connectedcars/react-i18n
 
 Work in progress.
 
-# Todo
+## Todo
 - [ ] fuzzy translations
 - [ ] improve documentation
 
-# Installation
+## Installation
 
 `npm install @connectedcars/react-i18n`
 
-# Usage
+## Usage
 
 See the `example` project located in the `example` folder.
 
-# Import and Export
+## Import and Export
 
 First you need to set up the import and export scripts in your `package.json`
 ```

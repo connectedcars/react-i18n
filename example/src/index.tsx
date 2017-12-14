@@ -4,14 +4,14 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
-import { ReduxProvider as I18NProvider, cci18n } from 'cc-i18n'
+import { ReduxProvider as I18NProvider, I18NReducer } from '@connectedcars/react-i18n'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 
 const translations = require('./translations.json')
 
 const appReducer = combineReducers({
-  cci18n
+  i18n: I18NReducer
 })
 const store = createStore(appReducer)
 

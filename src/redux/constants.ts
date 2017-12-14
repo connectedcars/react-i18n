@@ -1,1 +1,1 @@
-export const SET_LANGUAGE = '__CCI18N_SET_LANGUAGE__'
+export const SET_LANGUAGE = '__REACT_I18N_SET_LANGUAGE__'

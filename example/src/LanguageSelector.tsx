@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
-import { setLanguage } from 'cc-i18n'
+import { setLanguage } from '@connectedcars/react-i18n'
 
 interface AppProps {
   lang?: string
@@ -35,7 +35,7 @@ class LanguageSelector extends Component<Props> {
 }
 
 const mapStateToProps = (state: any): AppProps => ({
-  lang: state.cci18n.lang
+  lang: state.i18n.lang
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => ({
