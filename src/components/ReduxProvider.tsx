@@ -8,8 +8,7 @@ const mapStateToProps = (state: any) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>) => ({
-  setLanguage: (lang: string) =>
-    dispatch(setLanguage(lang))
+  setLanguage: (lang: string) => dispatch(setLanguage(lang))
 })
 
 export const ReduxProvider = connect(

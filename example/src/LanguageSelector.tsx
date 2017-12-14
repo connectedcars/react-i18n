@@ -8,16 +8,15 @@ interface AppProps {
 }
 
 interface DispatchProps {
-  updateLanguage?(lang: string): void
+  setLanguage?(lang: string): void
 }
 
 interface Props extends DispatchProps, AppProps {}
 
 class LanguageSelector extends Component<Props> {
   dispatchLanguage = (e: React.FormEvent<HTMLSelectElement>) => {
-    const { updateLanguage } = this.props
-    if (updateLanguage) {
-      updateLanguage(e.currentTarget.value)
+    if (this.props.setLanguage) {
+      this.props.setLanguage(e.currentTarget.value)
     }
   }
 
@@ -39,8 +38,7 @@ const mapStateToProps = (state: any): AppProps => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): DispatchProps => ({
-  updateLanguage: (lang: string) =>
-    dispatch(setLanguage(lang))
+  setLanguage: (lang: string) => dispatch(setLanguage(lang))
 })
 
 export default connect<AppProps, DispatchProps, AppProps>(

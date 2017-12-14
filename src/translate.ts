@@ -2,15 +2,15 @@ const DEFAULT_LANG = 'en'
 const DEFAULT_PLURAL = 'nplurals=2; plural=(n != 1);'
 const CONTEXT_GLUE = '\u0004'
 
-export type TranslationBlock = string | null
+export interface Translations {
+  [lang: string]: TranslationSet
+}
 
 export interface TranslationSet {
   [msgid: string]: TranslationBlock[]
 }
 
-export interface Translations {
-  [lang: string]: TranslationSet
-}
+export type TranslationBlock = string | null
 
 export const getTranslation = (
   translations: Translations,

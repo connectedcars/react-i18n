@@ -6,7 +6,6 @@ export interface ProviderProps {
   lang?: string
   initialLang?: string
   translations: Translations
-
   setLanguage?(lang: string): void
 }
 
