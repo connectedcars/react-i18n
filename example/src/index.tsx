@@ -4,22 +4,22 @@ import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
 
-import { ReduxProvider as I18NProvider, I18NReducer } from '@connectedcars/react-i18n'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
+import I18n, { i18nReducer } from '@connectedcars/react-i18n'
 
 const translations = require('./translations.json')
 
 const appReducer = combineReducers({
-  i18n: I18NReducer
+  i18n: i18nReducer
 })
 const store = createStore(appReducer)
 
 ReactDOM.render(
   <Provider store={store}>
-    <I18NProvider translations={translations} initialLang="da">
+    <I18n translations={translations} initialLang="da">
       <App />
-    </I18NProvider>
+    </I18n>
   </Provider>,
   document.getElementById('root') as HTMLElement
 )

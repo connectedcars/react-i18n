@@ -1,4 +1,4 @@
-export * from './components/Provider'
-export * from './components/ReduxProvider'
-export * from './redux/actions'
-export * from './redux/reducer'
+export { ReduxProvider as default, ReduxProvider } from './components/ReduxProvider'
+export { Provider, ProviderProps } from './components/Provider'
+export { setLanguage } from './redux/actions'
+export { i18nReducer } from './redux/reducer'
