@@ -41,22 +41,21 @@
   "dependencies": {
     "gettext-extractor": "^3.2.0",
     "po2json": "^0.4.5",
-    "pofile": "^1.0.10",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.29",
     "@types/react-dom": "^16.0.3",
     "tslint": "^5.8.0",
-    "typescript": "^2.6.2"
+    "typescript": "^2.6.2",
+    "redux": "^3.7.2",
+    "react-redux": "^5.0.6"
   },
   "peerDependencies": {
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2"
+    "redux": "^3.0.0",
+    "react-redux": "^5.0.0"
   }
 }
