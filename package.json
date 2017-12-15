@@ -24,7 +24,6 @@
     "prepublishOnly": "rm -rf dist/ && tsc"
   },
   "files": [
-    "node_modules",
     "dist",
     "src"
   ],
