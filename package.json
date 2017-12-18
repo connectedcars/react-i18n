@@ -24,6 +24,7 @@
     "prepublishOnly": "rm -rf dist/ && tsc"
   },
   "files": [
+    "bin",
     "dist",
     "src"
   ],
