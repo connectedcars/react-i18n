@@ -6,8 +6,8 @@ export interface WithTranslateProps {
   tn(n: number, text: string, textPlural: string, data?: Object, context?: string | null): string
 }
 
-export const withTranslate = (WrappedComponent: ComponentType) => {
-  return class WithTranslate extends Component {
+export function withTranslate<T>(WrappedComponent: ComponentType<T>) {
+  return class WithTranslate extends Component<T> {
     static contextTypes = {
       t: PropTypes.func.isRequired,
       tn: PropTypes.func.isRequired
