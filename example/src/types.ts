@@ -1,4 +1,3 @@
-
 import { I18nState } from '@connectedcars/react-i18n'
 
 export interface StoreState {
