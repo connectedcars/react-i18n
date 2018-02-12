@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Dispatch } from 'redux'
 import { setLanguage } from '@connectedcars/react-i18n'
+import { StoreState } from './types'
 
 interface AppProps {
   lang?: string
@@ -33,7 +34,7 @@ class LanguageSelector extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state: any): AppProps => ({
+const mapStateToProps = (state: StoreState): AppProps => ({
   lang: state.i18n.lang
 })
 

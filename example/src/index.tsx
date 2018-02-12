@@ -6,11 +6,8 @@ import './index.css'
 
 import { Provider } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
-import I18n, { i18nReducer, I18nState } from '@connectedcars/react-i18n'
-
-export interface StoreState {
-  i18n: I18nState
-}
+import I18n, { i18nReducer } from '@connectedcars/react-i18n'
+import { StoreState } from './types'
 
 const translations = require('./translations.json')
 
