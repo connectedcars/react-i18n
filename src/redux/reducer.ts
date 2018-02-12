@@ -1,7 +1,11 @@
 import { AnyAction } from 'redux'
 import { SET_LANGUAGE } from './constants'
 
-const initialState = {
+export interface I18nState {
+  lang: string
+}
+
+const initialState: I18nState = {
   lang: 'en'
 }
 
@@ -11,6 +15,6 @@ export const i18nReducer = (state = initialState, action: AnyAction) => {
       return { ...state, lang: action.lang }
 
     default:
-        return state
+      return state
   }
 }
