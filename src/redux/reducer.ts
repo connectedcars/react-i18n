@@ -1,11 +1,11 @@
 import { AnyAction } from 'redux'
 import { SET_LANGUAGE } from './constants'
 
-export interface Storei18nState {
+export interface I18nState {
   lang: string
 }
 
-const initialState: Storei18nState = {
+const initialState: I18nState = {
   lang: 'en'
 }
 
