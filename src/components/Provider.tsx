@@ -47,7 +47,7 @@ export class Provider extends Component<ProviderProps> {
     }
   }
 
-  ntranslate = (translations: Translations, lang?: string): TranslatePluralFuncFunc => {
+  ntranslate = (translations: Translations, lang?: string): TranslatePluralFunc => {
     return (n: number, text: string, textPlural: string, data?: Object, context?: string | null) => {
       const str = getTranslation(translations, lang, n, text, textPlural, context)
       return replace(str, n, data)
