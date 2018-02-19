@@ -1,12 +1,13 @@
 import React, { createElement, Component, ComponentType } from 'react'
 import * as PropTypes from 'prop-types'
+import { TranslateFunc, TranslatePluralFunc } from '../types'
 
 export interface WithTranslateProps {
-  t(text: string, data?: Object, context?: string): string
-  tn(n: number, text: string, textPlural: string, data?: Object, context?: string | null): string
+  t: TranslateFunc
+  tn: TranslatePluralFunc
 }
 
-export function withTranslate<T>(WrappedComponent: ComponentType<T>) {
+export function withTranslate<T>(WrappedComponent: ComponentType<T & WithTranslateProps>) {
   return class WithTranslate extends Component<T> {
     static contextTypes = {
       t: PropTypes.func.isRequired,
