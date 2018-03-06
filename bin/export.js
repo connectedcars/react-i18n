@@ -5,7 +5,7 @@ let extractor = new GettextExtractor()
 
 extractor
   .createJsParser([
-    JsExtractors.callExpression(['t', '[this].context.t'], {
+    JsExtractors.callExpression(['t', 'props.t', '[this].context.t'], {
       arguments: {
         text: 0,
         // data
@@ -13,7 +13,7 @@ extractor
       }
     }),
 
-    JsExtractors.callExpression(['tn', '[this].context.tn'], {
+    JsExtractors.callExpression(['tn', 'props.tn', '[this].context.tn'], {
       arguments: {
         // count
         text: 1,
@@ -28,3 +28,4 @@ extractor
 extractor.savePotFile('./locales/template.pot')
 
 extractor.printStats()
+
