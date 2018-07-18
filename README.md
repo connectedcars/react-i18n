@@ -31,6 +31,7 @@ Translate text containing a variable:
 ## Import and Export
 
 First you need to set up the import and export scripts in your `package.json`
+```
 ...
 
 "scripts": {
