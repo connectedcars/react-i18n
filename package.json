@@ -16,7 +16,8 @@
   "typings": "./dist/index.d.ts",
   "bin": {
     "i18n-import": "bin/import.js",
-    "i18n-export": "bin/export.js"
+    "i18n-export": "bin/export.js",
+    "i18n-translation-status": "bin/translation-status.js"
   },
   "scripts": {
     "watch": "tsc --watch",
@@ -40,20 +41,20 @@
     "gettext"
   ],
   "dependencies": {
-    "gettext-extractor": "^3.2.0",
+    "gettext-extractor": "^3.3.2",
     "po2json": "^0.4.5",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
-    "@types/prop-types": "^15.5.2",
-    "@types/react": "^16.0.29",
-    "@types/react-dom": "^16.0.3",
-    "tslint": "^5.8.0",
-    "typescript": "^2.6.2",
+    "@types/prop-types": "^15.5.3",
+    "@types/react": "^16.4.6",
+    "@types/react-dom": "^16.0.6",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
     "redux": "^3.7.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6"
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
   },
   "peerDependencies": {
     "redux": ">=3.0.0",
