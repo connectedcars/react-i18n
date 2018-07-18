@@ -16,7 +16,8 @@
   "typings": "./dist/index.d.ts",
   "bin": {
     "i18n-import": "bin/import.js",
-    "i18n-export": "bin/export.js"
+    "i18n-export": "bin/export.js",
+    "i18n-translation-status": "bin/translation-status.js"
   },
   "scripts": {
     "watch": "tsc --watch",
