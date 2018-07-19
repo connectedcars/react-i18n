@@ -17,7 +17,7 @@ glob(LOCALES_PATH, (err, files) => {
     const language = header['language-team']
     const languageCode = header['language']
     // Subtract header
-    const totalStrings = Object.keys(pocontent).length-1
+    const totalStrings = Object.keys(pocontent).length - 1
     let translatedStrings = 0
     for (const key in pocontent) {
       if (pocontent[key][1]) {
@@ -29,9 +29,9 @@ glob(LOCALES_PATH, (err, files) => {
       languageCode,
       totalStrings,
       translatedStrings,
-      missingStrings: totalStrings-translatedStrings
+      missingStrings: totalStrings - translatedStrings
     }
   })
 
-  console.log(translationStatus)
+  console.log(JSON.stringify(translationStatus, null, 2))
 })
