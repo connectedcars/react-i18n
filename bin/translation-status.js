@@ -33,5 +33,5 @@ glob(LOCALES_PATH, (err, files) => {
     }
   })
 
-  console.log(translationStatus)
+  console.log(JSON.stringify(translationStatus))
 })
