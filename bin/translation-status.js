@@ -3,7 +3,14 @@ const glob = require('glob')
 const po2json = require('po2json')
 
 const defaultLocalesPath = 'locales/*.po'
+const defaultTemplatePath = 'locales/template.pot'
 const LOCALES_PATH = process.argv[2] || defaultLocalesPath
+const TEMPLATE_PATH = process.argv[3] || defaultTemplatePath
+
+
+const templateContent = po2json.parseFileSync(TEMPLATE_PATH)
+// Subtract header
+const totalStrings = Object.keys(templateContent).length - 1
 
 glob(LOCALES_PATH, (err, files) => {
   if (err) {
@@ -16,8 +23,6 @@ glob(LOCALES_PATH, (err, files) => {
     const header = pocontent['']
     const language = header['language-team']
     const languageCode = header['language']
-    // Subtract header
-    const totalStrings = Object.keys(pocontent).length - 1
     let translatedStrings = 0
     for (const key in pocontent) {
       if (pocontent[key][1]) {
