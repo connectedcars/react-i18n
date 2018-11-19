@@ -1,4 +1,9 @@
-import React, { createContext, PureComponent, ReactChild, ReactNode } from 'react'
+import React, {
+  createContext,
+  PureComponent,
+  ReactChild,
+  ReactNode,
+} from 'react'
 import ReactDOM from 'react-dom'
 // import App from './App'
 import './index.css'
@@ -19,15 +24,31 @@ interface Translations {
   [lang: string]: PoFile
 }
 
-export type TranslateFunc = (
-  text: string,
+type TranslateFunc = (
+  message: string,
   data?: Record<string, any>,
   context?: string
 ) => string
 
-export type TranslateJsxFunc = (
-  text: string,
+type TranslateJsxFunc = (
+  message: string,
   data?: Record<string, ReactChild>,
+  context?: string
+) => ReactNode
+
+type TranslatePluralFunc = (
+  n: number,
+  singular: string,
+  plural: string,
+  data?: Record<string, any>,
+  context?: string
+) => string
+
+type TranslatePluralJsxFunc = (
+  n: number,
+  singular: string,
+  plural: string,
+  data?: Record<string, any>,
   context?: string
 ) => ReactNode
 
@@ -37,6 +58,8 @@ interface Context {
   setLanguage: (lang: string) => void
   t: TranslateFunc
   tx: TranslateJsxFunc
+  tn: TranslatePluralFunc
+  tnx: TranslatePluralJsxFunc
 }
 
 const noop = () => {} // tslint:disable-line:no-empty
@@ -46,90 +69,88 @@ const Context = createContext<Context>({
   setLanguage: noop,
   t: noop as any,
   tx: noop as any,
+  tn: noop as any,
+  tnx: noop as any,
 })
 
 const DEFAULT_LANG = 'en'
-const DEFAULT_PLURAL = 'nplurals=2; plural=(n != 1);'
 const CONTEXT_GLUE = '\u0004'
+// const DEFAULT_PLURAL = 'nplurals=2; plural=(n != 1);'
 const getTranslation = (
   translations: Translations,
   lang: string,
   n: number | null,
-  text: string,
-  textPlural?: string | null,
+  singular: string,
+  plural?: string | null,
   context?: string | null
 ): string => {
   lang = lang || DEFAULT_LANG
 
-  const fallback = getFallbackTranslation(n, text, textPlural)
+  const defaultValue = plural ? (n !== 1 ? plural : singular) : singular
 
   if (lang === DEFAULT_LANG) {
-    return fallback
+    return defaultValue
   }
 
   // Make sure the language exists in our translation set.
   if (translations.hasOwnProperty(lang) === false) {
     console.warn(`translations does not contain language: '${lang}'`)
-    return fallback
+    return defaultValue
   }
 
   // Get our language set.
   const translationSet = translations[lang]
 
   // Generate our message id. If we have a context, join them.
-  const msgid = context != null
-    ? context + CONTEXT_GLUE + text
-    : text
+  const msgid = context != null ? context + CONTEXT_GLUE + singular : singular
 
   // Get the translation values.
   // First entry is our `textPlural` and the following are translations.
   const msgstr = (translationSet[msgid] || []).slice()
   if (msgstr.length === 0) {
-    console.warn(`translation not found for: text='${text}', text_plural='${textPlural}'`)
-    return fallback
+    console.warn(
+      `translation not found for: text='${singular}', text_plural='${plural}'`
+    )
+    return defaultValue
   }
 
   // Shift off the first entry, it's our original translation plural.
   const msgstrPlural = msgstr.shift()
 
   // Deal with plurals.
-  if (textPlural) {
-    if (textPlural !== msgstrPlural) {
-      console.warn(`translations for textPlural does not match '${textPlural}' != '${msgstrPlural}'`)
-      return fallback
+  if (plural) {
+    if (plural !== msgstrPlural) {
+      console.warn(
+        `translations for textPlural does not match '${plural}' != '${msgstrPlural}'`
+      )
+      return defaultValue
     }
 
     // Get plural-forms from the header.
-    let pluralForms = translationSet[''] && (translationSet as PoConfig)['']['plural-forms']
+    let pluralForms = translationSet[''] && translationSet['']['plural-forms']
 
     if (!pluralForms) {
       console.warn(
-        `translations does not have a plural-forms setting on language: '${lang}', default to: '${DEFAULT_PLURAL}'`
+        `translations does not have a plural-forms setting for language: '${lang}'`
       )
-      pluralForms = DEFAULT_PLURAL
+      // pluralForms = DEFAULT_PLURAL
+      return defaultValue
     }
 
-    const msgstrIndex = pluralFunc(pluralForms)(n)
-    return msgstr[msgstrIndex] || fallback
+    const msgstrIndex = getPluralFunc(pluralForms as string)(n)
+    return msgstr[msgstrIndex] || defaultValue
   }
 
   // Deal with singulars.
-  return msgstr[0] || fallback
+  return msgstr[0] || defaultValue
 }
 
-const getFallbackTranslation = (n: number | null, text: string, textPlural?: string | null) => {
-  if (n != null && textPlural != null) {
-    return [text, textPlural][pluralFunc(DEFAULT_PLURAL)(n)]
-  }
-  return text
-}
-
-export const pluralFunc = (pluralForms: string) => {
+export const getPluralFunc = (pluralForms: string) => {
   const code = [
     'var plural;',
     'var nplurals;',
     pluralForms,
-    'return (plural === true ? 1 : plural ? plural : 0);'
+    'return (plural === true ? 1 : plural ? plural : 0);',
   ]
   return Function('n', code.join('\n'))
 }
@@ -139,17 +160,57 @@ class Provider extends PureComponent<{
   defaultLang: string
 }> {
   state = {
-    lang: this.props.defaultLang
+    lang: this.props.defaultLang,
   }
 
-  t: TranslateFunc = (text, data, context) => {
-    const tl = getTranslation(translations, this.state.lang, null, text, null, context)
-    return replaceString(tl, null, data)
+  t: TranslateFunc = (message, data, context) => {
+    const msg = getTranslation(
+      translations,
+      this.state.lang,
+      null,
+      message,
+      null,
+      context
+    )
+    return replaceString(msg, null, data)
   }
 
-  tx: TranslateJsxFunc = (text, data, context) => {
-    const tl = getTranslation(translations, this.state.lang, null, text, null, context)
-    return replaceJsx(tl, null, data).map((el, idx) => (
+  tx: TranslateJsxFunc = (message, data, context) => {
+    const msg = getTranslation(
+      translations,
+      this.state.lang,
+      null,
+      message,
+      null,
+      context
+    )
+    return replaceJsx(msg, null, data).map((el, idx) => (
+      <React.Fragment key={idx} children={el} />
+    ))
+  }
+
+  tn: TranslatePluralFunc = (count, singular, plural, data, context) => {
+    const message = getTranslation(
+      translations,
+      this.state.lang,
+      count,
+      singular,
+      plural,
+      context
+    )
+    return replaceString(message, count, data)
+  }
+
+  tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
+    const message = getTranslation(
+      translations,
+      this.state.lang,
+      count,
+      singular,
+      plural,
+      context
+    )
+    return replaceJsx(message, null, data).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
   }
@@ -163,6 +224,8 @@ class Provider extends PureComponent<{
       lang: this.state.lang,
       t: this.t,
       tx: this.tx,
+      tn: this.tn,
+      tnx: this.tnx,
       setLanguage: this.setLanguage,
     }
     return (
@@ -208,8 +271,23 @@ ReactDOM.render(
           return (
             <React.Fragment>
               <div>{props.t('Hello {name}', { name: 'world!' })}</div>
+
               <div>
                 {props.tx('Hello {name}', { name: <strong>world!</strong> })}
+              </div>
+
+              <div>{props.tn(1, '{n} day ago', '{n} days ago')}</div>
+              <div>{props.tn(2, '{n} day ago', '{n} days ago')}</div>
+
+              <div>
+                {props.tnx(1, '{n} day ago', '{n} days ago', {
+                  n: <strong>1</strong>,
+                })}
+              </div>
+              <div>
+                {props.tnx(2, '{n} day ago', '{n} days ago', {
+                  n: <strong>2</strong>,
+                })}
               </div>
             </React.Fragment>
           )
