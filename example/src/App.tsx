@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import * as PropTypes from 'prop-types'
 import './App.css'
-import LanguageSelector from './LanguageSelector'
 
 const logo = require('./logo.svg')
 
 class App extends Component {
   static contextTypes = {
     t: PropTypes.func.isRequired,
-    tn: PropTypes.func.isRequired
+    tn: PropTypes.func.isRequired,
   }
 
   render() {
@@ -26,7 +25,13 @@ class App extends Component {
           {daysAgo(1)}, {daysAgo(2)}
         </p>
         <div>
-          {t('Current language:')} <LanguageSelector />
+          {t('Current language:')}
+        </div>
+        <div>
+          {t(`Multiple
+              Lines
+              Also
+              Works`)}
         </div>
       </div>
     )

@@ -36,7 +36,10 @@ export class Provider extends Component<ProviderProps> {
     const { lang, translations } = this.props
     return {
       t: this.translate(translations, lang),
-      tn: this.ntranslate(translations, lang)
+      tn: this.ntranslate(translations, lang),
+      // TODO. Add support for JSX replacement.
+      tx: null,
+      tnx: null
     }
   }
 

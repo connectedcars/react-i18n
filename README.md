@@ -28,6 +28,14 @@ Translate text containing a variable:
 
 `t('This {word} is in a translated sentence.', { word: 'Variable'})`
 
+Multiple lines are also supported using template strings (however, **DO NOT** `${}` use variables!):
+
+```
+t(`Foo
+   bar
+   baz`)
+```
+
 ## Import and Export
 
 First you need to set up the import and export scripts in your `package.json`

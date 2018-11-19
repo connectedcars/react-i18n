@@ -1,7 +1,12 @@
 #!/usr/bin/env node
-const { GettextExtractor, JsExtractors, HtmlExtractors } = require('gettext-extractor')
+const { GettextExtractor, JsExtractors } = require('gettext-extractor')
 
 let extractor = new GettextExtractor()
+
+const content = {
+  trimWhiteSpace: true,
+  preserveIndentation: false
+}
 
 extractor
   .createJsParser([
@@ -9,8 +14,9 @@ extractor
       arguments: {
         text: 0,
         // data
-        context: 2
-      }
+        context: 2,
+      },
+      content,
     }),
 
     JsExtractors.callExpression(['tn', 'props.tn', '[this].context.tn'], {
@@ -19,8 +25,9 @@ extractor
         text: 1,
         textPlural: 2,
         // data
-        context: 4
-      }
+        context: 4,
+      },
+      content,
     })
   ])
   .parseFilesGlob('./src/**/*.@(ts|js|tsx|jsx)')
@@ -28,4 +35,3 @@ extractor
 extractor.savePotFile('./locales/template.pot')
 
 extractor.printStats()
-
