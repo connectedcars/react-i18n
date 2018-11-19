@@ -1,39 +1,21 @@
-import { Translations } from './types';
+import { TranslationSet } from './types'
 
-const DEFAULT_LOCALE = 'en'
 const CONTEXT_GLUE = '\u0004'
-// const DEFAULT_PLURAL = 'nplurals=2; plural=(n != 1);'
 
 export const getTranslation = (
-  translations: Translations,
-  locale: string,
+  translationSet: TranslationSet,
   n: number | null,
   singular: string,
   plural?: string | null,
   context?: string | null
 ): string => {
-  locale = locale || DEFAULT_LOCALE
-
   const defaultValue = plural ? (n !== 1 ? plural : singular) : singular
-
-  if (locale === DEFAULT_LOCALE) {
-    return defaultValue
-  }
-
-  // Make sure the locale exists in our translation set.
-  if (translations.hasOwnProperty(locale) === false) {
-    console.warn(`translations does not contain locale: '${locale}'`)
-    return defaultValue
-  }
-
-  // Get our locale set.
-  const translationSet = translations[locale]
 
   // Generate our message id. If we have a context, join them.
   const msgid = context != null ? context + CONTEXT_GLUE + singular : singular
 
   // Get the translation values.
-  // First entry is our `plural` and the following are translations.
+  // First entry is our `plural` and the following strings are translations.
   const msgstr = (translationSet[msgid] || []).slice()
   if (msgstr.length === 0) {
     console.warn(
@@ -45,32 +27,30 @@ export const getTranslation = (
   // Shift off the first entry, it's our original translation plural.
   const msgstrPlural = msgstr.shift()
 
-  // Deal with plurals.
-  if (plural) {
-    if (plural !== msgstrPlural) {
-      console.warn(
-        `translations for plural does not match '${plural}' != '${msgstrPlural}'`
-      )
-      return defaultValue
-    }
-
-    // Get plural-forms from the header.
-    let pluralForms = translationSet[''] && translationSet['']['plural-forms']
-
-    if (!pluralForms) {
-      console.warn(
-        `translations does not have a plural-forms setting for locale: '${locale}'`
-      )
-      // pluralForms = DEFAULT_PLURAL
-      return defaultValue
-    }
-
-    const msgstrIndex = getPluralFunc(pluralForms as string)(n)
-    return msgstr[msgstrIndex] || defaultValue
+  // Deal with singulars.
+  if (!plural) {
+    return msgstr[0] || defaultValue
   }
 
-  // Deal with singulars.
-  return msgstr[0] || defaultValue
+  // Deal with plurals.
+  if (plural !== msgstrPlural) {
+    console.warn(
+      `translations for plural does not match '${plural}' != '${msgstrPlural}'`
+    )
+    return defaultValue
+  }
+
+  // Get plural-forms from the header.
+  let pluralForms = translationSet[''] && translationSet['']['plural-forms']
+
+  if (!pluralForms) {
+    console.warn(`translations are missing plural-forms setting`)
+    return defaultValue
+  }
+
+  const msgstrIndex = getPluralFunc(pluralForms as string)(n)
+
+  return msgstr[msgstrIndex] || defaultValue
 }
 
 export const getPluralFunc = (pluralForms: string) => {
@@ -83,7 +63,11 @@ export const getPluralFunc = (pluralForms: string) => {
   return Function('n', code.join('\n'))
 }
 
-export const replaceString = (text: string, count: number | null, data?: object) => {
+export const replaceString = (
+  text: string,
+  count: number | null,
+  data?: object
+) => {
   let ourData: any = data || {}
   ourData.n = ourData.n || count
   Object.keys(ourData).map(key => {
@@ -92,8 +76,13 @@ export const replaceString = (text: string, count: number | null, data?: object)
   return text
 }
 
-export const replaceJsx = (text: string, count: number | null, data?: object) => {
+export const replaceJsx = (
+  text: string,
+  count: number | null,
+  data?: object
+) => {
   const ourData: any = data || {}
+  ourData.n = ourData.n || count
   const keys = Object.keys(ourData).join('|')
   const entries = text.split(new RegExp(`({${keys}})`, 'g')).map(entry => {
     // Check if the first character is a bracket. It's a little faster than looking up in a map.

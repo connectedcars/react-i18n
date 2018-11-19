@@ -6,11 +6,7 @@ import {
   TranslatePluralFunc,
   TranslatePluralJsxFunc,
 } from './types'
-import {
-  getTranslation,
-  replaceString,
-  replaceJsx,
-} from './translate'
+import { getTranslation, replaceString, replaceJsx } from './translate'
 
 interface Context {
   t: TranslateFunc
@@ -19,48 +15,73 @@ interface Context {
   tnx: TranslatePluralJsxFunc
   locale: string
   setLocale: (lang: string) => void
+  translations: Translations
+  setTranslations: (translations: Translations) => void
 }
 
-const noop = () => {} // tslint:disable-line:no-empty
+const noop = (...args: any[]): any => {} // tslint:disable-line:no-empty
 
 export const Context = createContext<Context>({
+  t: noop,
+  tx: noop,
+  tn: noop,
+  tnx: noop,
   locale: '',
   setLocale: noop,
-  t: noop as any,
-  tx: noop as any,
-  tn: noop as any,
-  tnx: noop as any,
+  translations: {},
+  setTranslations: noop,
 })
 
-export class Provider extends PureComponent<{
+interface ProviderProps {
+  locale: string
   translations: Translations
-  defaultLocale: string
-}> {
-  state = {
-    locale: this.props.defaultLocale,
+}
+
+interface ProviderState {
+  locale: string
+  translations: Translations
+}
+
+export class Provider extends PureComponent<ProviderProps> {
+  state: ProviderState = {
+    locale: this.props.locale,
+    translations: this.props.translations,
+  }
+
+  getTranslations = () => {
+    const { translations, locale } = this.state
+    return translations[locale]
+  }
+
+  setTranslations = (translations: Translations) => {
+    this.setState({ translations })
+  }
+
+  setLocale = (lang: string) => {
+    this.setState({ lang })
   }
 
   t: TranslateFunc = (message, data, context) => {
     const msg = getTranslation(
-      this.props.translations,
-      this.state.locale,
+      this.getTranslations(),
       null,
       message,
       null,
       context
     )
+
     return replaceString(msg, null, data)
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
     const msg = getTranslation(
-      this.props.translations,
-      this.state.locale,
+      this.getTranslations(),
       null,
       message,
       null,
       context
     )
+
     return replaceJsx(msg, null, data).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
@@ -68,32 +89,28 @@ export class Provider extends PureComponent<{
 
   tn: TranslatePluralFunc = (count, singular, plural, data, context) => {
     const message = getTranslation(
-      this.props.translations,
-      this.state.locale,
+      this.getTranslations(),
       count,
       singular,
       plural,
       context
     )
+
     return replaceString(message, count, data)
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
     const message = getTranslation(
-      this.props.translations,
-      this.state.locale,
+      this.getTranslations(),
       count,
       singular,
       plural,
       context
     )
+
     return replaceJsx(message, null, data).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
-  }
-
-  setLocale = (lang: string) => {
-    this.setState({ lang })
   }
 
   render() {
@@ -104,7 +121,10 @@ export class Provider extends PureComponent<{
       tnx: this.tnx,
       locale: this.state.locale,
       setLocale: this.setLocale,
+      translations: this.state.translations,
+      setTranslations: this.setTranslations,
     }
+
     return (
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     )

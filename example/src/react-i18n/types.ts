@@ -1,18 +1,12 @@
 import { ReactChild, ReactNode } from 'react';
 
-export interface PoConfig {
-  '': Record<string, string>
-}
-
-export interface PoTranslation {
-  [key: string]: Record<string, string[]>
-}
-
-export type PoFile = PoConfig | PoTranslation
-
 export interface Translations {
-  [locale: string]: PoFile
+  [locale: string]: TranslationSet
 }
+
+// TranslationSet structure:
+// { singular: [ plural, ...translations ]}
+export interface TranslationSet extends Record<string, string[]> {}
 
 export type TranslateFunc = (
   message: string,

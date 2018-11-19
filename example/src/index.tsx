@@ -5,7 +5,7 @@ import { Context, Provider } from './react-i18n/component'
 const translations = require('./translations.json')
 
 ReactDOM.render(
-  <Provider translations={translations} defaultLocale="da">
+  <Provider translations={translations} locale="da">
     <Context.Consumer>
       {props => {
         return (
