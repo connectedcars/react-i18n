@@ -105,7 +105,7 @@ export const replaceJsx = (
   data?: object | null
 ) => {
   const obj = Object.assign({ n: count, ...data })
-  const keys = Object.keys(obj).join('|')
+  const keys = Object.keys(obj).join('}|{')
   const entries = text.split(new RegExp(`({${keys}})`, 'g')).map(entry => {
     // Check if the first character is a bracket. It's a little faster than looking up in a map.
     if (entry[0] !== '{') {
