@@ -29,6 +29,16 @@ ReactDOM.render(
                 n: <strong>2</strong>,
               })}
             </div>
+            <div>{props.t('Translation with context', null, 'hello')}</div>
+            <div>
+              {props.t(`
+                This
+                is
+                a
+                multi-line
+                test.
+              `)}
+            </div>
           </React.Fragment>
         )
       }}

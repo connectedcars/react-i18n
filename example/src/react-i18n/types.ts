@@ -4,19 +4,19 @@ export interface Translations {
   [locale: string]: TranslationSet
 }
 
-// TranslationSet structure:
-// { singular: [ plural, ...translations ]}
-export interface TranslationSet extends Record<string, string[]> {}
+export interface TranslationSet extends Record<string, string[]> {
+  // { singular: [ plural, ...translations ]}
+}
 
 export type TranslateFunc = (
   message: string,
-  data?: Record<string, any>,
+  data?: Record<string, string | number> | null,
   context?: string
 ) => string
 
 export type TranslateJsxFunc = (
   message: string,
-  data?: Record<string, ReactChild>,
+  data?: Record<string, ReactChild> | null,
   context?: string
 ) => ReactNode
 
@@ -24,7 +24,7 @@ export type TranslatePluralFunc = (
   n: number,
   singular: string,
   plural: string,
-  data?: Record<string, any>,
+  data?: Record<string, string | number> | null,
   context?: string
 ) => string
 
@@ -32,6 +32,6 @@ export type TranslatePluralJsxFunc = (
   n: number,
   singular: string,
   plural: string,
-  data?: Record<string, any>,
+  data?: Record<string, ReactChild> | null,
   context?: string
 ) => ReactNode

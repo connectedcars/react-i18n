@@ -66,12 +66,11 @@ export const getPluralFunc = (pluralForms: string) => {
 export const replaceString = (
   text: string,
   count: number | null,
-  data?: object
+  data?: object | null
 ) => {
-  let ourData: any = data || {}
-  ourData.n = ourData.n || count
-  Object.keys(ourData).map(key => {
-    text = text.replace(new RegExp(`{${key}}`, 'g'), ourData[key])
+  const obj = Object.assign({ n: count, ...data })
+  Object.keys(obj).map(key => {
+    text = text.replace(new RegExp(`{${key}}`, 'g'), obj[key])
   })
   return text
 }
@@ -79,11 +78,10 @@ export const replaceString = (
 export const replaceJsx = (
   text: string,
   count: number | null,
-  data?: object
+  data?: object | null
 ) => {
-  const ourData: any = data || {}
-  ourData.n = ourData.n || count
-  const keys = Object.keys(ourData).join('|')
+  const obj = Object.assign({ n: count, ...data })
+  const keys = Object.keys(obj).join('|')
   const entries = text.split(new RegExp(`({${keys}})`, 'g')).map(entry => {
     // Check if the first character is a bracket. It's a little faster than looking up in a map.
     if (entry[0] !== '{') {
@@ -91,7 +89,7 @@ export const replaceJsx = (
     }
     // Cut off the `{` and `}`
     const key = entry.substring(1, entry.length - 1)
-    const match = ourData[key]
+    const match = obj[key]
     if (!match) {
       return entry
     }
