@@ -1,4 +1,4 @@
-import { TranslationSet, Options } from './types'
+import { TranslationSet, TranslationOptions } from './types'
 
 const CONTEXT_GLUE = '\u0004'
 
@@ -8,7 +8,7 @@ export const getTranslation = (
   singular: string,
   plural?: string | null,
   context?: string | null,
-  options?: Options
+  options?: TranslationOptions
 ): string => {
   // Clean our translation.
   singular = normalizeMessage(singular, options)
@@ -57,7 +57,7 @@ export const getTranslation = (
   return msgstr[msgstrIndex] || defaultValue
 }
 
-export const normalizeMessage = (message: string, options?: Options) => {
+export const normalizeMessage = (message: string, options?: TranslationOptions) => {
   const {
     trimWhiteSpace = true,
     preserveIndentation = false,

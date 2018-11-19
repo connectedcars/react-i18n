@@ -5,6 +5,7 @@ import {
   TranslateJsxFunc,
   TranslatePluralFunc,
   TranslatePluralJsxFunc,
+  TranslationOptions,
 } from './types'
 import { getTranslation, replaceString, replaceJsx } from './translate'
 
@@ -35,11 +36,7 @@ export const Context = createContext<Context>({
 interface ProviderProps {
   locale: string
   translations: Translations
-  options?: {
-    trimWhiteSpace?: boolean
-    preserveIndentation?: boolean
-    replaceNewLines?: false | string
-  }
+  options?: TranslationOptions
 }
 
 interface ProviderState {
@@ -66,38 +63,14 @@ export class Provider extends PureComponent<ProviderProps> {
     this.setState({ lang })
   }
 
-  normalizeMessage = (message: string) => {
-    const {
-      trimWhiteSpace = true,
-      preserveIndentation = false,
-      replaceNewLines = false,
-    } = this.props.options || {}
-
-    if (trimWhiteSpace) {
-      message = message.replace(/^\n+|\s+$/g, '')
-    }
-    if (!preserveIndentation) {
-      message = message.replace(/^[ \t]+/gm, '')
-    }
-    if (typeof replaceNewLines === 'string') {
-      message = message.replace(/\n/g, replaceNewLines)
-    }
-
-    return message
-  }
-
   t: TranslateFunc = (message, data, context) => {
-    // tslint:disable:no-console
-    console.log(this.getTranslations(), { [this.normalizeMessage(message)]: true })
-    console.log(
-      this.getTranslations().hasOwnProperty(this.normalizeMessage(message))
-    )
     const msg = getTranslation(
       this.getTranslations(),
       null,
-      this.normalizeMessage(message),
+      message,
       null,
-      context
+      context,
+      this.props.options
     )
 
     return replaceString(msg, null, data)
@@ -109,7 +82,8 @@ export class Provider extends PureComponent<ProviderProps> {
       null,
       message,
       null,
-      context
+      context,
+      this.props.options
     )
 
     return replaceJsx(msg, null, data).map((el, idx) => (
@@ -123,7 +97,8 @@ export class Provider extends PureComponent<ProviderProps> {
       count,
       singular,
       plural,
-      context
+      context,
+      this.props.options
     )
 
     return replaceString(message, count, data)
@@ -135,7 +110,8 @@ export class Provider extends PureComponent<ProviderProps> {
       count,
       singular,
       plural,
-      context
+      context,
+      this.props.options
     )
 
     return replaceJsx(message, null, data).map((el, idx) => (

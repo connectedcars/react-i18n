@@ -8,7 +8,7 @@ export interface TranslationSet extends Record<string, string[]> {
   // { singular: [ plural, ...translations ]}
 }
 
-export interface Options {
+export interface TranslationOptions {
   trimWhiteSpace?: boolean
   preserveIndentation?: boolean
   replaceNewLines?: false | string
