@@ -13,11 +13,16 @@ msgstr[1] ""
 msgid "Hello {name}"
 msgstr ""
 
-#: src/index.tsx:33
+#: src/index.tsx:34
 msgid ""
 "This\n"
 "is\n"
 "a\n"
 "multi-line\n"
 "test."
+msgstr ""
+
+#: src/index.tsx:32
+msgctxt "hello"
+msgid "Translation with context"
 msgstr ""

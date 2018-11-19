@@ -1,4 +1,4 @@
-import { TranslationSet } from './types'
+import { TranslationSet, Options } from './types'
 
 const CONTEXT_GLUE = '\u0004'
 
@@ -7,8 +7,12 @@ export const getTranslation = (
   n: number | null,
   singular: string,
   plural?: string | null,
-  context?: string | null
+  context?: string | null,
+  options?: Options
 ): string => {
+  // Clean our translation.
+  singular = normalizeMessage(singular, options)
+
   const defaultValue = plural ? (n !== 1 ? plural : singular) : singular
 
   // Generate our message id. If we have a context, join them.
@@ -51,6 +55,26 @@ export const getTranslation = (
   const msgstrIndex = getPluralFunc(pluralForms as string)(n)
 
   return msgstr[msgstrIndex] || defaultValue
+}
+
+export const normalizeMessage = (message: string, options?: Options) => {
+  const {
+    trimWhiteSpace = true,
+    preserveIndentation = false,
+    replaceNewLines = false,
+  } = options || {}
+
+  if (trimWhiteSpace) {
+    message = message.replace(/^\n+|\s+$/g, '')
+  }
+  if (!preserveIndentation) {
+    message = message.replace(/^[ \t]+/gm, '')
+  }
+  if (typeof replaceNewLines === 'string') {
+    message = message.replace(/\n/g, replaceNewLines)
+  }
+
+  return message
 }
 
 export const getPluralFunc = (pluralForms: string) => {

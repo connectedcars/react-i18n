@@ -8,6 +8,12 @@ export interface TranslationSet extends Record<string, string[]> {
   // { singular: [ plural, ...translations ]}
 }
 
+export interface Options {
+  trimWhiteSpace?: boolean
+  preserveIndentation?: boolean
+  replaceNewLines?: false | string
+}
+
 export type TranslateFunc = (
   message: string,
   data?: Record<string, string | number> | null,
