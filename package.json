@@ -35,14 +35,14 @@
     "translations",
     "react",
     "reactjs",
-    "redux",
+    "context",
     "po",
     "poedit",
     "gettext"
   ],
   "dependencies": {
     "gettext-extractor": "^3.3.2",
-    "po2json": "^0.4.5",
+    "po2json": "^1.0.0-alpha",
     "prop-types": "^15.6.2"
   },
   "devDependencies": {
@@ -51,15 +51,11 @@
     "@types/react-dom": "^16.0.6",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-redux": "^5.0.7",
-    "redux": "^3.7.2",
     "tslint": "^5.11.0",
-    "typescript": "^2.9.2"
+    "typescript": "^3.1.6"
   },
   "peerDependencies": {
-    "redux": ">=3.0.0",
-    "react": ">=15.0.0",
-    "react-dom": ">=15.0.0",
-    "react-redux": ">=4.0.0"
+    "react": ">=16.3.0",
+    "react-dom": ">=15.0.0"
   }
 }

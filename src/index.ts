@@ -1,6 +1,4 @@
 export { ReduxProvider as default, ReduxProvider } from './components/ReduxProvider'
 export { Provider, ProviderProps } from './components/Provider'
 export { withTranslate, WithTranslateProps } from './hoc/withTranslate'
-export { setLanguage } from './redux/actions'
-export { i18nReducer, I18nState } from './redux/reducer'
 export { TranslateFunc, TranslatePluralFunc } from './types'

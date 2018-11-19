@@ -41,14 +41,14 @@ export class Provider extends Component<ProviderProps> {
   }
 
   translate = (translations: Translations, lang?: string): TranslateFunc => {
-    return (text: string, data?: Object, context?: string) => {
+    return (text: string, data?: object, context?: string) => {
       const str = getTranslation(translations, lang, 0, text, null, context)
       return replace(str, 0, data)
     }
   }
 
   ntranslate = (translations: Translations, lang?: string): TranslatePluralFunc => {
-    return (n: number, text: string, textPlural: string, data?: Object, context?: string | null) => {
+    return (n: number, text: string, textPlural: string, data?: object, context?: string | null) => {
       const str = getTranslation(translations, lang, n, text, textPlural, context)
       return replace(str, n, data)
     }

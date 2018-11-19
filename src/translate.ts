@@ -95,8 +95,9 @@ export const pluralFunc = (pluralForms: string) => {
   return Function('n', code.join('\n'))
 }
 
-export const replace = (text: string, count: number, data?: Object) => {
+export const replace = (text: string, count: number, data?: object) => {
   let ourData: any = data || {}
+  // TODO. Allow `n`
   if (ourData.hasOwnProperty('n')) {
     console.warn('translations data keyword `n` is reserved')
   }
