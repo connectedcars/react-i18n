@@ -7,31 +7,37 @@ const translations = require('./translations.json')
 ReactDOM.render(
   <Provider translations={translations} locale="da">
     <Context.Consumer>
-      {props => {
+      {({ t, tx, tn, tnx}) => {
         return (
           <React.Fragment>
-            <div>{props.t('Hello {name}', { name: 'world!' })}</div>
-
             <div>
-              {props.tx('Hello {name}', { name: <strong>world!</strong> })}
+              {t('Hello {name}', {
+                name: 'world!',
+              })}
             </div>
 
-            <div>{props.tn(1, '{n} day ago', '{n} days ago')}</div>
-            <div>{props.tn(2, '{n} day ago', '{n} days ago')}</div>
+            <div>
+              {tx('Hello {name}', {
+                name: <strong>world!</strong>,
+              })}
+            </div>
+
+            <div>{tn(1, '{n} day ago', '{n} days ago')}</div>
+            <div>{tn(2, '{n} day ago', '{n} days ago')}</div>
 
             <div>
-              {props.tnx(1, '{n} day ago', '{n} days ago', {
+              {tnx(1, '{n} day ago', '{n} days ago', {
                 n: <strong>1</strong>,
               })}
             </div>
             <div>
-              {props.tnx(2, '{n} day ago', '{n} days ago', {
+              {tnx(2, '{n} day ago', '{n} days ago', {
                 n: <strong>2</strong>,
               })}
             </div>
-            <div>{props.t('Translation with context', null, 'hello')}</div>
+            <div>{t('Translation with context', null, 'hello')}</div>
             <div>
-              {props.t(`
+              {t(`
                 This
                 is
                 a
