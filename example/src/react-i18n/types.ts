@@ -20,9 +20,11 @@ export type TranslateFunc = (
   context?: string
 ) => string
 
+type CBTest = ((text: string) => ReactNode) | ReactNode
+
 export type TranslateJsxFunc = (
   message: string,
-  data?: Record<string, ReactChild> | null,
+  data?: Record<string, CBTest> | null,
   context?: string
 ) => ReactNode
 

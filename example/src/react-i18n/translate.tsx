@@ -1,3 +1,4 @@
+// import React from 'react'
 import { TranslationSet, TranslationOptions } from './types'
 
 const CONTEXT_GLUE = '\u0004'
@@ -70,8 +71,9 @@ export const normalizeMessage = (message: string, options?: TranslationOptions) 
   if (!preserveIndentation) {
     message = message.replace(/^[ \t]+/gm, '')
   }
+  message = message.replace(/\r\n/g, '\n')
   if (typeof replaceNewLines === 'string') {
-    message = message.replace(/\n/g, replaceNewLines)
+    message = message.replace(/^\n+|\s+$/g, replaceNewLines)
   }
 
   return message
@@ -104,6 +106,45 @@ export const replaceJsx = (
   count: number | null,
   data?: object | null
 ) => {
+  // tslint:disable:no-console
+  const pieces: Array<any> = []
+
+  let giveup = 30
+
+  const reg = new RegExp(/!\[(.*?)\]\((.*?)\)/, 'sm')
+
+  while (true) {
+    const match = text.match(reg)
+    if (!match) {
+      pieces.push(text)
+      return pieces
+    }
+
+    const startMatch = match.index!
+    const endMatch = startMatch + match[0].length
+    const textPiece = match[1]
+    const componentPiece = match[2]
+
+    const firstPiece = text.slice(0, startMatch)
+    if (firstPiece) {
+      pieces.push(firstPiece)
+    }
+
+    text = text.slice(endMatch)
+
+    const cb = data && data[componentPiece]
+    if (cb) {
+      pieces.push(cb(textPiece))
+    } else {
+      pieces.push(textPiece)
+    }
+
+    giveup -= 1
+    if (giveup <= 0) {
+      return pieces
+    }
+  }
+
   const obj = Object.assign({ n: count, ...data })
   const keys = Object.keys(obj).join('}|{')
   const entries = text.split(new RegExp(`({${keys}})`, 'g')).map(entry => {

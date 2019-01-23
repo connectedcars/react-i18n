@@ -41,7 +41,7 @@
     "gettext"
   ],
   "dependencies": {
-    "gettext-extractor": "^3.3.2",
+    "gettext-extractor": "^3.4.2",
     "po2json": "^1.0.0-alpha",
     "prop-types": "^15.6.2"
   },
