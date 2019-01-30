@@ -18,7 +18,7 @@ ReactDOM.render(
 
             <div>
               {tx('Hello {name}', {
-                name: <strong>world!</strong>,
+                name: () => <strong>world!</strong>,
               })}
             </div>
 
@@ -27,12 +27,12 @@ ReactDOM.render(
 
             <div>
               {tnx(1, '{n} day ago', '{n} days ago', {
-                n: <strong>1</strong>,
+                n: () => <strong>1</strong>,
               })}
             </div>
             <div>
               {tnx(2, '{n} day ago', '{n} days ago', {
-                n: <strong>2</strong>,
+                n: () => <strong>2</strong>,
               })}
             </div>
             <div>{t('Translation with context', null, 'hello')}</div>
@@ -48,27 +48,14 @@ ReactDOM.render(
             <div>
               {tx(
                 `
-                ![This is a multiline test](paragraph)
-                ![With multiple paragraphs](paragraph)
-                ![Using React Components](paragraph)
-                ![This is a link](link)
+                <paragraph red>This is a test (<n/>/<n />/{n})</paragraph>
+                <paragraph green>This is <strong>a nested</strong> paragraph</paragraph>
+                <i><strong>foobar</strong></i>
               `,
                 {
-                  link: text => (
-                    <a
-                      href="http://google.com"
-                      onClick={e => {
-                        e.preventDefault()
-                        alert('nope')
-                      }}
-                    >
-                      {text}
-                    </a>
-                  ),
-                  paragraph: text => (
-                    <p style={{ color: 'red' }}>
-                      <strong>{text}</strong>
-                    </p>
+                  n: 1234,
+                  paragraph: (content, attrs) => (
+                    <p style={{ color: attrs }}>{content}</p>
                   ),
                 }
               )}

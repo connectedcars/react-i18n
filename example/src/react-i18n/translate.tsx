@@ -1,5 +1,6 @@
-// import React from 'react'
-import { TranslationSet, TranslationOptions } from './types'
+import React from 'react'
+import { ElementNode, parse, SomeNode, TextNode, voidElements } from './parse'
+import { TranslateData, TranslationOptions, TranslationSet } from './types'
 
 const CONTEXT_GLUE = '\u0004'
 
@@ -58,7 +59,10 @@ export const getTranslation = (
   return msgstr[msgstrIndex] || defaultValue
 }
 
-export const normalizeMessage = (message: string, options?: TranslationOptions) => {
+export const normalizeMessage = (
+  message: string,
+  options?: TranslationOptions
+) => {
   const {
     trimWhiteSpace = true,
     preserveIndentation = false,
@@ -89,77 +93,59 @@ export const getPluralFunc = (pluralForms: string) => {
   return Function('n', code.join('\n'))
 }
 
-export const replaceString = (
-  text: string,
-  count: number | null,
-  data?: object | null
-) => {
-  const obj = Object.assign({ n: count, ...data })
-  Object.keys(obj).map(key => {
-    text = text.replace(new RegExp(`{${key}}`, 'g'), obj[key])
+export const replaceString = (text: string, data?: TranslateData | null) => {
+  if (!data) {
+    return text
+  }
+
+  Object.keys(data).forEach(key => {
+    let v = data[key]
+    if (typeof v === 'function') {
+      return
+    }
+    text = text.replace(new RegExp(`{${key}}`, 'g'), String(v))
   })
   return text
 }
 
 export const replaceJsx = (
-  text: string,
-  count: number | null,
-  data?: object | null
-) => {
-  // tslint:disable:no-console
-  const pieces: Array<any> = []
-
-  let giveup = 30
-
-  const reg = new RegExp(/!\[(.*?)\]\((.*?)\)/, 'sm')
-
-  while (true) {
-    const match = text.match(reg)
-    if (!match) {
-      pieces.push(text)
-      return pieces
+  str: string,
+  data?: TranslateData | null
+): React.ReactNode[] => {
+  const renderNode = (node: SomeNode): React.ReactNode => {
+    if (node instanceof TextNode) {
+      return node.text
     }
 
-    const startMatch = match.index!
-    const endMatch = startMatch + match[0].length
-    const textPiece = match[1]
-    const componentPiece = match[2]
+    if (node instanceof ElementNode) {
+      if (data) {
+        const dataValue = data[node.tagName]
+        if (dataValue != null) {
+          if (typeof dataValue === 'function') {
+            return dataValue(node.children.map(renderNode), node.attributes)
+          }
 
-    const firstPiece = text.slice(0, startMatch)
-    if (firstPiece) {
-      pieces.push(firstPiece)
+          return dataValue
+        }
+      }
+
+      // Maybe do a `strict` mode or a whitelist for tags and otherwise throw an error:
+      // throw new Error(`data not found for tag ${node.tagName}`)
+
+      if (voidElements[node.tagName]) {
+        return React.createElement(node.tagName, {
+          key: node.text,
+        })
+      }
+
+      return React.createElement(node.tagName, {
+        key: node.text,
+        children: node.children.map(renderNode),
+      })
     }
 
-    text = text.slice(endMatch)
-
-    const cb = data && data[componentPiece]
-    if (cb) {
-      pieces.push(cb(textPiece))
-    } else {
-      pieces.push(textPiece)
-    }
-
-    giveup -= 1
-    if (giveup <= 0) {
-      return pieces
-    }
+    throw new Error('unsupported node type')
   }
 
-  const obj = Object.assign({ n: count, ...data })
-  const keys = Object.keys(obj).join('}|{')
-  const entries = text.split(new RegExp(`({${keys}})`, 'g')).map(entry => {
-    // Check if the first character is a bracket. It's a little faster than looking up in a map.
-    if (entry[0] !== '{') {
-      return entry
-    }
-    // Cut off the `{` and `}`
-    const key = entry.substring(1, entry.length - 1)
-    const match = obj[key]
-    if (!match) {
-      return entry
-    }
-    return match
-  })
-
-  return entries
+  return parse(replaceString(str, data)).map(renderNode)
 }

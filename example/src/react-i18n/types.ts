@@ -1,4 +1,4 @@
-import { ReactChild, ReactNode } from 'react';
+import { ReactNode } from 'react'
 
 export interface Translations {
   [locale: string]: TranslationSet
@@ -8,6 +8,11 @@ export interface TranslationSet extends Record<string, string[]> {
   // { singular: [ plural, ...translations ]}
 }
 
+export type TranslateData = Record<
+  string,
+  ((children: React.ReactNode, attributes?: string) => React.ReactNode) | string | number
+> | null
+
 export interface TranslationOptions {
   trimWhiteSpace?: boolean
   preserveIndentation?: boolean
@@ -16,15 +21,13 @@ export interface TranslationOptions {
 
 export type TranslateFunc = (
   message: string,
-  data?: Record<string, string | number> | null,
+  data?: TranslateData,
   context?: string
 ) => string
 
-type CBTest = ((text: string) => ReactNode) | ReactNode
-
 export type TranslateJsxFunc = (
   message: string,
-  data?: Record<string, CBTest> | null,
+  data?: TranslateData,
   context?: string
 ) => ReactNode
 
@@ -32,7 +35,7 @@ export type TranslatePluralFunc = (
   n: number,
   singular: string,
   plural: string,
-  data?: Record<string, string | number> | null,
+  data?: TranslateData,
   context?: string
 ) => string
 
@@ -40,6 +43,6 @@ export type TranslatePluralJsxFunc = (
   n: number,
   singular: string,
   plural: string,
-  data?: Record<string, ReactChild> | null,
+  data?: TranslateData,
   context?: string
 ) => ReactNode

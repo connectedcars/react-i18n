@@ -73,7 +73,7 @@ export class Provider extends PureComponent<ProviderProps> {
       this.props.options
     )
 
-    return replaceString(msg, null, data)
+    return replaceString(msg, data)
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
@@ -86,7 +86,7 @@ export class Provider extends PureComponent<ProviderProps> {
       this.props.options
     )
 
-    return replaceJsx(msg, null, data).map((el, idx) => (
+    return replaceJsx(msg, data).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
   }
@@ -101,7 +101,7 @@ export class Provider extends PureComponent<ProviderProps> {
       this.props.options
     )
 
-    return replaceString(message, count, data)
+    return replaceString(message, { n: count, ...data })
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
@@ -114,7 +114,7 @@ export class Provider extends PureComponent<ProviderProps> {
       this.props.options
     )
 
-    return replaceJsx(message, null, data).map((el, idx) => (
+    return replaceJsx(message, { n: count, ...data }).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
   }
