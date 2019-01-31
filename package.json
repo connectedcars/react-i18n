@@ -21,7 +21,9 @@
   },
   "scripts": {
     "watch": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "tsc",
     "prepublishOnly": "rm -rf dist/ && tsc"
   },
   "files": [
@@ -46,13 +48,16 @@
     "prop-types": "^15.6.2"
   },
   "devDependencies": {
-    "@types/prop-types": "^15.5.3",
-    "@types/react": "^16.4.6",
-    "@types/react-dom": "^16.0.6",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "tslint": "^5.11.0",
-    "typescript": "^3.1.6"
+    "@types/jest": "^23.3.13",
+    "@types/prop-types": "^15.5.8",
+    "@types/react": "^16.7.22",
+    "@types/react-dom": "^16.0.11",
+    "jest": "^23.6.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.4"
   },
   "peerDependencies": {
     "react": ">=16.3.0",
