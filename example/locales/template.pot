@@ -2,38 +2,7 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-#: src/index.tsx:49
-msgid ""
-"![Multi](paragraph)\n"
-"![line](paragraph)\n"
-"![with](paragraph)\n"
-"![paragraphs](paragraph)"
-msgstr ""
-
-#: src/index.tsx:25
-#: src/index.tsx:26
-#: src/index.tsx:29
-#: src/index.tsx:34
-msgid "{n} day ago"
-msgid_plural "{n} days ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/index.tsx:14
-#: src/index.tsx:20
-msgid "Hello {name}"
-msgstr ""
-
-#: src/index.tsx:40
-msgid ""
-"This\n"
-"is\n"
-"a\n"
-"multi-line\n"
-"test."
-msgstr ""
-
+#: src/index.tsx:21
 #: src/index.tsx:38
-msgctxt "hello"
-msgid "Translation with context"
+msgid "Hello {name}"
 msgstr ""

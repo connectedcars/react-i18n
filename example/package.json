@@ -1,28 +1,33 @@
 {
-  "name": "i18n-example",
-  "author": {
-    "name": "Mikkel Hansen",
-    "email": "mh@connectedcars.io"
-  },
+  "name": "example",
   "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@connectedcars/react-i18n": "file:../",
-    "prop-types": "^15.6.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-scripts-ts": "^3.1.0"
+    "@connectedcars/react-i18n": "github:connectedcars/react-i18n#v2",
+    "@types/jest": "23.3.13",
+    "@types/node": "10.12.20",
+    "@types/react": "16.7.22",
+    "@types/react-dom": "16.0.11",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-scripts": "2.1.3",
+    "typescript": "3.2.4"
   },
   "scripts": {
     "import": "i18n-import",
     "export": "i18n-export",
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "devDependencies": {
-    "@types/jest": "^23.3.10",
-    "@types/react": "^16.7.13",
-    "@types/react-dom": "^16.0.11"
-  }
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

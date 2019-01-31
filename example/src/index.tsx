@@ -1,82 +1,48 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import I18nStore from './react-i18n/store'
-import I18nProvider from './react-i18n/provider'
-import I18nConsumer from './react-i18n/consumer'
-
-const translations = require('./translations.json')
+import './index.css'
+import {
+  I18nStore,
+  I18nProvider,
+  I18nContext,
+  I18nConsumer,
+  withTranslate,
+} from '@connectedcars/react-i18n'
 
 const store = new I18nStore({
-  translations,
+  translations: require('./translations.json'),
   locale: 'da',
+})
+
+class ExampleA extends React.Component {
+  static contextType = I18nContext
+
+  render() {
+    return <div>{this.context.t('Hello {name}', { name: 'World' })}</div>
+  }
+}
+
+class ExampleB extends React.Component {
+  render() {
+    return (
+      <I18nConsumer>
+        {i18n => {
+          return <div>{i18n.t('Hello {name}', { name: 'World' })}</div>
+        }}
+      </I18nConsumer>
+    )
+  }
+}
+
+const ExampleC = withTranslate(props => {
+  return <div>{props.t('Hello {name}', { name: 'World' })}</div>
 })
 
 ReactDOM.render(
   <I18nProvider store={store}>
-    <I18nConsumer>
-      {({ t, tx, tn, tnx, locale, setLocale }) => {
-        const swapLocale = locale === 'da' ? 'en' : 'da'
-
-        return (
-          <React.Fragment>
-            <button onClick={() => setLocale(swapLocale)}>
-              {t('Set to {nextLang}', { nextLang: swapLocale.toUpperCase() })}
-            </button>
-
-            <div>
-              {t('Hello {name}', {
-                name: 'world!',
-              })}
-            </div>
-
-            <div>
-              {tx('Hello {name}', {
-                name: () => <strong>world!</strong>,
-              })}
-            </div>
-
-            <div>{tn(1, '{n} day ago', '{n} days ago')}</div>
-            <div>{tn(2, '{n} day ago', '{n} days ago')}</div>
-
-            <div>
-              {tnx(1, '{n} day ago', '{n} days ago', {
-                n: () => <strong>1</strong>,
-              })}
-            </div>
-            <div>
-              {tnx(2, '{n} day ago', '{n} days ago', {
-                n: () => <strong>2</strong>,
-              })}
-            </div>
-            <div>{t('Translation with context', null, 'hello')}</div>
-            <div>
-              {t(`
-                This
-                is
-                a
-                multi-line
-                test.
-              `)}
-            </div>
-            <div>
-              {tx(
-                `
-                <paragraph red>This is a test (<n/>/<n />/{n})</paragraph>
-                <paragraph green>This is <strong>a nested</strong> paragraph</paragraph>
-                <i><strong>foobar</strong></i>
-              `,
-                {
-                  n: 1234,
-                  paragraph: (content, attrs) => (
-                    <p style={{ color: attrs }}>{content}</p>
-                  ),
-                }
-              )}
-            </div>
-          </React.Fragment>
-        )
-      }}
-    </I18nConsumer>
+    <ExampleA />
+    <ExampleB />
+    <ExampleC />
   </I18nProvider>,
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root')
 )

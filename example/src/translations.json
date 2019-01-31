@@ -13,22 +13,9 @@
       "plural-forms": "nplurals=2; plural=(n != 1);",
       "language": "da"
     },
-    "{n} day ago": [
-      "{n} days ago",
-      "{n} dag siden",
-      "{n} dage siden"
-    ],
-    "Hello {name}": [
+    "Hej {name}": [
       null,
-      "Hej {name}"
-    ],
-    "This\nis\na\nmulti-line\ntest.": [
-      null,
-      "Det\nher\ner\nen\nmulti-linje\ntest."
-    ],
-    "hello\u0004Translation with context": [
-      null,
-      "Oversættelse med context"
+      ""
     ]
   }
 }

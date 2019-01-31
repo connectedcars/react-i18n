@@ -4,9 +4,8 @@ import I18nContext, { I18nContextProps } from './context'
 function withTranslate<T = {}>(
   BaseComponent: React.ComponentType<T & I18nContextProps>
 ): React.ComponentType<T> {
-  return class WithTranslate extends React.Component<T & I18nContextProps> {
-    static displayName = `withTranslate(${BaseComponent.displayName ||
-      BaseComponent.name})`
+  return class WithTranslate extends React.Component<T> {
+    static displayName = `withTranslate(${BaseComponent.displayName})`
 
     static contextType = I18nContext
 

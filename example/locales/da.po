@@ -12,32 +12,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: da\n"
 
-#: src/index.tsx:19 src/index.tsx:20
-msgid "{n} day ago"
-msgid_plural "{n} days ago"
-msgstr[0] "{n} dag siden"
-msgstr[1] "{n} dage siden"
-
-#: src/index.tsx:13
-msgid "Hello {name}"
-msgstr "Hej {name}"
-
-#: src/index.tsx:34
-msgid ""
-"This\n"
-"is\n"
-"a\n"
-"multi-line\n"
-"test."
+#: src/index.tsx:21
+#: src/index.tsx:38
+msgid "Hej {name}"
 msgstr ""
-"Det\n"
-"her\n"
-"er\n"
-"en\n"
-"multi-linje\n"
-"test."
-
-#: src/index.tsx:32
-msgctxt "hello"
-msgid "Translation with context"
-msgstr "Oversættelse med context"
