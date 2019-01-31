@@ -5,7 +5,7 @@ import { parse, DocNode, TextNode, ElementNode, voidElements } from './parser'
 const CONTEXT_GLUE = '\u0004'
 
 export const getTranslation = (
-  translationSet: TranslationSet,
+  translationSet: TranslationSet | undefined,
   n: number | null,
   singular: string,
   plural?: string | null,
@@ -16,6 +16,10 @@ export const getTranslation = (
   singular = normalizeMessage(singular, options)
 
   const defaultValue = plural ? (n !== 1 ? plural : singular) : singular
+
+  if (!translationSet) {
+    return defaultValue
+  }
 
   // Generate our message id. If we have a context, join them.
   const msgid = context != null ? context + CONTEXT_GLUE + singular : singular

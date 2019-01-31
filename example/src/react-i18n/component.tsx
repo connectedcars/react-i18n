@@ -6,6 +6,7 @@ import {
   TranslatePluralFunc,
   TranslatePluralJsxFunc,
   TranslationOptions,
+  TranslationSet,
 } from './types'
 import { getTranslation, replaceString, replaceJsx } from './translate'
 
@@ -22,6 +23,56 @@ interface Context {
 
 const noop = (...args: any[]): any => {} // tslint:disable-line:no-empty
 
+type CB = (opts: { translations: Translations; locale: string }) => void
+
+export class TranslationStore {
+  private listeners: CB[]
+  private translations: Translations
+  private locale: string
+
+  constructor(translations: Translations, locale: string) {
+    this.listeners = []
+    this.translations = translations
+    this.locale = locale
+  }
+
+  setLocale = (locale: string) => {
+    this.locale = locale
+    this.triggerUpdate()
+  }
+
+  setTranslations = (translations: Translations) => {
+    this.translations = translations
+    this.triggerUpdate()
+  }
+
+  triggerUpdate = () => {
+    this.listeners.forEach(listener => {
+      listener(this.getState())
+    })
+  }
+
+  getState = () => {
+    return {
+      translations: this.translations,
+      locale: this.locale,
+    }
+  }
+
+  subscribe = (cb: CB) => {
+    this.listeners.push(cb)
+
+    return () => {
+      this.unsubscribe(cb)
+    }
+  }
+
+  unsubscribe = (cb: CB) => {
+    const index = this.listeners.indexOf(cb)
+    this.listeners.splice(index, 1)
+  }
+}
+
 export const Context = createContext<Context>({
   t: noop,
   tx: noop,
@@ -34,8 +85,9 @@ export const Context = createContext<Context>({
 })
 
 interface ProviderProps {
-  locale: string
-  translations: Translations
+  // locale: string
+  // translations: Translations
+  store: TranslationStore
   options?: TranslationOptions
 }
 
@@ -44,23 +96,73 @@ interface ProviderState {
   translations: Translations
 }
 
-export class Provider extends PureComponent<ProviderProps> {
-  state: ProviderState = {
-    locale: this.props.locale,
-    translations: this.props.translations,
+export class Provider extends PureComponent<ProviderProps, ProviderState> {
+  private _isMounted: boolean = false
+  private unsubscribe?: () => void
+
+  constructor(props: ProviderProps) {
+    super(props)
+
+    this.state = props.store.getState()
   }
 
-  getTranslations = () => {
+  componentDidMount() {
+    this._isMounted = true
+    this.subscribe()
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe()
+    }
+  }
+
+  componentDidUpdate(prevProps: ProviderProps) {
+    if (this.props.store !== prevProps.store) {
+      if (this.unsubscribe) {
+        this.unsubscribe()
+      }
+
+      this.subscribe()
+    }
+  }
+
+  subscribe = () => {
+    const { store } = this.props
+    this.unsubscribe = store.subscribe(() => {
+      if (!this._isMounted) {
+        return
+      }
+
+      const { locale, translations } = store.getState()
+
+      this.setState({
+        locale,
+        translations
+      })
+    })
+  }
+
+  getTranslations = (): TranslationSet | undefined => {
     const { translations, locale } = this.state
-    return translations[locale]
+    const tl = translations[locale]
+
+    // Don't throw an error on `en` as this is the default language.
+    if (locale !== 'en' && !tl) {
+      throw new Error(`missing translation set for locale: ${locale}`)
+    }
+
+    return tl
   }
 
   setTranslations = (translations: Translations) => {
-    this.setState({ translations })
+    return this.props.store.setTranslations(translations)
+    // this.setState({ translations })
   }
 
-  setLocale = (lang: string) => {
-    this.setState({ lang })
+  setLocale = (locale: string) => {
+    return this.props.store.setLocale(locale)
+    // this.setState({ locale })
   }
 
   t: TranslateFunc = (message, data, context) => {
@@ -120,15 +222,18 @@ export class Provider extends PureComponent<ProviderProps> {
   }
 
   render() {
-    const value = {
+    const { locale, translations } = this.state
+    const { setLocale, setTranslations } = this.props.store
+
+    const value: Context = {
       t: this.t,
       tx: this.tx,
       tn: this.tn,
       tnx: this.tnx,
-      locale: this.state.locale,
-      setLocale: this.setLocale,
-      translations: this.state.translations,
-      setTranslations: this.setTranslations,
+      locale,
+      setLocale,
+      translations,
+      setTranslations,
     }
 
     return (

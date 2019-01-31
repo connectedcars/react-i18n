@@ -1,15 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Context, Provider } from './react-i18n/component'
+import { Context, Provider, TranslationStore } from './react-i18n/component'
 
 const translations = require('./translations.json')
 
+const store = new TranslationStore(translations, 'da')
+
 ReactDOM.render(
-  <Provider translations={translations} locale="da">
+  <Provider store={store}>
     <Context.Consumer>
-      {({ t, tx, tn, tnx }) => {
+      {({ t, tx, tn, tnx, locale, setLocale }) => {
+        const swapLocale = locale === 'da' ? 'en' : 'da'
+
         return (
           <React.Fragment>
+            <button onClick={() => setLocale(swapLocale)}>
+              {t('Set to {nextLang}', { nextLang: swapLocale.toUpperCase() })}
+            </button>
+
             <div>
               {t('Hello {name}', {
                 name: 'world!',
@@ -17,7 +25,7 @@ ReactDOM.render(
             </div>
 
             <div>
-              {tx('Hello {name}', {
+              {tx('Hello <name />', {
                 name: () => <strong>world!</strong>,
               })}
             </div>
