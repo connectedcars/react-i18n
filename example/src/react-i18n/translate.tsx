@@ -1,6 +1,6 @@
 import React from 'react'
-import { ElementNode, parse, SomeNode, TextNode, voidElements } from './parse'
 import { TranslateData, TranslationOptions, TranslationSet } from './types'
+import { parse, DocNode, TextNode, ElementNode, voidElements } from './parser'
 
 const CONTEXT_GLUE = '\u0004'
 
@@ -112,40 +112,46 @@ export const replaceJsx = (
   str: string,
   data?: TranslateData | null
 ): React.ReactNode[] => {
-  const renderNode = (node: SomeNode): React.ReactNode => {
-    if (node instanceof TextNode) {
-      return node.text
+  return parse(replaceString(str, data)).map(node => renderNode(node, data))
+}
+
+const renderNode = (
+  node: DocNode,
+  data?: TranslateData | null
+): React.ReactNode => {
+  if (node instanceof TextNode) {
+    return node.text
+  }
+
+  if (node instanceof ElementNode) {
+    if (data) {
+      const dataValue = data[node.tagName]
+      if (dataValue != null) {
+        if (typeof dataValue === 'function') {
+          return dataValue(
+            node.children.map(node => renderNode(node, data)),
+            node.attributes
+          )
+        }
+
+        return dataValue
+      }
     }
 
-    if (node instanceof ElementNode) {
-      if (data) {
-        const dataValue = data[node.tagName]
-        if (dataValue != null) {
-          if (typeof dataValue === 'function') {
-            return dataValue(node.children.map(renderNode), node.attributes)
-          }
+    // Maybe do a `strict` mode or a whitelist for tags and otherwise throw an error:
+    // throw new Error(`data not found for tag ${node.tagName}`)
 
-          return dataValue
-        }
-      }
-
-      // Maybe do a `strict` mode or a whitelist for tags and otherwise throw an error:
-      // throw new Error(`data not found for tag ${node.tagName}`)
-
-      if (voidElements[node.tagName]) {
-        return React.createElement(node.tagName, {
-          key: node.text,
-        })
-      }
-
+    if (voidElements[node.tagName]) {
       return React.createElement(node.tagName, {
         key: node.text,
-        children: node.children.map(renderNode),
       })
     }
 
-    throw new Error('unsupported node type')
+    return React.createElement(node.tagName, {
+      key: node.text,
+      children: node.children.map(node => renderNode(node, data)),
+    })
   }
 
-  return parse(replaceString(str, data)).map(renderNode)
+  throw new Error('unsupported node type')
 }
