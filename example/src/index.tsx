@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import I18nStore from './react-i18n/store'
-import I18nProvider from './react-i18n/component'
-import I18nContext from './react-i18n/context'
+import I18nProvider from './react-i18n/provider'
+import I18nConsumer from './react-i18n/consumer'
 
 const translations = require('./translations.json')
 
@@ -13,7 +13,7 @@ const store = new I18nStore({
 
 ReactDOM.render(
   <I18nProvider store={store}>
-    <I18nContext.Consumer>
+    <I18nConsumer>
       {({ t, tx, tn, tnx, locale, setLocale }) => {
         const swapLocale = locale === 'da' ? 'en' : 'da'
 
@@ -76,7 +76,7 @@ ReactDOM.render(
           </React.Fragment>
         )
       }}
-    </I18nContext.Consumer>
+    </I18nConsumer>
   </I18nProvider>,
   document.getElementById('root') as HTMLElement
 )

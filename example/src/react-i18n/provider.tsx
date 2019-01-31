@@ -10,22 +10,22 @@ import {
 } from './types'
 import { getTranslation, replaceString, replaceJsx } from './translate'
 import I18nStore, { I18nStoreState } from './store'
-import I18nContext from './context'
+import I18nContext, { I18nContextProps } from './context'
 
-interface ProviderProps {
+interface I18nProviderProps {
   store: I18nStore
   options?: TranslationOptions
 }
 
-interface ProviderState {
+interface I18nProviderState {
   storeState: I18nStoreState
 }
 
-class I18nProvider extends PureComponent<ProviderProps, ProviderState> {
+class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   private _isMounted: boolean = false
   private unsubscribe?: () => void
 
-  constructor(props: ProviderProps) {
+  constructor(props: I18nProviderProps) {
     super(props)
 
     this.state = {
@@ -44,7 +44,7 @@ class I18nProvider extends PureComponent<ProviderProps, ProviderState> {
     }
   }
 
-  componentDidUpdate(prevProps: ProviderProps) {
+  componentDidUpdate(prevProps: I18nProviderProps) {
     if (this.props.store !== prevProps.store) {
       if (this.unsubscribe) {
         this.unsubscribe()
@@ -145,7 +145,7 @@ class I18nProvider extends PureComponent<ProviderProps, ProviderState> {
     const { locale, translations } = this.state.storeState
     const { setLocale, setTranslations } = this.props.store
 
-    const value: I18nContext = {
+    const value: I18nContextProps = {
       t: this.t,
       tx: this.tx,
       tn: this.tn,

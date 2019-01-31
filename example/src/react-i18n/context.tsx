@@ -7,7 +7,7 @@ import {
 } from './types'
 import { createContext } from 'react'
 
-interface I18nContext {
+export interface I18nContextProps {
   t: TranslateFunc
   tx: TranslateJsxFunc
   tn: TranslatePluralFunc
@@ -21,7 +21,7 @@ interface I18nContext {
 
 const noop = (): any => {} // tslint:disable-line:no-empty
 
-const I18nContext = createContext<I18nContext>({
+const I18nContext = createContext<I18nContextProps>({
   t: noop,
   tx: noop,
   tn: noop,
