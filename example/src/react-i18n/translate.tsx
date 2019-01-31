@@ -1,5 +1,5 @@
 import React from 'react'
-import { TranslateData, TranslationOptions, TranslationSet } from './types'
+import { TranslateDataWithJSX, TranslationOptions, TranslationSet } from './types'
 import { parse, DocNode, TextNode, ElementNode, voidElements } from './parser'
 
 const CONTEXT_GLUE = '\u0004'
@@ -97,7 +97,7 @@ export const getPluralFunc = (pluralForms: string) => {
   return Function('n', code.join('\n'))
 }
 
-export const replaceString = (text: string, data?: TranslateData | null) => {
+export const replaceString = (text: string, data?: TranslateDataWithJSX | null) => {
   if (!data) {
     return text
   }
@@ -109,19 +109,20 @@ export const replaceString = (text: string, data?: TranslateData | null) => {
     }
     text = text.replace(new RegExp(`{${key}}`, 'g'), String(v))
   })
+
   return text
 }
 
 export const replaceJsx = (
   str: string,
-  data?: TranslateData | null
+  data?: TranslateDataWithJSX | null
 ): React.ReactNode[] => {
   return parse(replaceString(str, data)).map(node => renderNode(node, data))
 }
 
 const renderNode = (
   node: DocNode,
-  data?: TranslateData | null
+  data?: TranslateDataWithJSX | null
 ): React.ReactNode => {
   if (node instanceof TextNode) {
     return node.text

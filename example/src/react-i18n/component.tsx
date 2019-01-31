@@ -1,4 +1,4 @@
-import React, { createContext, PureComponent } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Translations,
   TranslateFunc,
@@ -9,101 +9,28 @@ import {
   TranslationSet,
 } from './types'
 import { getTranslation, replaceString, replaceJsx } from './translate'
-
-interface Context {
-  t: TranslateFunc
-  tx: TranslateJsxFunc
-  tn: TranslatePluralFunc
-  tnx: TranslatePluralJsxFunc
-  locale: string
-  setLocale: (lang: string) => void
-  translations: Translations
-  setTranslations: (translations: Translations) => void
-}
-
-const noop = (...args: any[]): any => {} // tslint:disable-line:no-empty
-
-type CB = (opts: { translations: Translations; locale: string }) => void
-
-export class TranslationStore {
-  private listeners: CB[]
-  private translations: Translations
-  private locale: string
-
-  constructor(translations: Translations, locale: string) {
-    this.listeners = []
-    this.translations = translations
-    this.locale = locale
-  }
-
-  setLocale = (locale: string) => {
-    this.locale = locale
-    this.triggerUpdate()
-  }
-
-  setTranslations = (translations: Translations) => {
-    this.translations = translations
-    this.triggerUpdate()
-  }
-
-  triggerUpdate = () => {
-    this.listeners.forEach(listener => {
-      listener(this.getState())
-    })
-  }
-
-  getState = () => {
-    return {
-      translations: this.translations,
-      locale: this.locale,
-    }
-  }
-
-  subscribe = (cb: CB) => {
-    this.listeners.push(cb)
-
-    return () => {
-      this.unsubscribe(cb)
-    }
-  }
-
-  unsubscribe = (cb: CB) => {
-    const index = this.listeners.indexOf(cb)
-    this.listeners.splice(index, 1)
-  }
-}
-
-export const Context = createContext<Context>({
-  t: noop,
-  tx: noop,
-  tn: noop,
-  tnx: noop,
-  locale: '',
-  setLocale: noop,
-  translations: {},
-  setTranslations: noop,
-})
+import I18nStore, { I18nStoreState } from './store'
+import I18nContext from './context'
 
 interface ProviderProps {
-  // locale: string
-  // translations: Translations
-  store: TranslationStore
+  store: I18nStore
   options?: TranslationOptions
 }
 
 interface ProviderState {
-  locale: string
-  translations: Translations
+  storeState: I18nStoreState
 }
 
-export class Provider extends PureComponent<ProviderProps, ProviderState> {
+class I18nProvider extends PureComponent<ProviderProps, ProviderState> {
   private _isMounted: boolean = false
   private unsubscribe?: () => void
 
   constructor(props: ProviderProps) {
     super(props)
 
-    this.state = props.store.getState()
+    this.state = {
+      storeState: props.store.getState(),
+    }
   }
 
   componentDidMount() {
@@ -134,17 +61,12 @@ export class Provider extends PureComponent<ProviderProps, ProviderState> {
         return
       }
 
-      const { locale, translations } = store.getState()
-
-      this.setState({
-        locale,
-        translations
-      })
+      this.setState({ storeState: store.getState() })
     })
   }
 
   getTranslations = (): TranslationSet | undefined => {
-    const { translations, locale } = this.state
+    const { translations, locale } = this.state.storeState
     const tl = translations[locale]
 
     // Don't throw an error on `en` as this is the default language.
@@ -157,12 +79,10 @@ export class Provider extends PureComponent<ProviderProps, ProviderState> {
 
   setTranslations = (translations: Translations) => {
     return this.props.store.setTranslations(translations)
-    // this.setState({ translations })
   }
 
   setLocale = (locale: string) => {
     return this.props.store.setLocale(locale)
-    // this.setState({ locale })
   }
 
   t: TranslateFunc = (message, data, context) => {
@@ -222,10 +142,10 @@ export class Provider extends PureComponent<ProviderProps, ProviderState> {
   }
 
   render() {
-    const { locale, translations } = this.state
+    const { locale, translations } = this.state.storeState
     const { setLocale, setTranslations } = this.props.store
 
-    const value: Context = {
+    const value: I18nContext = {
       t: this.t,
       tx: this.tx,
       tn: this.tn,
@@ -237,7 +157,11 @@ export class Provider extends PureComponent<ProviderProps, ProviderState> {
     }
 
     return (
-      <Context.Provider value={value}>{this.props.children}</Context.Provider>
+      <I18nContext.Provider value={value}>
+        {this.props.children}
+      </I18nContext.Provider>
     )
   }
 }
+
+export default I18nProvider

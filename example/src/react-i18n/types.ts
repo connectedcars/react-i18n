@@ -8,7 +8,9 @@ export interface TranslationSet extends Record<string, string[]> {
   // { singular: [ plural, ...translations ]}
 }
 
-export type TranslateData = Record<
+export type TranslateData = Record<string, string | number> | null
+
+export type TranslateDataWithJSX = Record<
   string,
   ((children: React.ReactNode, attributes?: string) => React.ReactNode) | string | number
 > | null
@@ -27,7 +29,7 @@ export type TranslateFunc = (
 
 export type TranslateJsxFunc = (
   message: string,
-  data?: TranslateData,
+  data?: TranslateDataWithJSX,
   context?: string
 ) => ReactNode
 
@@ -43,6 +45,6 @@ export type TranslatePluralJsxFunc = (
   n: number,
   singular: string,
   plural: string,
-  data?: TranslateData,
+  data?: TranslateDataWithJSX,
   context?: string
 ) => ReactNode

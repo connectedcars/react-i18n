@@ -54,11 +54,22 @@ const addToken = (
     return
   }
 
+  // {text}
+  if ((match = line.match(/{([a-z0-9_-]+)}/i))) {
+    stack.push({
+      kind: SyntaxKind.self,
+      tagName: match[1],
+      attributes: match[1],
+      text: line
+    })
+    return
+  }
+
   return
 }
 
 const tokenize = (str: string): Token[] => {
-  const pattern = /(<[^<>]+>)/g
+  const pattern = /(<[^<>]+>|{[a-z0-9_-]+})/gi
   const stack: Token[] = []
 
   let match: RegExpExecArray | null = null
