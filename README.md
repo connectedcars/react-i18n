@@ -1,11 +1,5 @@
 # @connectedcars/react-i18n
 
-Work in progress.
-
-## Todo
-- [ ] fuzzy translations
-- [ ] improve documentation
-
 ## Installation
 
 `npm install @connectedcars/react-i18n`
@@ -28,13 +22,41 @@ Translate text containing a variable:
 
 `t('This {word} is in a translated sentence.', { word: 'Variable'})`
 
-Multiple lines are also supported using template strings (however, **DO NOT** `${}` use variables!):
+Translate plurals (`n` is injected into the data object, but can be overwritten):
+
+`tn(count, '{n} time', '{n} times')`
+
+Multiple lines are also supported using template strings (however, **DO NOT** use `${}` variables!):
 
 ```
 t(`Foo
    bar
    baz`)
 ```
+
+*Please note, however, that these translations will not be rendered on multiple lines in HTML!*
+
+Translate with React:
+
+```
+// Use `tnx` for plurals with JSX!
+tx(`
+  <p>Hello, <strong>{name}</strong><p>
+  <p>Today is {day}</p>
+`, {
+  p: content => <p>{content}</p>,
+  strong: content => <strong>{content}</strong>,
+  name: 'John Doe',
+  day: 'Monday'
+})
+```
+
+*Please note, by default translations are in strict mode which means an error will be thrown on undefined types*
+*Please note, it is possible to add a whitelist/default by setting `jsxWhitelist` on the `I18nPovider`.*
+
+You can also add a context to your translations:
+
+`t('Hello', null, 'context here')`
 
 ## Import and Export
 
@@ -49,6 +71,7 @@ First you need to set up the import and export scripts in your `package.json`
 
 ...
 ```
+
 Then you can run the following commands:
 * `npm run export` creates a POT file with the extracted translations in `./locales/template.pot`
 * `npm run import` creates a json file containing your all your translations in `./src/translations.json`
