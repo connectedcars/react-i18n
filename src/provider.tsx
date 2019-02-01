@@ -105,7 +105,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
-    const strict = this.props.options.strict
+    const { strict } = this.props.options
     const msg = getTranslation(
       this.getTranslations(),
       null,
@@ -134,7 +134,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
-    const strict = this.props.options.strict
+    const { strict } = this.props.options
     const message = getTranslation(
       this.getTranslations(),
       count,
