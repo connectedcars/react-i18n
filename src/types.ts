@@ -8,11 +8,13 @@ export interface TranslationSet extends Record<string, string[]> {
   // { singular: [ plural, ...translations ]}
 }
 
-export type TranslateData = Record<string, string | number> | null
+type BasicTypes = boolean | string | number | null | undefined
+
+export type TranslateData = Record<string, BasicTypes> | null
 
 export type TranslateDataWithJSX = Record<
   string,
-  ((children: React.ReactNode, attributes?: string) => React.ReactNode) | string | number
+  ((children: React.ReactNode, attributes?: string) => React.ReactNode) | BasicTypes
 > | null
 
 export interface TranslationOptions {
