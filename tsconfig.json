@@ -2,10 +2,11 @@
   "compilerOptions": {
       "outDir": "dist/",
       "module": "commonjs",
-      "moduleResolution": "node",
-      "esModuleInterop": true,
       "target": "es5",
       "jsx": "react",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "declarationMap": true,
       "declaration": true,
       "forceConsistentCasingInFileNames": true,
       "allowSyntheticDefaultImports": true

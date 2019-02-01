@@ -14,5 +14,9 @@ msgstr ""
 
 #: src/index.tsx:21
 #: src/index.tsx:38
-msgid "Hej {name}"
-msgstr ""
+msgid "Hello {name}"
+msgstr "Hej {name}"
+
+#: src/index.tsx:45
+msgid "Set language to <lang />"
+msgstr "Skift sprog til <lang />"

@@ -13,9 +13,13 @@
       "plural-forms": "nplurals=2; plural=(n != 1);",
       "language": "da"
     },
-    "Hej {name}": [
+    "Hello {name}": [
       null,
-      ""
+      "Hej {name}"
+    ],
+    "Set language to <lang />": [
+      null,
+      "Skift sprog til <lang />"
     ]
   }
 }

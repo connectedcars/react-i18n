@@ -6,3 +6,7 @@ msgstr ""
 #: src/index.tsx:38
 msgid "Hello {name}"
 msgstr ""
+
+#: src/index.tsx:45
+msgid "Set language to <lang />"
+msgstr ""

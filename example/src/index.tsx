@@ -8,6 +8,7 @@ import {
   I18nConsumer,
   withTranslate,
 } from '@connectedcars/react-i18n'
+import ToggleLocale from './ToggleLocales'
 
 const store = new I18nStore({
   translations: require('./translations.json'),
@@ -38,11 +39,18 @@ const ExampleC = withTranslate(props => {
   return <div>{props.t('Hello {name}', { name: 'World' })}</div>
 })
 
-ReactDOM.render(
-  <I18nProvider store={store}>
+const App = () => (
+  <React.Fragment>
     <ExampleA />
     <ExampleB />
     <ExampleC />
+    <ToggleLocale />
+  </React.Fragment>
+)
+
+ReactDOM.render(
+  <I18nProvider store={store}>
+    <App />
   </I18nProvider>,
   document.getElementById('root')
 )
