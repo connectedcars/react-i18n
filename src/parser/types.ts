@@ -1,5 +1,5 @@
-import ElementNode from './ElementNode'
-import TextNode from './TextNode'
+import { ElementNode } from './ElementNode'
+import { TextNode } from './TextNode'
 
 export enum SyntaxKind {
   text = 'text',

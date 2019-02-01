@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`replace-content can replace JSX 1`] = `
+Array [
+  "Hello ",
+  <strong>
+    John Doe
+  </strong>,
+]
+`;
+
+exports[`replace-content can replace JSX 2`] = `"translation data not found for tag: 'strong'"`;
+
+exports[`replace-content can replace a string 1`] = `"Hello John Doe"`;

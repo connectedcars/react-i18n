@@ -16,9 +16,14 @@ export type TranslateDataWithJSX = Record<
 > | null
 
 export interface TranslationOptions {
-  trimWhiteSpace?: boolean
-  preserveIndentation?: boolean
-  replaceNewLines?: false | string
+  strict?: boolean
+  jsxWhitelist?: TranslateDataWithJSX
+
+  content?: {
+    trimWhiteSpace?: boolean
+    preserveIndentation?: boolean
+    replaceNewLines?: false | string
+  }
 }
 
 export type TranslateFunc = (

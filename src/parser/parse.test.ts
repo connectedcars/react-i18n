@@ -1,5 +1,4 @@
-import parse from "./parse";
-import TextNode from "./TextNode";
+import { parse } from './parse'
 
 describe('parse', () => {
   it('can parse strings', () => {
@@ -11,14 +10,14 @@ describe('parse', () => {
   })
 
   it('throws an error when missing open nodes', () => {
-    expect(() => parse('bar</a>')).toThrowError('missing open node: a')
-    expect(() => parse('<a>bar</a></b>')).toThrowError('missing open node: b')
-    expect(() => parse('<a>bar</a></a>')).toThrowError('missing open node: a')
+    expect(() => parse('bar</a>')).toThrowErrorMatchingSnapshot()
+    expect(() => parse('<a>bar</a></b>')).toThrowErrorMatchingSnapshot()
+    expect(() => parse('<a>bar</a></a>')).toThrowErrorMatchingSnapshot()
   })
 
   it('throws an error when missing close nodes', () => {
-    expect(() => parse('<a>bar')).toThrowError('missing close node: a')
-    expect(() => parse('<b><a>bar')).toThrowError('missing close node: a')
-    expect(() => parse('<b><a>bar</a>')).toThrowError('missing close node: b')
+    expect(() => parse('<a>bar')).toThrowErrorMatchingSnapshot()
+    expect(() => parse('<b><a>bar')).toThrowErrorMatchingSnapshot()
+    expect(() => parse('<b><a>bar</a>')).toThrowErrorMatchingSnapshot()
   })
 })

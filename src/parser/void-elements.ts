@@ -1,6 +1,6 @@
 // Source: https://html.spec.whatwg.org/multipage/syntax.html#elements-2
 
-const voidElements = {
+export const voidElements = {
   area: true,
   base: true,
   br: true,
@@ -16,5 +16,3 @@ const voidElements = {
   track: true,
   wbr: true,
 }
-
-export default voidElements

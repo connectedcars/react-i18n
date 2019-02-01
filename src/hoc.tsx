@@ -1,5 +1,5 @@
 import React from 'react'
-import I18nContext, { I18nContextProps } from './context'
+import { I18nContext, I18nContextProps } from './context'
 
 function withTranslate<T = {}>(
   BaseComponent: React.ComponentType<T & I18nContextProps>
@@ -15,4 +15,4 @@ function withTranslate<T = {}>(
   }
 }
 
-export default withTranslate
+export { withTranslate }

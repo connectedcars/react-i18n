@@ -1,6 +1,6 @@
 import { SyntaxKind, DocNode, Token } from './types'
 
-class ElementNode {
+export class ElementNode {
   public kind: SyntaxKind
   public text: string = ''
   public tagName: string = ''
@@ -19,5 +19,3 @@ class ElementNode {
     this.parent = parent
   }
 }
-
-export default ElementNode

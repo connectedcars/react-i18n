@@ -9,8 +9,8 @@ import {
   TranslationSet,
 } from './types'
 import { getTranslation, replaceString, replaceJsx } from './translate'
-import I18nStore, { I18nStoreState } from './store'
-import I18nContext, { I18nContextProps } from './context'
+import { I18nStore, I18nStoreState } from './store'
+import { I18nContext, I18nContextProps } from './context'
 
 interface I18nProviderProps {
   store: I18nStore
@@ -24,6 +24,12 @@ interface I18nProviderState {
 class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   private _isMounted: boolean = false
   private unsubscribe?: () => void
+
+  static defaultProps: Partial<I18nProviderProps> = {
+    options: {
+      strict: true,
+    }
+  }
 
   constructor(props: I18nProviderProps) {
     super(props)
@@ -95,10 +101,11 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceString(msg, data)
+    return replaceString(msg, this.genData(data))
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
+    const strict = this.props.options.strict
     const msg = getTranslation(
       this.getTranslations(),
       null,
@@ -108,7 +115,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceJsx(msg, data).map((el, idx) => (
+    return replaceJsx(msg, this.genData(data), strict).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
   }
@@ -123,10 +130,11 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceString(message, { n: count, ...data })
+    return replaceString(message, this.genData(data, count))
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
+    const strict = this.props.options.strict
     const message = getTranslation(
       this.getTranslations(),
       count,
@@ -136,9 +144,21 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceJsx(message, { n: count, ...data }).map((el, idx) => (
+    return replaceJsx(message, this.genData(data, count), strict).map((el, idx) => (
       <React.Fragment key={idx} children={el} />
     ))
+  }
+
+  genData = (data: Record<string, any>, count?: number) => {
+    const whitelist = this.props.options.jsxWhitelist
+    if (count != null) {
+      return {
+        ...whitelist,
+        n: count,
+        ...data
+      }
+    }
+    return { ...whitelist, ...data }
   }
 
   render() {
@@ -164,4 +184,4 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   }
 }
 
-export default I18nProvider
+export { I18nProvider }

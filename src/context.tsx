@@ -32,4 +32,4 @@ const I18nContext = createContext<I18nContextProps>({
   setTranslations: noop,
 })
 
-export default I18nContext
+export { I18nContext }

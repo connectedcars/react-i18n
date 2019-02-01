@@ -1,6 +1,6 @@
 import { SyntaxKind, DocNode } from './types'
 
-class TextNode {
+export class TextNode {
   public kind = SyntaxKind.text
   public text: string
   public parent: DocNode | null = null
@@ -10,5 +10,3 @@ class TextNode {
     this.parent = parent
   }
 }
-
-export default TextNode

@@ -59,4 +59,4 @@ class I18nStore {
   }
 }
 
-export default I18nStore
+export { I18nStore }

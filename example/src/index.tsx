@@ -39,18 +39,12 @@ const ExampleC = withTranslate(props => {
   return <div>{props.t('Hello {name}', { name: 'World' })}</div>
 })
 
-const App = () => (
-  <React.Fragment>
+ReactDOM.render(
+  <I18nProvider store={store}>
     <ExampleA />
     <ExampleB />
     <ExampleC />
     <ToggleLocale />
-  </React.Fragment>
-)
-
-ReactDOM.render(
-  <I18nProvider store={store}>
-    <App />
   </I18nProvider>,
   document.getElementById('root')
 )

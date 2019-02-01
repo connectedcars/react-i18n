@@ -1,7 +1,7 @@
 import { Token, SyntaxKind, DocNode } from './types'
-import ElementNode from './ElementNode'
-import TextNode from './TextNode'
-import voidElements from './void-elements'
+import { ElementNode } from './ElementNode'
+import { TextNode } from './TextNode'
+import { voidElements } from './void-elements'
 
 const addToken = (
   stack: Token[],
@@ -109,10 +109,10 @@ const lex = (tokens: Token[]): DocNode[] => {
 
     if (node.kind === SyntaxKind.close && !voidElements[node.tagName!]) {
       if (!(currentNode instanceof ElementNode)) {
-        throw new Error(`missing open node: ${node.tagName}`)
+        throw new Error(`missing open node: '${node.tagName}'`)
       }
       if (node.tagName !== currentNode.tagName) {
-        throw new Error(`missing close node: ${currentNode.tagName}`)
+        throw new Error(`missing close node: '${currentNode.tagName}'`)
       }
 
       currentNode = currentNode.parent
@@ -145,7 +145,7 @@ const lex = (tokens: Token[]): DocNode[] => {
     currentNode instanceof ElementNode &&
     currentNode.kind === SyntaxKind.open
   ) {
-    throw new Error(`missing close node: ${currentNode.tagName}`)
+    throw new Error(`missing close node: '${currentNode.tagName}'`)
   }
 
   return children
@@ -160,4 +160,4 @@ const parse = (str: string): DocNode[] => {
   return ast
 }
 
-export default parse
+export { parse }
