@@ -1,5 +1,6 @@
 import React from 'react'
-import { I18nContext, I18nContextProps } from './context'
+import { I18nConsumer } from './consumer'
+import { I18nContextProps } from './context'
 import { Omit } from './types'
 
 export interface WithTranslateProps extends I18nContextProps {}
@@ -10,10 +11,12 @@ function withTranslate<P extends object>(
   return class WithTranslate extends React.Component<P> {
     static displayName = `withTranslate(${BaseComponent.displayName})`
 
-    static contextType = I18nContext
-
     render() {
-      return <BaseComponent {...this.props} {...this.context} />
+      return (
+        <I18nConsumer>
+          {i18nProps => <BaseComponent {...i18nProps} {...this.props} />}
+        </I18nConsumer>
+      )
     }
   }
 }
