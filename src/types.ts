@@ -55,3 +55,5 @@ export type TranslatePluralJsxFunc = (
   data?: TranslateDataWithJSX,
   context?: string
 ) => ReactNode
+
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
