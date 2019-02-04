@@ -24,7 +24,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "tsc",
-    "prepare": "tsc"
+    "prepublishOnly": "rm -rf dist/ && tsc"
   },
   "files": [
     "bin",

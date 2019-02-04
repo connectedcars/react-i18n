@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@connectedcars/react-i18n": "file:..",
+    "@connectedcars/react-i18n": "github:connectedcars/react-i18n#v2",
     "@types/jest": "23.3.13",
     "@types/node": "10.12.20",
     "@types/react": "16.7.22",

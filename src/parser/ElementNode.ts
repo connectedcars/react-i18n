@@ -14,7 +14,7 @@ export class ElementNode {
   ) {
     this.kind = type
     this.text = text
-    this.tagName = tagName!
+    this.tagName = tagName || ''
     this.attributes = attributes
     this.parent = parent
   }
