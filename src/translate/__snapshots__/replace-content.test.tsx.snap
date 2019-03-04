@@ -11,4 +11,30 @@ Array [
 
 exports[`replace-content can replace JSX 2`] = `"translation data not found for tag: 'strong'"`;
 
+exports[`replace-content can replace JSX 3`] = `
+Array [
+  <strong>
+    Hello
+  </strong>,
+  " World ",
+  <Link>
+    Link here
+  </Link>,
+]
+`;
+
+exports[`replace-content can replace JSX 4`] = `
+Array [
+  <strong>
+    Hello
+  </strong>,
+  " World ",
+  <a
+    href="https://example.com"
+  >
+    Link here
+  </a>,
+]
+`;
+
 exports[`replace-content can replace a string 1`] = `"Hello John Doe"`;

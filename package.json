@@ -1,7 +1,7 @@
 {
   "name": "@connectedcars/react-i18n",
   "author": "Connected Cars <oss@connectedcars.io>",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Translations!",
   "license": "MIT",
   "homepage": "https://github.com/connectedcars/react-i18n#readme",
@@ -43,21 +43,19 @@
     "gettext"
   ],
   "dependencies": {
-    "gettext-extractor": "^3.4.2",
-    "po2json": "^1.0.0-alpha",
-    "prop-types": "^15.6.2"
+    "gettext-extractor": "^3.4.3",
+    "po2json": "^1.0.0-alpha"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.13",
-    "@types/prop-types": "^15.5.8",
-    "@types/react": "^16.7.22",
-    "@types/react-dom": "^16.0.11",
-    "jest": "^23.6.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "ts-jest": "^23.10.5",
-    "tslint": "^5.12.1",
-    "typescript": "^3.2.4"
+    "@types/jest": "^24.0.9",
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
+    "jest": "^24.1.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
+    "typescript": "^3.3.3333"
   },
   "peerDependencies": {
     "react": "*",

@@ -1,5 +1,5 @@
 import React from 'react'
-import { DocNode, ElementNode, parse, TextNode, voidElements } from '../parser'
+import { DocNode, ElementNode, parse, TextNode } from '../parser'
 import { TranslateDataWithJSX } from '../types'
 
 export const replaceString = (
@@ -57,17 +57,11 @@ const renderNode = (
       throw new Error(`translation data not found for tag: '${node.tagName}'`)
     }
 
-    if (voidElements[node.tagName]) {
-      return React.createElement(node.tagName, {
-        key: node.text,
-      })
-    }
-
     return React.createElement(node.tagName, {
       key: node.text,
       children: node.children.map(node => renderNode(node, data, strict)),
     })
   }
 
-  throw new Error('translation node type is not supported')
+  throw new Error(`translation node type is not supported: ${JSON.stringify(node)}`)
 }

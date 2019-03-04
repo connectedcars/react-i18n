@@ -1,7 +1,6 @@
 import { Token, SyntaxKind, DocNode } from './types'
 import { ElementNode } from './ElementNode'
 import { TextNode } from './TextNode'
-import { voidElements } from './void-elements'
 
 const addToken = (
   stack: Token[],
@@ -107,7 +106,7 @@ const lex = (tokens: Token[]): DocNode[] => {
       continue
     }
 
-    if (node.kind === SyntaxKind.close && !voidElements[node.tagName!]) {
+    if (node.kind === SyntaxKind.close) {
       if (!(currentNode instanceof ElementNode)) {
         throw new Error(`missing open node: '${node.tagName}'`)
       }
@@ -119,7 +118,7 @@ const lex = (tokens: Token[]): DocNode[] => {
       continue
     }
 
-    if (node.kind === SyntaxKind.open && !voidElements[node.tagName!]) {
+    if (node.kind === SyntaxKind.open) {
       const newNode = new ElementNode(node, currentNode)
       if (currentNode instanceof ElementNode) {
         currentNode.children.push(newNode)
