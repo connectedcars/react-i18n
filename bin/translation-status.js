@@ -25,7 +25,8 @@ glob(LOCALES_PATH, (err, files) => {
     const languageCode = header['language']
     let translatedStrings = 0
     for (const key in pocontent) {
-      if (pocontent[key][1]) {
+      // We ignore an empty key which is added to `template.pot`
+      if (pocontent[key][1] || key === '') {
         translatedStrings += 1
       }
     }
