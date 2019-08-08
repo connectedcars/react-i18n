@@ -23,18 +23,4 @@ Array [
 ]
 `;
 
-exports[`replace-content can replace JSX 4`] = `
-Array [
-  <strong>
-    Hello
-  </strong>,
-  " World ",
-  <a
-    href="https://example.com"
-  >
-    Link here
-  </a>,
-]
-`;
-
 exports[`replace-content can replace a string 1`] = `"Hello John Doe"`;
