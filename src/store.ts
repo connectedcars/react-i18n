@@ -55,7 +55,9 @@ class I18nStore {
 
   unsubscribe = (cb: I18nStoreCallback) => {
     const index = this.listeners.indexOf(cb)
-    this.listeners.splice(index, 1)
+    if (~index) {
+      this.listeners.splice(index, 1)
+    }
   }
 }
 
