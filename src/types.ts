@@ -1,10 +1,16 @@
 import { ReactNode } from 'react'
 
-export interface Translations {
-  [locale: string]: TranslationSet
-}
+// Example: { "da": ...TranslationSet }
+export type Translations = Record<string, TranslationSet>
 
-export interface TranslationSet extends Record<string, string[]> {}
+// Example: { "": {...TranslationConfig}, "Hello": TranslationItem }
+export type TranslationSet = Record<'', TranslationConfig> | Record<string, TranslationItem>
+
+// Example: { "content-type": "text/plaing", ... }
+export type TranslationConfig = Record<string, string>
+
+// Example: { "Hello": [null, "Hej"] }
+export type TranslationItem = Array<null | string>
 
 type BasicTypes = boolean | string | number | null | undefined
 
