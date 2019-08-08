@@ -82,3 +82,110 @@ To get output for CI, add the following script:
 ```
   "ci-translation": "i18n-translation-status"
 ```
+
+## Example
+```tsx
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {
+  I18nStore,
+  I18nProvider,
+  I18nContext,
+  I18nConsumer,
+  useTranslate,
+  withTranslate,
+} from '@connectedcars/react-i18n'
+import './index.css'
+
+const translations = {
+  "da": {
+    "": {
+      "content-type": "text/plain; charset=UTF-8",
+      "project-id-version": "",
+      "pot-creation-date": "",
+      "po-revision-date": "",
+      "language-team": "",
+      "mime-version": "1.0",
+      "content-transfer-encoding": "8bit",
+      "x-generator": "Poedit 2.0.6",
+      "last-translator": "",
+      "plural-forms": "nplurals=2; plural=(n != 1);",
+      "language": "da"
+    },
+    "Hello {name}": [
+      null,
+      "Hej {name}"
+    ],
+    "Set language to <lang />": [
+      null,
+      "Skift sprog til <lang />"
+    ]
+  }
+}
+
+const store = new I18nStore({
+  translations,
+  locale: 'da',
+})
+
+class ExampleA extends React.Component {
+  static contextType = I18nContext
+
+  render() {
+    return <div>{this.context.t('Hello {name}', { name: 'World' })}</div>
+  }
+}
+
+class ExampleB extends React.Component {
+  render() {
+    return (
+      <I18nConsumer>
+        {i18n => {
+          return <div>{i18n.t('Hello {name}', { name: 'World' })}</div>
+        }}
+      </I18nConsumer>
+    )
+  }
+}
+
+const ExampleC = withTranslate(props => {
+  return <div>{props.t('Hello {name}', { name: 'World' })}</div>
+})
+
+const ExampleD: React.FC = props => {
+  const { tx } = useTranslate()
+
+  return (
+    <div>
+      {tx('<strong>Hello</strong> there <link>test</link>', {
+        strong: content => <strong>{content}</strong>,
+        link: content => <a href="https://example.com">{content}</a>
+      })}
+    </div>
+  )
+}
+
+const ToggleLocale: React.FC = () => {
+  const { tx, setLocale, locale } = useTranslate()
+  const swapLocale = locale === 'da' ? 'en' : 'da'
+
+  return (
+    <button onClick={() => setLocale(swapLocale)}>
+      {tx('Set language to <lang />', {
+        lang: (content, attr) => <strong>{swapLocale}</strong>,
+      })}
+    </button>
+  )
+}
+
+ReactDOM.render(
+  <I18nProvider store={store}>
+    <ExampleA />
+    <ExampleB />
+    <ExampleC />
+    <ExampleD />
+    <ToggleLocale />
+  </I18nProvider>,
+  document.getElementById('root')
+)
+```
