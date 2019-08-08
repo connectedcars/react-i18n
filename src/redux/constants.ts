@@ -1,1 +1,0 @@
-export const SET_LANGUAGE = '__REACT_I18N_SET_LANGUAGE__'

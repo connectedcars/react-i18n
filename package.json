@@ -1,7 +1,7 @@
 {
   "name": "@connectedcars/react-i18n",
   "author": "Connected Cars <oss@connectedcars.io>",
-  "version": "0.1.10",
+  "version": "2.0.2",
   "description": "Translations!",
   "license": "MIT",
   "homepage": "https://github.com/connectedcars/react-i18n#readme",
@@ -21,7 +21,9 @@
   },
   "scripts": {
     "watch": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "build": "tsc",
     "prepublishOnly": "rm -rf dist/ && tsc"
   },
   "files": [
@@ -35,31 +37,28 @@
     "translations",
     "react",
     "reactjs",
-    "redux",
+    "context",
     "po",
     "poedit",
     "gettext"
   ],
   "dependencies": {
-    "gettext-extractor": "^3.4.2",
-    "po2json": "^0.4.5",
-    "prop-types": "^15.6.2"
+    "gettext-extractor": "^3.5.1",
+    "po2json": "^1.0.0-alpha"
   },
   "devDependencies": {
-    "@types/prop-types": "^15.5.8",
-    "@types/react": "^16.7.20",
-    "@types/react-dom": "^16.0.11",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-redux": "^5.0.7",
-    "redux": "^3.7.2",
-    "tslint": "^5.12.1",
-    "typescript": "^3.2.4"
+    "@types/jest": "^24.0.17",
+    "@types/react": "^16.8.25",
+    "@types/react-dom": "^16.8.5",
+    "jest": "^24.8.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
   },
   "peerDependencies": {
-    "redux": ">=3.0.0",
-    "react": ">=15.0.0",
-    "react-dom": ">=15.0.0",
-    "react-redux": ">=4.0.0"
+    "react": "*",
+    "react-dom": "*"
   }
 }

@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse can parse strings 1`] = `
+Array [
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": "foo ",
+  },
+  ElementNode {
+    "attributes": "",
+    "children": Array [
+      TextNode {
+        "kind": "text",
+        "parent": [Circular],
+        "text": "bar",
+      },
+    ],
+    "kind": "open",
+    "parent": null,
+    "tagName": "foo",
+    "text": "<foo>",
+  },
+  ElementNode {
+    "attributes": "bar",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "{bar}",
+  },
+]
+`;
+
+exports[`parse can parse strings 2`] = `
+Array [
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": "foobar",
+  },
+]
+`;
+
+exports[`parse can parse strings 3`] = `
+Array [
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": "foobar ",
+  },
+  ElementNode {
+    "attributes": "",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "<bar />",
+  },
+  ElementNode {
+    "attributes": "",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "<bar/>",
+  },
+  ElementNode {
+    "attributes": "attributes ",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "<bar attributes />",
+  },
+]
+`;
+
+exports[`parse can parse strings 4`] = `
+Array [
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": "foobar ",
+  },
+  ElementNode {
+    "attributes": "attributes ",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "<bar attributes />",
+  },
+]
+`;
+
+exports[`parse can parse strings 5`] = `
+Array [
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": "foobar ",
+  },
+  ElementNode {
+    "attributes": "bar",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "{bar}",
+  },
+  ElementNode {
+    "attributes": "",
+    "children": Array [],
+    "kind": "self",
+    "parent": null,
+    "tagName": "bar",
+    "text": "<bar />",
+  },
+]
+`;
+
+exports[`parse throws an error when missing close nodes 1`] = `"missing close node: 'a'"`;
+
+exports[`parse throws an error when missing close nodes 2`] = `"missing close node: 'a'"`;
+
+exports[`parse throws an error when missing close nodes 3`] = `"missing close node: 'b'"`;
+
+exports[`parse throws an error when missing open nodes 1`] = `"missing open node: 'a'"`;
+
+exports[`parse throws an error when missing open nodes 2`] = `"missing open node: 'b'"`;
+
+exports[`parse throws an error when missing open nodes 3`] = `"missing open node: 'a'"`;

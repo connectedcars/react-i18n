@@ -3,8 +3,10 @@
       "outDir": "dist/",
       "module": "commonjs",
       "target": "es5",
-      "newLine": "LF",
       "jsx": "react",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "declarationMap": true,
       "declaration": true,
       "forceConsistentCasingInFileNames": true,
       "allowSyntheticDefaultImports": true
