@@ -10,7 +10,7 @@ const content = {
 
 extractor
   .createJsParser([
-    JsExtractors.callExpression(['t', 'props.t', '[this].context.t'], {
+    JsExtractors.callExpression(['t', '[this].props.t', '[this].context.t'], {
       arguments: {
         text: 0,
         // data
@@ -19,7 +19,7 @@ extractor
       content,
     }),
 
-    JsExtractors.callExpression(['tn', 'props.tn', '[this].context.tn'], {
+    JsExtractors.callExpression(['tn', '[this].props.tn', '[this].context.tn'], {
       arguments: {
         // count
         text: 1,
@@ -30,7 +30,7 @@ extractor
       content,
     }),
 
-    JsExtractors.callExpression(['tx', 'props.tx', '[this].context.tx'], {
+    JsExtractors.callExpression(['tx', '[this].props.tx', '[this].context.tx'], {
       arguments: {
         text: 0,
         // data
@@ -39,7 +39,7 @@ extractor
       content,
     }),
 
-    JsExtractors.callExpression(['tnx', 'props.tnx', '[this].context.tnx'], {
+    JsExtractors.callExpression(['tnx', '[this].props.tnx', '[this].context.tnx'], {
       arguments: {
         // count
         text: 1,
