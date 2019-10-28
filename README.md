@@ -41,7 +41,7 @@ Translate with React:
 ```
 // Use `tnx` for plurals with JSX!
 tx(`
-  <p>Hello, <strong>{name}</strong><p>
+  <p>Hello, <strong>{name}</strong></p>
   <p>Today is {day}</p>
 `, {
   p: content => <p>{content}</p>,
