@@ -7,7 +7,6 @@ const defaultTemplatePath = 'locales/template.pot'
 const LOCALES_PATH = process.argv[2] || defaultLocalesPath
 const TEMPLATE_PATH = process.argv[3] || defaultTemplatePath
 
-
 const templateContent = po2json.parseFileSync(TEMPLATE_PATH)
 // Subtract header
 const totalStrings = Object.keys(templateContent).length - 1
@@ -24,7 +23,7 @@ glob(LOCALES_PATH, (err, files) => {
     const language = header['language-team']
     const languageCode = header['language']
     let translatedStrings = 0
-    for (const key in pocontent) {
+    for (const key in templateContent) {
       if (pocontent[key][1]) {
         translatedStrings += 1
       }
