@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const glob = require('glob')
-const po2json = require('po2json')
+const po2json = require('@connectedcars/po2json')
 
 const defaultLocalesPath = 'locales/*.po'
 const defaultTemplatePath = 'locales/template.pot'
