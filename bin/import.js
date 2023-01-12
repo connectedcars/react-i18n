@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const glob = require('glob')
-const po2json = require('po2json')
+const po2json = require('@connectedcars/po2json')
 
 const localesPath = 'locales/*.po'
 const outputFile = 'src/translations.json'
