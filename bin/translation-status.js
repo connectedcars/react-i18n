@@ -21,8 +21,8 @@ glob(LOCALES_PATH, (err, files) => {
     const pocontent = po2json.parseFileSync(file)
 
     const header = pocontent['']
-    const language = header['language-team']
-    const languageCode = header['language']
+    const language = header['Language-team']
+    const languageCode = header['Language']
     let translatedStrings = 0
     for (const key in pocontent) {
       if (pocontent[key][1]) {

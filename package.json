@@ -24,7 +24,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "tsc",
-    "prepublishOnly": "rm -rf dist/ && tsc"
+    "prepublishOnly": "rm -rf dist/ && tsc",
+    "patch": "npm version patch -m 'Release v%s'"
   },
   "files": [
     "bin",
