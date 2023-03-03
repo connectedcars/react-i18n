@@ -20,13 +20,13 @@ glob(localesPath, (err, files) => {
     if (!header) {
       throw new Error('import: missing header')
     }
-    const lang = header['language']
+    const lang = header['Language']
     if (!lang) {
       throw new Error('import: language missing from header')
     }
-    const pluralForms = header['plural-forms']
+    const pluralForms = header['Plural-Forms']
     if (!pluralForms) {
-      throw new Error('import: plural-forms missing from header')
+      throw new Error('import: Plural-Forms missing from header')
     }
 
     translations[lang] = pocontent
