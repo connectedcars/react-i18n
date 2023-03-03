@@ -76,6 +76,8 @@ Then you can run the following commands:
 * `npm run export` creates a POT file with the extracted translations in `./locales/template.pot`
 * `npm run import` creates a json file containing your all your translations in `./src/translations.json`
 
+Running `npm run import --stripCountry` will strip the country code in the resulting file, ie. the key `da_DK` will become `da`.
+
 ## CI
 
 To get output for CI, add the following script:

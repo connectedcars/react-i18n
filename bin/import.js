@@ -9,18 +9,28 @@ const prettyPrint = true
 
 let translations = {}
 
+const arg = process.argv[2]
+
+let stripCountry = false
+
+if (arg === '--stripCountry') {
+  stripCountry = true
+}
+
 glob(localesPath, (err, files) => {
   if (err) {
     throw err
   }
 
-  files.map(file => {
+  files.forEach((file) => {
     const pocontent = po2json.parseFileSync(file)
     const header = pocontent['']
     if (!header) {
       throw new Error('import: missing header')
     }
-    const lang = header['Language']
+
+    const langHeader = header['Language']
+    const lang = stripCountry ? langHeader.slice(0, 2) : langHeader
     if (!lang) {
       throw new Error('import: language missing from header')
     }
