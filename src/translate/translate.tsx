@@ -50,10 +50,10 @@ export const getTranslation = (
   }
 
   // Get plural-forms from the header.
-  let pluralForms = translationSet[''] && translationSet['']['plural-forms']
+  let pluralForms = translationSet[''] && translationSet['']['Plural-Forms']
 
   if (!pluralForms) {
-    console.warn(`translations are missing plural-forms setting`)
+    console.warn(`translations are missing Plural-Forms setting`)
     return defaultValue
   }
 
