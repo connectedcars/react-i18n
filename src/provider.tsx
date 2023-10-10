@@ -15,6 +15,7 @@ import { I18nContext, I18nContextProps } from './context'
 interface I18nProviderProps {
   store: I18nStore
   options?: TranslationOptions
+  children: React.ReactNode
 }
 
 interface I18nProviderState {
