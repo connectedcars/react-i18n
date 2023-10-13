@@ -24,6 +24,7 @@ export type TranslateDataWithJSX = Record<
 
 export interface TranslationOptions {
   strict?: boolean
+  verbose?: boolean
   jsxWhitelist?: TranslateDataWithJSX
 
   content?: {

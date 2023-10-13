@@ -27,9 +27,11 @@ export const getTranslation = (
   // First entry is our `plural` and the following strings are translations.
   const msgstr = (translationSet[msgid] || []).slice()
   if (msgstr.length === 0) {
-    console.warn(
-      `translation not found for: msg='${singular}', msg_plural='${plural}'`
-    )
+    if (options.verbose) {
+      console.warn(
+        `translation not found for: msg='${singular}', msg_plural='${plural}'`
+      )
+    }
     return defaultValue
   }
 
@@ -43,9 +45,11 @@ export const getTranslation = (
 
   // Deal with plurals.
   if (plural !== msgstrPlural) {
-    console.warn(
-      `translations for plural does not match '${plural}' != '${msgstrPlural}'`
-    )
+    if (options.verbose) {
+      console.warn(
+        `translations for plural does not match '${plural}' != '${msgstrPlural}'`
+      )
+    }
     return defaultValue
   }
 
@@ -53,7 +57,9 @@ export const getTranslation = (
   let pluralForms = translationSet[''] && translationSet['']['Plural-Forms']
 
   if (!pluralForms) {
-    console.warn(`translations are missing Plural-Forms setting`)
+    if (options.verbose) {
+      console.warn(`translations are missing Plural-Forms setting`)
+    }
     return defaultValue
   }
 
