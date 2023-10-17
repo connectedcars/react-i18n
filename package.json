@@ -25,7 +25,9 @@
     "test:watch": "jest --watch",
     "build": "tsc",
     "prepublishOnly": "rm -rf dist/ && tsc",
-    "patch": "npm version patch -m 'Release v%s'"
+    "patch": "npm version patch -m 'Release v%s'",
+    "lint": "eslint --ext js,ts,tsx,graphql src",
+    "lint:fix": "eslint --fix --ext js,ts,tsx,graphql src"
   },
   "files": [
     "bin",
@@ -44,19 +46,26 @@
     "gettext"
   ],
   "dependencies": {
-    "gettext-extractor": "3.6.1",
-    "@connectedcars/po2json": "2.0.0"
+    "@connectedcars/po2json": "2.0.0",
+    "gettext-extractor": "3.6.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.17",
-    "@types/react": "^16.8.25",
-    "@types/react-dom": "^16.8.5",
-    "jest": "^24.8.0",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
+    "@types/jest": "29.5.5",
+    "@types/react": "18.2.28",
+    "@types/react-dom": "18.2.13",
+    "@typescript-eslint/eslint-plugin": "6.8.0",
+    "@typescript-eslint/parser": "6.8.0",
+    "eslint": "8.51.0",
+    "eslint-plugin-prettier": "5.0.1",
+    "eslint-plugin-react": "7.33.2",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-simple-import-sort": "10.0.0",
+    "jest": "29.7.0",
+    "prettier": "3.0.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "ts-jest": "29.1.1",
+    "typescript": "5.2.2"
   },
   "peerDependencies": {
     "react": "*",

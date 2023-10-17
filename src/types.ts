@@ -4,7 +4,9 @@ import { ReactNode } from 'react'
 export type Translations = Record<string, TranslationSet>
 
 // Example: { "": {...TranslationConfig}, "Hello": TranslationItem }
-export type TranslationSet = Record<'', TranslationConfig> | Record<string, TranslationItem>
+export type TranslationSet =
+  | Record<'', TranslationConfig>
+  | Record<string, TranslationItem>
 
 // Example: { "content-type": "text/plaing", ... }
 export type TranslationConfig = Record<string, string>

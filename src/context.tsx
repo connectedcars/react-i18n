@@ -1,3 +1,5 @@
+import { createContext } from 'react'
+
 import {
   TranslateFunc,
   TranslateJsxFunc,
@@ -5,21 +7,21 @@ import {
   TranslatePluralJsxFunc,
   Translations,
 } from './types'
-import { createContext } from 'react'
 
 export interface I18nContextProps {
   t: TranslateFunc
   tx: TranslateJsxFunc
   tn: TranslatePluralFunc
   tnx: TranslatePluralJsxFunc
-
   locale: string
   setLocale: (lang: string) => void
   translations: Translations
   setTranslations: (translations: Translations) => void
 }
 
-const noop = (): any => {} // tslint:disable-line:no-empty
+const noop = (): never => {
+  throw new Error('No I18nProvider found.')
+}
 
 const I18nContext = createContext<I18nContextProps>({
   t: noop,

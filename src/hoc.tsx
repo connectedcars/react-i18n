@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { I18nConsumer } from './consumer'
 import { I18nContextProps } from './context'
 import { Omit } from './types'
@@ -17,7 +18,7 @@ function withTranslate<P extends object>(
     render() {
       return (
         <I18nConsumer>
-          {i18nProps => <BaseComponent {...i18nProps} {...this.props} />}
+          {(i18nProps) => <BaseComponent {...i18nProps} {...this.props} />}
         </I18nConsumer>
       )
     }

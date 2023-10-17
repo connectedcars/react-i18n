@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react'
+
+import { I18nContext, I18nContextProps } from './context'
+import { I18nStore, I18nStoreState } from './store'
+import { getTranslation, replaceJsx, replaceString } from './translate'
 import {
-  Translations,
+  TranslateDataWithJSX,
   TranslateFunc,
   TranslateJsxFunc,
   TranslatePluralFunc,
   TranslatePluralJsxFunc,
   TranslationOptions,
-  TranslationSet,
+  Translations,
 } from './types'
-import { getTranslation, replaceString, replaceJsx } from './translate'
-import { I18nStore, I18nStoreState } from './store'
-import { I18nContext, I18nContextProps } from './context'
 
 interface I18nProviderProps {
   store: I18nStore
@@ -29,7 +30,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   static defaultProps: Partial<I18nProviderProps> = {
     options: {
       strict: true,
-    }
+    },
   }
 
   constructor(props: I18nProviderProps) {
@@ -72,18 +73,6 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
     })
   }
 
-  getTranslations = (): TranslationSet | undefined => {
-    const { translations, locale } = this.state.storeState
-    const tl = translations[locale]
-
-    // Don't throw an error on `en` as this is the default language.
-    if (locale !== 'en' && !tl) {
-      throw new Error(`missing translation set for locale: ${locale}`)
-    }
-
-    return tl
-  }
-
   setTranslations = (translations: Translations) => {
     return this.props.store.setTranslations(translations)
   }
@@ -94,7 +83,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
 
   t: TranslateFunc = (message, data, context) => {
     const msg = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       null,
       message,
       null,
@@ -108,7 +98,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   tx: TranslateJsxFunc = (message, data, context) => {
     const { strict } = this.props.options
     const msg = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       null,
       message,
       null,
@@ -117,13 +108,14 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
     )
 
     return replaceJsx(msg, this.genData(data), strict).map((el, idx) => (
-      <React.Fragment key={idx} children={el} />
+      <React.Fragment key={idx}>{el}</React.Fragment>
     ))
   }
 
   tn: TranslatePluralFunc = (count, singular, plural, data, context) => {
     const message = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       count,
       singular,
       plural,
@@ -137,7 +129,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
     const { strict } = this.props.options
     const message = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       count,
       singular,
       plural,
@@ -145,18 +138,18 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceJsx(message, this.genData(data, count), strict).map((el, idx) => (
-      <React.Fragment key={idx} children={el} />
-    ))
+    return replaceJsx(message, this.genData(data, count), strict).map(
+      (el, idx) => <React.Fragment key={idx}>{el}</React.Fragment>
+    )
   }
 
-  genData = (data: Record<string, any>, count?: number) => {
+  genData = (data: TranslateDataWithJSX, count?: number) => {
     const whitelist = this.props.options.jsxWhitelist
     if (count != null) {
       return {
         ...whitelist,
         n: count,
-        ...data
+        ...data,
       }
     }
     return { ...whitelist, ...data }
