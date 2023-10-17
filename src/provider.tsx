@@ -6,7 +6,6 @@ import {
   TranslatePluralFunc,
   TranslatePluralJsxFunc,
   TranslationOptions,
-  TranslationSet,
 } from './types'
 import { getTranslation, replaceString, replaceJsx } from './translate'
 import { I18nStore, I18nStoreState } from './store'
@@ -72,18 +71,6 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
     })
   }
 
-  getTranslations = (): TranslationSet | undefined => {
-    const { translations, locale } = this.state.storeState
-    const tl = translations[locale]
-
-    // Don't throw an error on `en` as this is the default language.
-    if (locale !== 'en' && !tl) {
-      throw new Error(`missing translation set for locale: ${locale}`)
-    }
-
-    return tl
-  }
-
   setTranslations = (translations: Translations) => {
     return this.props.store.setTranslations(translations)
   }
@@ -94,7 +81,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
 
   t: TranslateFunc = (message, data, context) => {
     const msg = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       null,
       message,
       null,
@@ -108,7 +96,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   tx: TranslateJsxFunc = (message, data, context) => {
     const { strict } = this.props.options
     const msg = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       null,
       message,
       null,
@@ -123,7 +112,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
 
   tn: TranslatePluralFunc = (count, singular, plural, data, context) => {
     const message = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       count,
       singular,
       plural,
@@ -137,7 +127,8 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
     const { strict } = this.props.options
     const message = getTranslation(
-      this.getTranslations(),
+      this.state.storeState.translations,
+      this.state.storeState.locale,
       count,
       singular,
       plural,

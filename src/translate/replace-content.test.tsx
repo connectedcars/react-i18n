@@ -18,8 +18,8 @@ describe('replace-content', () => {
       replaceJsx('Hello <strong>{name}</strong>', { name: 'John Doe' }, true)
     ).toThrowErrorMatchingSnapshot()
 
-    const Link: React.FC = ({ children }) => {
-      return <a href="https://example.com">{children}</a>
+    const Link = (props: { children: React.ReactNode }) => {
+      return <a href="https://example.com">{props.children}</a>
     }
 
     expect(

@@ -1,10 +1,11 @@
-import { TranslationSet, TranslationOptions } from '../types'
+import { TranslationOptions, Translations } from '../types'
 import { normalizeContent } from './normalize-content'
 
 const CONTEXT_GLUE = '\u0004'
 
 export const getTranslation = (
-  translationSet: TranslationSet | undefined,
+  translations: Translations,
+  locale: string,
   n: number | null,
   singular: string,
   plural?: string | null,
@@ -16,17 +17,13 @@ export const getTranslation = (
 
   const defaultValue = plural ? (n !== 1 ? plural : singular) : singular
 
-  if (!translationSet) {
-    return defaultValue
-  }
-
   // Generate our message id. If we have a context, join them.
   const msgid = context != null ? context + CONTEXT_GLUE + singular : singular
 
-  // Get the translation values.
-  // First entry is our `plural` and the following strings are translations.
-  const msgstr = (translationSet[msgid] || []).slice()
-  if (msgstr.length === 0) {
+  // Find a translation set with a matching msgid gracefully.
+  const translationSet = getTranslationSetGracefully(translations, locale, msgid)
+  const msgstr = (translationSet?.[msgid] || []).slice()
+  if (msgstr == null || msgstr.length === 0) {
     if (options.verbose) {
       console.warn(
         `translation not found for: msg='${singular}', msg_plural='${plural}'`
@@ -58,7 +55,7 @@ export const getTranslation = (
 
   if (!pluralForms) {
     if (options.verbose) {
-      console.warn(`translations are missing Plural-Forms setting`)
+      console.warn('translations are missing Plural-Forms setting')
     }
     return defaultValue
   }
@@ -76,4 +73,31 @@ const getPluralFunc = (pluralForms: string) => {
     'return (plural === true ? 1 : plural ? plural : 0);',
   ]
   return Function('n', code.join('\n'))
+}
+
+const getTranslationSetGracefully = (translations: Translations, locale: string, msgid: string) => {
+  const supportedLanguages = Object.keys(translations).filter(l => {
+    const [userLocale] = locale.split('_')
+    const [supportedLocale] = l.split('_')
+    return userLocale === supportedLocale
+  })
+
+  const [sansLocale] = locale.split('_')
+  const firstWithRegion = supportedLanguages.find(v => v.includes('_') && locale !== v)
+
+  // Find translation set gracefully
+  // - If we have supported languages: `es_ES, es_XX, es` and the language is set to `es_YY` then fall back on `es` (strip the `_xx` suffix).
+  // - If we have supported languages: `es_ES, es_XX` but not `es` and the language is `es_YY` we should just take the first available `es*` in the list.
+  // - If we have `es_YY` but no `es*` supported, fallback to `en` or whatever the organization default is.
+  if (Array.isArray(translations?.[locale]?.[msgid])) {
+    return translations[locale]
+  }
+  if (Array.isArray(translations?.[sansLocale]?.[msgid])) {
+    return translations[sansLocale]
+  }
+  if (Array.isArray(translations?.[firstWithRegion]?.[msgid])) {
+    return translations[firstWithRegion]
+  }
+
+  return null
 }
