@@ -27,7 +27,7 @@ export const getTranslation = (
     msgid
   )
   const msgstr = (translationSet?.[msgid] || []).slice()
-  if (msgstr == null || msgstr.length === 0) {
+  if (msgstr.length === 0) {
     if (options.verbose) {
       console.warn(
         `translation not found for: msg='${singular}', msg_plural='${plural}'`
