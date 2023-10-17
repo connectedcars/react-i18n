@@ -10,8 +10,8 @@ export const replaceString = (
     return text
   }
 
-  Object.keys(data).forEach(key => {
-    let v = data[key]
+  Object.keys(data).forEach((key) => {
+    const v = data[key]
     if (typeof v === 'function') {
       return
     }
@@ -26,7 +26,9 @@ export const replaceJsx = (
   data: TranslateDataWithJSX | null,
   strict: boolean
 ): React.ReactNode[] => {
-  return parse(replaceString(str, data)).map(node => renderNode(node, data, strict))
+  return parse(replaceString(str, data)).map((node) =>
+    renderNode(node, data, strict)
+  )
 }
 
 const renderNode = (
@@ -44,7 +46,7 @@ const renderNode = (
       if (dataValue != null) {
         if (typeof dataValue === 'function') {
           return dataValue(
-            node.children.map(node => renderNode(node, data, strict)),
+            node.children.map((node) => renderNode(node, data, strict)),
             node.attributes
           )
         }
@@ -57,11 +59,14 @@ const renderNode = (
       throw new Error(`translation data not found for tag: '${node.tagName}'`)
     }
 
-    return React.createElement(node.tagName, {
-      key: node.text,
-      children: node.children.map(node => renderNode(node, data, strict)),
-    })
+    return React.createElement(
+      node.tagName,
+      { key: node.text },
+      node.children.map((node) => renderNode(node, data, strict))
+    )
   }
 
-  throw new Error(`translation node type is not supported: ${JSON.stringify(node)}`)
+  throw new Error(
+    `translation node type is not supported: ${JSON.stringify(node)}`
+  )
 }

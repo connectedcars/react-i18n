@@ -23,10 +23,14 @@ describe('replace-content', () => {
     }
 
     expect(
-      replaceJsx('<strong>Hello</strong> World <link>Foo bar</link>', {
-        strong: content => <strong>{content}</strong>,
-        link: content => <Link>Link here</Link>
-      }, true)
+      replaceJsx(
+        '<strong>Hello</strong> World <link>Foo bar</link>',
+        {
+          strong: (content) => <strong>{content}</strong>,
+          link: () => <Link>Link here</Link>,
+        },
+        true
+      )
     ).toMatchSnapshot()
   })
 })

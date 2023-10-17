@@ -28,7 +28,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   static defaultProps: Partial<I18nProviderProps> = {
     options: {
       strict: true,
-    }
+    },
   }
 
   constructor(props: I18nProviderProps) {
@@ -106,7 +106,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
     )
 
     return replaceJsx(msg, this.genData(data), strict).map((el, idx) => (
-      <React.Fragment key={idx} children={el} />
+      <React.Fragment key={idx}>{el}</React.Fragment>
     ))
   }
 
@@ -136,18 +136,19 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceJsx(message, this.genData(data, count), strict).map((el, idx) => (
-      <React.Fragment key={idx} children={el} />
-    ))
+    return replaceJsx(message, this.genData(data, count), strict).map(
+      (el, idx) => <React.Fragment key={idx}>{el}</React.Fragment>
+    )
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   genData = (data: Record<string, any>, count?: number) => {
     const whitelist = this.props.options.jsxWhitelist
     if (count != null) {
       return {
         ...whitelist,
         n: count,
-        ...data
+        ...data,
       }
     }
     return { ...whitelist, ...data }

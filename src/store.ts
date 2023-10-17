@@ -33,7 +33,7 @@ class I18nStore {
   }
 
   triggerUpdate = () => {
-    this.listeners.forEach(listener => {
+    this.listeners.forEach((listener) => {
       listener(this.getState())
     })
   }

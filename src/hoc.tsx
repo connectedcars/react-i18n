@@ -17,7 +17,7 @@ function withTranslate<P extends object>(
     render() {
       return (
         <I18nConsumer>
-          {i18nProps => <BaseComponent {...i18nProps} {...this.props} />}
+          {(i18nProps) => <BaseComponent {...i18nProps} {...this.props} />}
         </I18nConsumer>
       )
     }

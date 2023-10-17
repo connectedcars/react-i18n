@@ -12,14 +12,14 @@ export interface I18nContextProps {
   tx: TranslateJsxFunc
   tn: TranslatePluralFunc
   tnx: TranslatePluralJsxFunc
-
   locale: string
   setLocale: (lang: string) => void
   translations: Translations
   setTranslations: (translations: Translations) => void
 }
 
-const noop = (): any => {} // tslint:disable-line:no-empty
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const noop = (): any => {}
 
 const I18nContext = createContext<I18nContextProps>({
   t: noop,

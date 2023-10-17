@@ -8,6 +8,11 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier', 'react', 'react-hooks'],
   parser: '@typescript-eslint/parser',
   root: true,
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   rules: {
     'prettier/prettier': 'error',
   },

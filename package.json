@@ -25,7 +25,9 @@
     "test:watch": "jest --watch",
     "build": "tsc",
     "prepublishOnly": "rm -rf dist/ && tsc",
-    "patch": "npm version patch -m 'Release v%s'"
+    "patch": "npm version patch -m 'Release v%s'",
+    "lint": "eslint --ext js,ts,tsx,graphql src",
+    "lint:fix": "eslint --fix --ext js,ts,tsx,graphql src"
   },
   "files": [
     "bin",

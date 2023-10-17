@@ -1,6 +1,8 @@
-import { Translations } from "../types"
+import { Translations } from '../types'
 
-export const mergeTranslations = (translations: Translations[]): Translations => {
+export const mergeTranslations = (
+  translations: Translations[]
+): Translations => {
   const mergedTranslations: Translations = {}
 
   for (const t of translations) {
@@ -11,7 +13,7 @@ export const mergeTranslations = (translations: Translations[]): Translations =>
         // Even if something is translated in one translation file, but isn't in the last file, they will still be replaced.
         mergedTranslations[key] = {
           ...mergedTranslations[key],
-          ...value
+          ...value,
         }
       } else {
         mergedTranslations[key] = value
