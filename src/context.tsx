@@ -19,8 +19,9 @@ export interface I18nContextProps {
   setTranslations: (translations: Translations) => void
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const noop = (): any => {}
+const noop = (): never => {
+  throw new Error('No I18nProvider found.')
+}
 
 const I18nContext = createContext<I18nContextProps>({
   t: noop,
