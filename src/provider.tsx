@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+
 import { I18nContext, I18nContextProps } from './context'
 import { I18nStore, I18nStoreState } from './store'
 import { getTranslation, replaceJsx, replaceString } from './translate'

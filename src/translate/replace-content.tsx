@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { DocNode, ElementNode, parse, TextNode } from '../parser'
 import { TranslateDataWithJSX } from '../types'
 

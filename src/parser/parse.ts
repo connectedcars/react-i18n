@@ -1,6 +1,6 @@
-import { Token, SyntaxKind, DocNode } from './types'
 import { ElementNode } from './ElementNode'
 import { TextNode } from './TextNode'
+import { DocNode, SyntaxKind, Token } from './types'
 
 const addToken = (
   stack: Token[],

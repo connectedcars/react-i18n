@@ -1,4 +1,4 @@
-import { SyntaxKind, DocNode, Token } from './types'
+import { DocNode, SyntaxKind, Token } from './types'
 
 export class ElementNode {
   public kind: SyntaxKind

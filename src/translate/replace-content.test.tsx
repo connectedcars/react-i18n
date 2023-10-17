@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { replaceString } from '../translate'
 import { replaceJsx } from './replace-content'
 

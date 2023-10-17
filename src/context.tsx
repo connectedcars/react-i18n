@@ -1,3 +1,5 @@
+import { createContext } from 'react'
+
 import {
   TranslateFunc,
   TranslateJsxFunc,
@@ -5,7 +7,6 @@ import {
   TranslatePluralJsxFunc,
   Translations,
 } from './types'
-import { createContext } from 'react'
 
 export interface I18nContextProps {
   t: TranslateFunc
