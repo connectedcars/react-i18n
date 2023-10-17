@@ -21,7 +21,11 @@ export const getTranslation = (
   const msgid = context != null ? context + CONTEXT_GLUE + singular : singular
 
   // Find a translation set with a matching msgid gracefully.
-  const translationSet = getTranslationSetGracefully(translations, locale, msgid)
+  const translationSet = getTranslationSetGracefully(
+    translations,
+    locale,
+    msgid
+  )
   const msgstr = (translationSet?.[msgid] || []).slice()
   if (msgstr == null || msgstr.length === 0) {
     if (options.verbose) {
@@ -51,7 +55,7 @@ export const getTranslation = (
   }
 
   // Get plural-forms from the header.
-  let pluralForms = translationSet[''] && translationSet['']['Plural-Forms']
+  const pluralForms = translationSet[''] && translationSet['']['Plural-Forms']
 
   if (!pluralForms) {
     if (options.verbose) {
@@ -75,15 +79,21 @@ const getPluralFunc = (pluralForms: string) => {
   return Function('n', code.join('\n'))
 }
 
-const getTranslationSetGracefully = (translations: Translations, locale: string, msgid: string) => {
-  const supportedLanguages = Object.keys(translations).filter(l => {
+const getTranslationSetGracefully = (
+  translations: Translations,
+  locale: string,
+  msgid: string
+) => {
+  const supportedLanguages = Object.keys(translations).filter((l) => {
     const [userLocale] = locale.split('_')
     const [supportedLocale] = l.split('_')
     return userLocale === supportedLocale
   })
 
   const [sansLocale] = locale.split('_')
-  const firstWithRegion = supportedLanguages.find(v => v.includes('_') && locale !== v)
+  const firstWithRegion = supportedLanguages.find(
+    (v) => v.includes('_') && locale !== v
+  )
 
   // Find translation set gracefully
   // - If we have supported languages: `es_ES, es_XX, es` and the language is set to `es_YY` then fall back on `es` (strip the `_xx` suffix).

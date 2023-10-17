@@ -44,18 +44,24 @@
     "gettext"
   ],
   "dependencies": {
-    "gettext-extractor": "3.6.1",
-    "@connectedcars/po2json": "2.0.0"
+    "@connectedcars/po2json": "2.0.0",
+    "gettext-extractor": "3.6.1"
   },
   "devDependencies": {
     "@types/jest": "29.5.5",
     "@types/react": "18.2.28",
     "@types/react-dom": "18.2.13",
+    "@typescript-eslint/eslint-plugin": "6.8.0",
+    "@typescript-eslint/parser": "6.8.0",
+    "eslint": "8.51.0",
+    "eslint-plugin-prettier": "5.0.1",
+    "eslint-plugin-react": "7.33.2",
+    "eslint-plugin-react-hooks": "4.6.0",
     "jest": "29.7.0",
+    "prettier": "3.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "ts-jest": "29.1.1",
-    "tslint": "^5.18.0",
     "typescript": "5.2.2"
   },
   "peerDependencies": {
