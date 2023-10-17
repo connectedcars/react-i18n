@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react'
+import { I18nContext, I18nContextProps } from './context'
+import { I18nStore, I18nStoreState } from './store'
+import { getTranslation, replaceJsx, replaceString } from './translate'
 import {
-  Translations,
+  TranslateDataWithJSX,
   TranslateFunc,
   TranslateJsxFunc,
   TranslatePluralFunc,
   TranslatePluralJsxFunc,
   TranslationOptions,
+  Translations,
 } from './types'
-import { getTranslation, replaceString, replaceJsx } from './translate'
-import { I18nStore, I18nStoreState } from './store'
-import { I18nContext, I18nContextProps } from './context'
 
 interface I18nProviderProps {
   store: I18nStore
@@ -141,8 +142,7 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
     )
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  genData = (data: Record<string, any>, count?: number) => {
+  genData = (data: TranslateDataWithJSX, count?: number) => {
     const whitelist = this.props.options.jsxWhitelist
     if (count != null) {
       return {
