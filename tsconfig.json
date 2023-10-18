@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-      "outDir": "dist/",
-      "module": "commonjs",
-      "target": "es5",
-      "jsx": "react",
-      "moduleResolution": "node",
-      "esModuleInterop": true,
-      "declarationMap": true,
-      "declaration": true,
-      "forceConsistentCasingInFileNames": true,
-      "allowSyntheticDefaultImports": true
+    "outDir": "dist/",
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "declarationMap": true,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
   "files": [
-      "src/index.ts"
+    "src/index.ts"
   ],
   "exclude": [
     "node_modules"
