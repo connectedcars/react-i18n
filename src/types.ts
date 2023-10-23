@@ -64,4 +64,4 @@ export type TranslatePluralJsxFunc = (
   context?: string
 ) => ReactNode
 
-export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+export type FormatLocaleOption = 'xx-yy' | 'xx_yy' | 'xx-YY' | 'xx_YY'
