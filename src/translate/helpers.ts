@@ -40,12 +40,15 @@ export const getSupportedLocaleFromLocalesList = (
     })
     .map((v) => formatLocale(v, format))
 
+  // Attempt to find direct matches first
   for (const l of locales) {
-    // Find direct matches
     if (supported.includes(l)) {
       return l
     }
-    // If we can't find a direct match, try matching the first part of the locale.
+  }
+
+  // If we can't find a direct match, try matching the first part of the locale.
+  for (const l of locales) {
     const found = supported.find(
       (x) => x.split(/[-_]/)[0] === l.split(/[-_]/)[0]
     )
