@@ -59,7 +59,7 @@ describe('translate', () => {
       expect(replaced).toMatch('3 dage')
     })
 
-    it('translates with fallback region', () => {
+    it('translates with fallback country code', () => {
       expect(
         getTranslation(translationData, 'en', null, 'bye', null, null, {})
       ).toMatch('bye')

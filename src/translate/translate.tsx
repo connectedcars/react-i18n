@@ -91,7 +91,7 @@ const getTranslationSetGracefully = (
   })
 
   const [sansLocale] = locale.split('_')
-  const firstWithRegion = supportedLanguages.find(
+  const firstWithCountryCode = supportedLanguages.find(
     (v) => v.includes('_') && locale !== v
   )
 
@@ -105,8 +105,8 @@ const getTranslationSetGracefully = (
   if (Array.isArray(translations?.[sansLocale]?.[msgid])) {
     return translations[sansLocale]
   }
-  if (Array.isArray(translations?.[firstWithRegion]?.[msgid])) {
-    return translations[firstWithRegion]
+  if (Array.isArray(translations?.[firstWithCountryCode]?.[msgid])) {
+    return translations[firstWithCountryCode]
   }
 
   return null
