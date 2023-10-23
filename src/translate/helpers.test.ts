@@ -45,9 +45,18 @@ describe('helpers', () => {
       expect(
         getSupportedLocaleFromLocalesList(['da_GL'], ['da_DK', 'en'])
       ).toBe('da_DK')
+      expect(
+        getSupportedLocaleFromLocalesList(['da_GL'], ['da_DK', 'da', 'en'])
+      ).toBe('da_DK')
       expect(getSupportedLocaleFromLocalesList(['fr_FR'], ['da', 'en'])).toBe(
         null
       )
+      expect(
+        getSupportedLocaleFromLocalesList(
+          ['fr', 'en_GB'],
+          ['da_DK', 'da', 'en']
+        )
+      ).toBe('en')
     })
   })
 })
