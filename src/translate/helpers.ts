@@ -1,7 +1,9 @@
 import { FormatLocaleOption } from '../types'
 
+const DELIMITER = /[-_]/
+
 export const parseLocale = (locale: string) => {
-  const [languageCode, countryCode] = locale.split(/[-_]/)
+  const [languageCode, countryCode] = locale.split(DELIMITER)
   return {
     languageCode,
     countryCode: countryCode?.toUpperCase() || null,
@@ -32,9 +34,9 @@ export const getSupportedLocaleFromLocalesList = (
   // Filter all matching languages on the first part of the locale.
   const supported = translationLocales
     .filter((l1) => {
-      const [userLocale] = l1.split(/[-_]/)
+      const [userLocale] = l1.split(DELIMITER)
       return locales.find((l2) => {
-        const [locale] = l2.split(/[-_]/)
+        const [locale] = l2.split(DELIMITER)
         return locale.toLowerCase() === userLocale.toLowerCase()
       })
     })
@@ -50,7 +52,7 @@ export const getSupportedLocaleFromLocalesList = (
   // If we can't find a direct match, try matching the first part of the locale.
   for (const l of locales) {
     const found = supported.find(
-      (x) => x.split(/[-_]/)[0] === l.split(/[-_]/)[0]
+      (x) => x.split(DELIMITER)[0] === l.split(DELIMITER)[0]
     )
     if (found) {
       return found
