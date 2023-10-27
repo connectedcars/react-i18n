@@ -92,7 +92,11 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceString(msg, this.genData(data))
+    return replaceString(
+      msg,
+      this.genData(data),
+      this.props.options.replaceStringRegex
+    )
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
@@ -123,7 +127,11 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceString(message, this.genData(data, count))
+    return replaceString(
+      message,
+      this.genData(data, count),
+      this.props.options.replaceStringRegex
+    )
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {

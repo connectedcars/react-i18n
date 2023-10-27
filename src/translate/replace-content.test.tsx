@@ -10,6 +10,24 @@ describe('replace-content', () => {
     ).toMatchSnapshot()
   })
 
+  it('can replace a string with a custom pattern', () => {
+    expect(
+      replaceString(
+        'Hello {{{name}}}',
+        { name: 'John Doe' },
+        { pattern: (key) => `{{{${key}}}}` }
+      )
+    ).toMatchSnapshot()
+
+    expect(
+      replaceString(
+        'Hello {{{firstName} {lastName}',
+        { firstName: 'John', lastName: 'Doe' },
+        { pattern: (key) => `{?{?{${key}}}?}?` }
+      )
+    ).toMatchSnapshot()
+  })
+
   it('can replace JSX', () => {
     expect(
       replaceJsx('Hello <strong>{name}</strong>', { name: 'John Doe' }, false)

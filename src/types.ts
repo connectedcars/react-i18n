@@ -28,6 +28,7 @@ export interface TranslationOptions {
   strict?: boolean
   verbose?: boolean
   jsxWhitelist?: TranslateDataWithJSX
+  replaceStringRegex?: ReplaceStringRegex
 
   content?: {
     trimWhiteSpace?: boolean
@@ -65,3 +66,8 @@ export type TranslatePluralJsxFunc = (
 ) => ReactNode
 
 export type FormatLocaleOption = 'xx-yy' | 'xx_yy' | 'xx-YY' | 'xx_YY'
+
+export interface ReplaceStringRegex {
+  pattern: (key: string) => string
+  flags?: string
+}

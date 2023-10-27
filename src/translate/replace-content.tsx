@@ -1,11 +1,15 @@
 import React from 'react'
 
 import { DocNode, ElementNode, parse, TextNode } from '../parser'
-import { TranslateDataWithJSX } from '../types'
+import { ReplaceStringRegex, TranslateDataWithJSX } from '../types'
 
 export const replaceString = (
   text: string,
-  data?: TranslateDataWithJSX | null
+  data?: TranslateDataWithJSX | null,
+  options: ReplaceStringRegex = {
+    pattern: (key) => `{${key}}`,
+    flags: 'g',
+  }
 ) => {
   if (!data) {
     return text
@@ -16,7 +20,10 @@ export const replaceString = (
     if (typeof v === 'function') {
       return
     }
-    text = text.replace(new RegExp(`{${key}}`, 'g'), String(v))
+    text = text.replace(
+      new RegExp(options.pattern(key), options.flags ?? 'g'),
+      String(v)
+    )
   })
 
   return text

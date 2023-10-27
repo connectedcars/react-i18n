@@ -24,3 +24,7 @@ exports[`replace-content can replace JSX 3`] = `
 `;
 
 exports[`replace-content can replace a string 1`] = `"Hello John Doe"`;
+
+exports[`replace-content can replace a string with a custom pattern 1`] = `"Hello John Doe"`;
+
+exports[`replace-content can replace a string with a custom pattern 2`] = `"Hello John Doe"`;
