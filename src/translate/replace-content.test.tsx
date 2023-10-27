@@ -18,6 +18,14 @@ describe('replace-content', () => {
         { pattern: (key) => `{{{${key}}}}` }
       )
     ).toMatchSnapshot()
+
+    expect(
+      replaceString(
+        'Hello {{{firstName} {lastName}',
+        { firstName: 'John', lastName: 'Doe' },
+        { pattern: (key) => `{?{?{${key}}}?}?` }
+      )
+    ).toMatchSnapshot()
   })
 
   it('can replace JSX', () => {
