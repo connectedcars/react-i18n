@@ -10,7 +10,7 @@ export const getTranslation = (
   singular: string,
   plural?: string | null,
   context?: string | null,
-  options?: TranslationOptions
+  options: TranslationOptions = {}
 ): string => {
   // Clean our translation.
   singular = normalizeContent(singular, options.content)
