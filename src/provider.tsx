@@ -92,15 +92,10 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceString(
-      msg,
-      this.genData(data),
-      this.props.options.replaceStringRegex
-    )
+    return replaceString(msg, this.genData(data), this.props.options)
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
-    const { strict } = this.props.options
     const msg = getTranslation(
       this.state.storeState.translations,
       this.state.storeState.locale,
@@ -111,9 +106,9 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceJsx(msg, this.genData(data), strict).map((el, idx) => (
-      <React.Fragment key={idx}>{el}</React.Fragment>
-    ))
+    return replaceJsx(msg, this.genData(data), this.props.options).map(
+      (el, idx) => <React.Fragment key={idx}>{el}</React.Fragment>
+    )
   }
 
   tn: TranslatePluralFunc = (count, singular, plural, data, context) => {
@@ -127,15 +122,10 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceString(
-      message,
-      this.genData(data, count),
-      this.props.options.replaceStringRegex
-    )
+    return replaceString(message, this.genData(data, count), this.props.options)
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
-    const { strict } = this.props.options
     const message = getTranslation(
       this.state.storeState.translations,
       this.state.storeState.locale,
@@ -146,9 +136,11 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
       this.props.options
     )
 
-    return replaceJsx(message, this.genData(data, count), strict).map(
-      (el, idx) => <React.Fragment key={idx}>{el}</React.Fragment>
-    )
+    return replaceJsx(
+      message,
+      this.genData(data, count),
+      this.props.options
+    ).map((el, idx) => <React.Fragment key={idx}>{el}</React.Fragment>)
   }
 
   genData = (data: TranslateDataWithJSX, count?: number) => {

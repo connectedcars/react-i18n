@@ -1,18 +1,26 @@
 import React from 'react'
 
 import { DocNode, ElementNode, parse, TextNode } from '../parser'
-import { ReplaceStringRegex, TranslateDataWithJSX } from '../types'
+import {
+  ReplaceJsxOptions,
+  ReplaceStringOptions,
+  ReplaceStringRegex,
+  TranslateDataWithJSX,
+} from '../types'
+
+const defaultReplaceStringRegex: ReplaceStringRegex = {
+  pattern: (key) => `{${key}}`,
+}
 
 export const replaceString = (
-  text: string,
-  data?: TranslateDataWithJSX | null,
-  options: ReplaceStringRegex = {
-    pattern: (key) => `{${key}}`,
-    flags: 'g',
-  }
+  str: string,
+  data: TranslateDataWithJSX | null,
+  options?: ReplaceStringOptions
 ) => {
+  const { strict = false, replaceStringRegex = defaultReplaceStringRegex } =
+    options || {}
   if (!data) {
-    return text
+    return str
   }
 
   Object.keys(data).forEach((key) => {
@@ -20,22 +28,36 @@ export const replaceString = (
     if (typeof v === 'function') {
       return
     }
-    text = text.replace(
-      new RegExp(options.pattern(key), options.flags ?? 'g'),
+    str = str.replace(
+      new RegExp(replaceStringRegex.pattern(key), 'g'),
       String(v)
     )
   })
 
-  return text
+  if (strict) {
+    const match = str.match(new RegExp(replaceStringRegex.pattern('([\\w-]+)')))
+    if (match) {
+      throw new Error(`translation data not found for tag: '${match[1]}'`)
+    }
+  }
+
+  return str
 }
 
 export const replaceJsx = (
   str: string,
   data: TranslateDataWithJSX | null,
-  strict: boolean
+  options?: ReplaceJsxOptions
 ): React.ReactNode[] => {
-  return parse(replaceString(str, data)).map((node) =>
-    renderNode(node, data, strict)
+  const { strict = false, replaceStringRegex = defaultReplaceStringRegex } =
+    options || {}
+
+  const keys = Object.keys(data || {})
+  if (strict) {
+    keys.push('[\\w-]+')
+  }
+  return parse(str, replaceStringRegex.pattern(`(${keys.join('|')})`)).map(
+    (node) => renderNode(node, data, strict)
   )
 }
 

@@ -21,6 +21,11 @@ exports[`parse can parse strings 1`] = `
     "tagName": "foo",
     "text": "<foo>",
   },
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": " ",
+  },
   ElementNode {
     "attributes": "bar",
     "children": [],
@@ -108,6 +113,11 @@ exports[`parse can parse strings 5`] = `
     "parent": null,
     "tagName": "bar",
     "text": "{bar}",
+  },
+  TextNode {
+    "kind": "text",
+    "parent": null,
+    "text": " ",
   },
   ElementNode {
     "attributes": "",
