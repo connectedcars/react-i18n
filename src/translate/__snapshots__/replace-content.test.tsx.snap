@@ -17,6 +17,17 @@ exports[`replace-content can replace JSX 3`] = `"translation data not found for 
 
 exports[`replace-content can replace JSX 4`] = `
 [
+  "Hello ",
+  <strong>
+    Jane
+  </strong>,
+  " ",
+  "Doe",
+]
+`;
+
+exports[`replace-content can replace JSX 5`] = `
+[
   <strong>
     Hello
   </strong>,

@@ -59,6 +59,20 @@ describe('replace-content', () => {
       )
     ).toThrowErrorMatchingSnapshot()
 
+    expect(
+      replaceJsx(
+        'Hello <b>Jane</b> {{{lastName}}}',
+        {
+          b: (content) => <strong>{content}</strong>,
+          lastName: 'Doe',
+        },
+        {
+          strict: true,
+          replaceStringRegex: { pattern: (key) => `{{{${key}}}}` },
+        }
+      )
+    ).toMatchSnapshot()
+
     const Link = (props: { children: React.ReactNode }) => {
       return <a href="https://example.com">{props.children}</a>
     }
