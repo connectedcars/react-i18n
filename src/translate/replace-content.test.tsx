@@ -10,12 +10,22 @@ describe('replace-content', () => {
     ).toMatchSnapshot()
   })
 
+  expect(() =>
+    replaceString(
+      'Hello {firstName} {lastName}',
+      {
+        firstName: 'Jane',
+      },
+      { strict: true }
+    )
+  ).toThrowErrorMatchingSnapshot()
+
   it('can replace a string with a custom pattern', () => {
     expect(
       replaceString(
         'Hello {{{name}}}',
         { name: 'John Doe' },
-        { pattern: (key) => `{{{${key}}}}` }
+        { replaceStringRegex: { pattern: (key) => `{{{${key}}}}` } }
       )
     ).toMatchSnapshot()
 
@@ -23,18 +33,30 @@ describe('replace-content', () => {
       replaceString(
         'Hello {{{firstName} {lastName}',
         { firstName: 'John', lastName: 'Doe' },
-        { pattern: (key) => `{?{?{${key}}}?}?` }
+        { replaceStringRegex: { pattern: (key) => `{?{?{${key}}}?}?` } }
       )
     ).toMatchSnapshot()
   })
 
   it('can replace JSX', () => {
     expect(
-      replaceJsx('Hello <strong>{name}</strong>', { name: 'John Doe' }, false)
+      replaceJsx(
+        'Hello {firstName} {lastName}',
+        { firstName: 'Jane', lastName: 'Doe' },
+        { strict: false }
+      )
     ).toMatchSnapshot()
 
     expect(() =>
-      replaceJsx('Hello <strong>{name}</strong>', { name: 'John Doe' }, true)
+      replaceJsx('Hello {firstName} {lastName}', {}, { strict: true })
+    ).toThrowErrorMatchingSnapshot()
+
+    expect(() =>
+      replaceJsx(
+        'Hello <strong>{name}</strong>',
+        { name: 'John Doe' },
+        { strict: true }
+      )
     ).toThrowErrorMatchingSnapshot()
 
     const Link = (props: { children: React.ReactNode }) => {
@@ -48,7 +70,7 @@ describe('replace-content', () => {
           strong: (content) => <strong>{content}</strong>,
           link: () => <Link>Link here</Link>,
         },
-        true
+        { strict: true }
       )
     ).toMatchSnapshot()
   })

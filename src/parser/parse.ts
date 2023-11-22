@@ -5,9 +5,10 @@ import { DocNode, SyntaxKind, Token } from './types'
 const addToken = (
   stack: Token[],
   line: string,
-  isTextNode: boolean = false
+  isTextNode: boolean,
+  patternString: string
 ): void => {
-  if (line.trim() === '') {
+  if (!line) {
     return
   }
 
@@ -54,7 +55,7 @@ const addToken = (
   }
 
   // {text}
-  if ((match = line.match(/{([a-z0-9_-]+)}/i))) {
+  if ((match = line.match(new RegExp(patternString)))) {
     stack.push({
       kind: SyntaxKind.self,
       tagName: match[1],
@@ -67,21 +68,24 @@ const addToken = (
   return
 }
 
-const tokenize = (str: string): Token[] => {
-  const pattern = /(<[^<>]+>|{[a-z0-9_-]+})/gi
+const tokenize = (str: string, patternString: string): Token[] => {
+  const pattern = new RegExp(
+    `(<[^<>]+>${patternString ? `|${patternString}` : ''})`,
+    'g'
+  )
   const stack: Token[] = []
 
   let match: RegExpExecArray | null = null
   let pointer: number = 0
   while ((match = pattern.exec(str))) {
-    addToken(stack, str.slice(pointer, match.index), true)
-    addToken(stack, match[1])
+    addToken(stack, str.slice(pointer, match.index), true, patternString)
+    addToken(stack, match[1], false, patternString)
     pointer = match.index + match[0].length
   }
 
   const hasMoreText = pointer < str.length
   if (hasMoreText) {
-    addToken(stack, str.slice(pointer), true)
+    addToken(stack, str.slice(pointer), true, patternString)
   }
 
   return stack
@@ -150,9 +154,9 @@ const lex = (tokens: Token[]): DocNode[] => {
   return children
 }
 
-const parse = (str: string): DocNode[] => {
+const parse = (str: string, patternString: string = '{(\\w+)}'): DocNode[] => {
   // Break our string into tokens
-  const lines = tokenize(str)
+  const lines = tokenize(str, patternString)
   // Add extra context to our tokens and validate the syntax
   const ast = lex(lines)
   // Return our syntax tree

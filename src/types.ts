@@ -69,5 +69,14 @@ export type FormatLocaleOption = 'xx-yy' | 'xx_yy' | 'xx-YY' | 'xx_YY'
 
 export interface ReplaceStringRegex {
   pattern: (key: string) => string
-  flags?: string
+}
+
+export interface ReplaceStringOptions {
+  strict?: boolean
+  replaceStringRegex?: ReplaceStringRegex
+}
+
+export interface ReplaceJsxOptions {
+  strict?: boolean
+  replaceStringRegex?: ReplaceStringRegex
 }
