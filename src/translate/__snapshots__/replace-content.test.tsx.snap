@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `"translation data not found for tag: 'lastName'"`;
-
 exports[`replace-content can replace JSX 1`] = `
 [
   "Hello ",
@@ -11,11 +9,20 @@ exports[`replace-content can replace JSX 1`] = `
 ]
 `;
 
-exports[`replace-content can replace JSX 2`] = `"translation data not found for tag: 'firstName'"`;
+exports[`replace-content can replace JSX 2`] = `
+[
+  "Hello ",
+  "Jane",
+  " ",
+  "Doe",
+]
+`;
 
-exports[`replace-content can replace JSX 3`] = `"translation data not found for tag: 'strong'"`;
+exports[`replace-content can replace JSX 3`] = `"translation data not found for tag: 'firstName'"`;
 
-exports[`replace-content can replace JSX 4`] = `
+exports[`replace-content can replace JSX 4`] = `"translation data not found for tag: 'strong'"`;
+
+exports[`replace-content can replace JSX 5`] = `
 [
   "Hello ",
   <strong>
@@ -26,7 +33,7 @@ exports[`replace-content can replace JSX 4`] = `
 ]
 `;
 
-exports[`replace-content can replace JSX 5`] = `
+exports[`replace-content can replace JSX 6`] = `
 [
   <strong>
     Hello
@@ -39,6 +46,10 @@ exports[`replace-content can replace JSX 5`] = `
 `;
 
 exports[`replace-content can replace a string 1`] = `"Hello John Doe"`;
+
+exports[`replace-content can replace a string 2`] = `"Hello John Doe"`;
+
+exports[`replace-content can replace a string 3`] = `"translation data not found for tag: 'lastName'"`;
 
 exports[`replace-content can replace a string with a custom pattern 1`] = `"Hello John Doe"`;
 

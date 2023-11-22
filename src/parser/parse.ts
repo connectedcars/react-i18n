@@ -154,7 +154,10 @@ const lex = (tokens: Token[]): DocNode[] => {
   return children
 }
 
-const parse = (str: string, patternString: string = '{(\\w+)}'): DocNode[] => {
+const parse = (
+  str: string,
+  patternString: string = '{([\\w-]+)}'
+): DocNode[] => {
   // Break our string into tokens
   const lines = tokenize(str, patternString)
   // Add extra context to our tokens and validate the syntax

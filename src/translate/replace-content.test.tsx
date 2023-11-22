@@ -8,17 +8,21 @@ describe('replace-content', () => {
     expect(
       replaceString('Hello {name}', { name: 'John Doe' })
     ).toMatchSnapshot()
-  })
 
-  expect(() =>
-    replaceString(
-      'Hello {firstName} {lastName}',
-      {
-        firstName: 'Jane',
-      },
-      { strict: true }
-    )
-  ).toThrowErrorMatchingSnapshot()
+    expect(
+      replaceString('Hello {some-name}', { 'some-name': 'John Doe' })
+    ).toMatchSnapshot()
+
+    expect(() =>
+      replaceString(
+        'Hello {firstName} {lastName}',
+        {
+          firstName: 'Jane',
+        },
+        { strict: true }
+      )
+    ).toThrowErrorMatchingSnapshot()
+  })
 
   it('can replace a string with a custom pattern', () => {
     expect(
@@ -43,6 +47,14 @@ describe('replace-content', () => {
       replaceJsx(
         'Hello {firstName} {lastName}',
         { firstName: 'Jane', lastName: 'Doe' },
+        { strict: false }
+      )
+    ).toMatchSnapshot()
+
+    expect(
+      replaceJsx(
+        'Hello {first-name} {last-name}',
+        { 'first-name': 'Jane', 'last-name': 'Doe' },
         { strict: false }
       )
     ).toMatchSnapshot()

@@ -35,7 +35,7 @@ export const replaceString = (
   })
 
   if (strict) {
-    const match = str.match(new RegExp(replaceStringRegex.pattern('(\\w+)')))
+    const match = str.match(new RegExp(replaceStringRegex.pattern('([\\w-]+)')))
     if (match) {
       throw new Error(`translation data not found for tag: '${match[1]}'`)
     }
@@ -54,7 +54,7 @@ export const replaceJsx = (
 
   const keys = Object.keys(data || {})
   if (strict) {
-    keys.push('\\w+')
+    keys.push('[\\w-]+')
   }
   return parse(str, replaceStringRegex.pattern(`(${keys.join('|')})`)).map(
     (node) => renderNode(node, data, strict)
