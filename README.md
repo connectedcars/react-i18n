@@ -85,6 +85,10 @@ To get output for CI, add the following script:
   "ci-translation": "i18n-translation-status"
 ```
 
+## Linting
+
+See our eslint plugin: https://github.com/connectedcars/eslint-plugin-react-i18n
+
 ## Example
 ```tsx
 import React from 'react'
