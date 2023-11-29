@@ -14,7 +14,7 @@ export type TranslationConfig = Record<string, string>
 // Example: { "Hello": [null, "Hej"] }
 export type TranslationItem = Array<null | string>
 
-type BasicTypes = boolean | string | number | null | undefined
+type BasicTypes = boolean | string | number
 
 export type TranslateData = Record<string, BasicTypes> | null
 
