@@ -1,3 +1,4 @@
+[![npm version](https://badge.fury.io/js/@connectedcars%2Freact-i18n.svg)](https://www.npmjs.com/package/@connectedcars/react-i18n)
 # @connectedcars/react-i18n
 
 ## Installation
