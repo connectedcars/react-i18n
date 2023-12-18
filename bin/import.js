@@ -9,7 +9,7 @@ const prettyPrint = true
 
 let translations = {}
 
-const args = process.argv.splice(2)
+const args = process.argv.slice(2)
 
 const stripCountry = args.includes('--stripCountry')
 
