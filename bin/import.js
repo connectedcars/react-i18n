@@ -9,12 +9,14 @@ const prettyPrint = true
 
 let translations = {}
 
-const arg = process.argv[2]
+const args = process.argv.splice(2)
 
-let stripCountry = false
+const stripCountry = args.includes('--stripCountry')
 
-if (arg === '--stripCountry') {
-  stripCountry = true
+const languageHeaderIndex = args.findIndex((v) => v === '--languageHeader')
+let languageHeader = 'Language'
+if (languageHeaderIndex !== -1) {
+  languageHeader = args[languageHeaderIndex + 1]
 }
 
 glob(localesPath, (err, files) => {
@@ -29,7 +31,7 @@ glob(localesPath, (err, files) => {
       throw new Error('import: missing header')
     }
 
-    const langHeader = header['Language']
+    const langHeader = header[languageHeader]
     const lang = stripCountry ? langHeader.slice(0, 2) : langHeader
     if (!lang) {
       throw new Error('import: language missing from header')
