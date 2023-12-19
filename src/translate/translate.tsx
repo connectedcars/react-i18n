@@ -1,4 +1,5 @@
 import { TranslationOptions, Translations } from '../types'
+import { isSameLocale, parseLocale } from './helpers'
 import { normalizeContent } from './normalize-content'
 
 const CONTEXT_GLUE = '\u0004'
@@ -85,28 +86,38 @@ const getTranslationSetGracefully = (
   msgid: string
 ) => {
   const supportedLanguages = Object.keys(translations).filter((l) => {
-    const [userLocale] = locale.split('_')
-    const [supportedLocale] = l.split('_')
-    return userLocale === supportedLocale
+    const userLocale = parseLocale(locale)
+    const supportedLocale = parseLocale(l)
+    return (
+      userLocale.languageCode.toLowerCase() ===
+      supportedLocale.languageCode.toLowerCase()
+    )
   })
-
-  const [sansLocale] = locale.split('_')
-  const firstWithCountryCode = supportedLanguages.find(
-    (v) => v.includes('_') && locale !== v
-  )
 
   // Find translation set gracefully
   // - If we have supported languages: `es_ES, es_XX, es` and the language is set to `es_YY` then fall back on `es` (strip the `_xx` suffix).
   // - If we have supported languages: `es_ES, es_XX` but not `es` and the language is `es_YY` we should just take the first available `es*` in the list.
   // - If we have `es_YY` but no `es*` supported, fallback to `en` or whatever the organization default is.
-  if (Array.isArray(translations?.[locale]?.[msgid])) {
-    return translations[locale]
+
+  const directMatch = supportedLanguages.find((v) => isSameLocale(locale, v))
+  if (Array.isArray(translations?.[directMatch]?.[msgid])) {
+    return translations[directMatch]
   }
+
+  const sansLocale = parseLocale(locale).languageCode
   if (Array.isArray(translations?.[sansLocale]?.[msgid])) {
     return translations[sansLocale]
   }
-  if (Array.isArray(translations?.[firstWithCountryCode]?.[msgid])) {
-    return translations[firstWithCountryCode]
+
+  const firstMatchWithCountryCode = supportedLanguages.find((v) => {
+    const supportedLocale = parseLocale(v)
+    if (!supportedLocale.countryCode) {
+      return false
+    }
+    return !isSameLocale(locale, v)
+  })
+  if (Array.isArray(translations?.[firstMatchWithCountryCode]?.[msgid])) {
+    return translations[firstMatchWithCountryCode]
   }
 
   return null
