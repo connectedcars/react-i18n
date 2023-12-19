@@ -12,7 +12,7 @@ export type TranslationSet =
 export type TranslationConfig = Record<string, string>
 
 // Example: { "Hello": [null, "Hej"] }
-export type TranslationItem = Array<null | string>
+export type TranslationItem = Array<null | string | string[]>
 
 type BasicTypes = boolean | string | number
 

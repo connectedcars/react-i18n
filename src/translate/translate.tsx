@@ -57,7 +57,6 @@ export const getTranslation = (
 
   // Get plural-forms from the header.
   const pluralForms = translationSet[''] && translationSet['']['Plural-Forms']
-
   if (!pluralForms) {
     if (options.verbose) {
       console.warn('translations are missing Plural-Forms setting')
@@ -66,8 +65,11 @@ export const getTranslation = (
   }
 
   const msgstrIndex = getPluralFunc(pluralForms as string)(n)
-
-  return msgstr[msgstrIndex] || defaultValue
+  const result = msgstr[msgstrIndex]
+  // Reason for checking if it's an Array: https://github.com/connectedcars/po2json/blob/master/lib/parse.js#L88-L89
+  // We could probably just check if pluralForms = nplurals=1; plural=0;
+  // However, this seems more robust.
+  return Array.isArray(result) ? result[0] : result || defaultValue
 }
 
 const getPluralFunc = (pluralForms: string) => {

@@ -123,6 +123,28 @@ describe('translate', () => {
         getTranslation(set, 'test_undefined', null, 'test', null, null, {})
       ).toMatch('test!')
     })
+
+    it('translates without plurals', () => {
+      const set: Translations = {
+        zh_TW: {
+          '': {
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Plural-Forms': 'nplurals=1; plural=0;',
+            Language: 'zh_TW',
+          },
+          '{n} user': ['{n} users', ['{n} 用户']],
+        },
+      }
+      expect(getTranslation(set, 'zh_TW', 0, '{n} user', '{n} users')).toMatch(
+        '{n} 用户'
+      )
+      expect(getTranslation(set, 'zh_TW', 1, '{n} user', '{n} users')).toMatch(
+        '{n} 用户'
+      )
+      expect(getTranslation(set, 'zh_TW', 2, '{n} user', '{n} users')).toMatch(
+        '{n} 用户'
+      )
+    })
   })
 
   describe('fails on missing plural data', () => {
