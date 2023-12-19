@@ -85,6 +85,44 @@ describe('translate', () => {
         getTranslation(translationData, 'de', null, 'bye', null, null, {})
       ).toMatch('bye')
     })
+
+    it('translates with different formats', () => {
+      const set: Translations = {
+        test: {
+          test: [null, 'test!'],
+          'a fish': [null, 'un poisson'],
+        },
+        test_underscore: {
+          test: [null, 'test_underscore'],
+          'a goldfish': [null, 'un poisson rouge'],
+        },
+        'test-hyphen': {
+          test: [null, 'test-hypeh'],
+          'a shark': [null, 'un requin'],
+        },
+      }
+
+      expect(
+        getTranslation(set, 'test', null, 'a fish', null, null, {})
+      ).toMatch('un poisson')
+      expect(
+        getTranslation(
+          set,
+          'test_underscore',
+          null,
+          'a goldfish',
+          null,
+          null,
+          {}
+        )
+      ).toMatch('un poisson rouge')
+      expect(
+        getTranslation(set, 'test-hyphen', null, 'a shark', null, null, {})
+      ).toMatch('un requin')
+      expect(
+        getTranslation(set, 'test_undefined', null, 'test', null, null, {})
+      ).toMatch('test!')
+    })
   })
 
   describe('fails on missing plural data', () => {

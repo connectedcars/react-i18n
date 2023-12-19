@@ -22,6 +22,15 @@ export const formatLocale = (locale: string, format: FormatLocaleOption) => {
     .replace('YY', countryCode.toUpperCase())
 }
 
+export const isSameLocale = (a: string, b: string) => {
+  const aLocale = parseLocale(a)
+  const bLocale = parseLocale(b)
+  return (
+    aLocale.languageCode.toLowerCase() === bLocale.languageCode.toLowerCase() &&
+    aLocale.countryCode?.toLowerCase() === bLocale.countryCode?.toLowerCase()
+  )
+}
+
 export const getSupportedLocaleFromLocalesList = (
   clientLocales: readonly string[],
   translationLocales: string[],
