@@ -34,7 +34,7 @@ glob(localesPath, (err, files) => {
     const langHeader = header[languageHeader]
     const lang = stripCountry ? langHeader.slice(0, 2) : langHeader
     if (!lang) {
-      throw new Error('import: language missing from header')
+      throw new Error(`import: '${languageHeader}' missing from header`)
     }
     const pluralForms = header['Plural-Forms']
     if (!pluralForms) {
