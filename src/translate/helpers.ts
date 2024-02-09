@@ -1,4 +1,4 @@
-import { FormatLocaleOption } from '../types'
+import { FormatLocaleOption, Translations } from '../types'
 
 const DELIMITER = /[-_]/
 
@@ -69,4 +69,32 @@ export const getSupportedLocaleFromLocalesList = (
   }
 
   return null
+}
+
+export const mergeTranslations = (
+  translations: Translations[],
+  formatKey?: (key: string) => string
+): Translations => {
+  const mergedTranslations: Translations = {}
+
+  for (const t of translations) {
+    for (let key of Object.keys(t)) {
+      const value = t[key]
+      if (formatKey) {
+        key = formatKey(key)
+      }
+      if (mergedTranslations[key]) {
+        // This is a naive implementation. This overrides translations in previous sets, so the last one will always be the one picked.
+        // Even if something is translated in one translation file, but isn't in the last file, they will still be replaced.
+        mergedTranslations[key] = {
+          ...mergedTranslations[key],
+          ...value,
+        }
+      } else {
+        mergedTranslations[key] = value
+      }
+    }
+  }
+
+  return mergedTranslations
 }

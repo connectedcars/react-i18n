@@ -1,6 +1,7 @@
 import {
   formatLocale,
   getSupportedLocaleFromLocalesList,
+  mergeTranslations,
   parseLocale,
 } from './helpers'
 
@@ -69,6 +70,49 @@ describe('helpers', () => {
           ['da_DK', 'da', 'en']
         )
       ).toBe('en')
+    })
+  })
+
+  describe('mergeTranslations', () => {
+    it('merges translations properly', () => {
+      expect(
+        mergeTranslations([
+          {
+            da: { '': {}, a: ['a'] },
+          },
+          {
+            da: { '': {}, b: ['b'] },
+          },
+        ])
+      ).toEqual({ da: { '': {}, a: ['a'], b: ['b'] } })
+
+      expect(
+        mergeTranslations([
+          {
+            da: { '': {}, a: ['a'] },
+          },
+          {
+            da_DK: { '': {}, b: ['b'] },
+          },
+        ])
+      ).toEqual({
+        da: { '': {}, a: ['a'] },
+        da_DK: { '': {}, b: ['b'] },
+      })
+
+      expect(
+        mergeTranslations(
+          [
+            {
+              da_dk: { '': {}, a: ['a'] },
+            },
+            {
+              da_DK: { '': {}, b: ['b'] },
+            },
+          ],
+          (key) => formatLocale(key, 'xx_YY')
+        )
+      ).toEqual({ da_DK: { '': {}, a: ['a'], b: ['b'] } })
     })
   })
 })
