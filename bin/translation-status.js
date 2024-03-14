@@ -23,7 +23,7 @@ glob(LOCALES_PATH, (err, files) => {
     const language = header['Language-Team']
     const languageCode = header['Language']
     let translatedStrings = 0
-    for (const key in pocontent) {
+    for (const key in templateContent) {
       if (pocontent[key][1]) {
         translatedStrings += 1
       }
