@@ -1,7 +1,7 @@
 {
   "name": "@connectedcars/react-i18n",
   "author": "Connected Cars <oss@connectedcars.io>",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "description": "Translations!",
   "license": "MIT",
   "homepage": "https://github.com/connectedcars/react-i18n#readme",
@@ -47,6 +47,7 @@
   ],
   "dependencies": {
     "@connectedcars/po2json": "2.0.0",
+    "glob": "7.2.3",
     "gettext-extractor": "3.6.1"
   },
   "devDependencies": {
@@ -60,7 +61,6 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-simple-import-sort": "10.0.0",
     "eslint": "8.51.0",
-    "glob": "7.2.3",
     "jest": "29.7.0",
     "prettier": "3.0.3",
     "react-dom": "18.2.0",
