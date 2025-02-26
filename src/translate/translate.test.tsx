@@ -1,4 +1,4 @@
-import { Translations } from '../types'
+import { TranslationOptions, Translations } from '../types'
 import { replaceString } from './replace-content'
 import { getTranslation } from './translate'
 
@@ -23,6 +23,9 @@ const translationData: Translations = {
   fr_XX: {
     hello: [null, 'salut'],
   },
+  en_AU: {
+    hello: [null, 'oi'],
+  },
 }
 
 const translationDataLowercase: Translations = {
@@ -37,11 +40,13 @@ const translationDataLowercase: Translations = {
   },
 }
 
+const opts: TranslationOptions = { defaultLocale: 'en' }
+
 describe('translate', () => {
   describe('translates from translations set', () => {
     it('translate a singular string', () => {
       expect(
-        getTranslation(translationData, 'da', null, 'hello', null, null, {})
+        getTranslation(translationData, 'da', null, 'hello', null, null, opts)
       ).toMatch('hej')
     })
 
@@ -53,7 +58,7 @@ describe('translate', () => {
         '{n} day',
         '{n} days',
         null,
-        {}
+        opts
       )
       const replaced = replaceString(output, { n: 3 })
       expect(replaced).toMatch('3 dage')
@@ -61,28 +66,36 @@ describe('translate', () => {
 
     it('translates with fallback country code', () => {
       expect(
-        getTranslation(translationData, 'en', null, 'bye', null, null, {})
+        getTranslation(translationData, 'en', null, 'bye', null, null, opts)
       ).toMatch('bye')
       expect(
-        getTranslation(translationData, 'da', null, 'bye', null, null, {})
+        getTranslation(translationData, 'da', null, 'bye', null, null, opts)
       ).toMatch('farvel')
       expect(
-        getTranslation(translationData, 'da_DK', null, 'bye', null, null, {})
+        getTranslation(translationData, 'da_DK', null, 'bye', null, null, opts)
       ).toMatch('farvel')
       expect(
-        getTranslation(translationData, 'da_GL', null, 'bye', null, null, {})
+        getTranslation(translationData, 'da_GL', null, 'bye', null, null, opts)
       ).toMatch('farvel')
       expect(
-        getTranslation(translationData, 'fr_FR', null, 'hello', null, null, {})
+        getTranslation(
+          translationData,
+          'fr_FR',
+          null,
+          'hello',
+          null,
+          null,
+          opts
+        )
       ).toMatch('bonjour')
       expect(
-        getTranslation(translationData, 'fr_XX', null, 'bye', null, null, {})
+        getTranslation(translationData, 'fr_XX', null, 'bye', null, null, opts)
       ).toMatch('au revoir')
       expect(
-        getTranslation(translationData, 'fr', null, 'bye', null, null, {})
+        getTranslation(translationData, 'fr', null, 'bye', null, null, opts)
       ).toMatch('au revoir')
       expect(
-        getTranslation(translationData, 'de', null, 'bye', null, null, {})
+        getTranslation(translationData, 'de', null, 'bye', null, null, opts)
       ).toMatch('bye')
     })
 
@@ -103,7 +116,7 @@ describe('translate', () => {
       }
 
       expect(
-        getTranslation(set, 'test', null, 'a fish', null, null, {})
+        getTranslation(set, 'test', null, 'a fish', null, null, opts)
       ).toMatch('un poisson')
       expect(
         getTranslation(
@@ -113,14 +126,14 @@ describe('translate', () => {
           'a goldfish',
           null,
           null,
-          {}
+          opts
         )
       ).toMatch('un poisson rouge')
       expect(
-        getTranslation(set, 'test-hyphen', null, 'a shark', null, null, {})
+        getTranslation(set, 'test-hyphen', null, 'a shark', null, null, opts)
       ).toMatch('un requin')
       expect(
-        getTranslation(set, 'test_undefined', null, 'test', null, null, {})
+        getTranslation(set, 'test_undefined', null, 'test', null, null, opts)
       ).toMatch('test!')
     })
 
@@ -145,11 +158,55 @@ describe('translate', () => {
         '{n} 用户'
       )
     })
+
+    it.only('falls back on default language', () => {
+      const set: Translations = {
+        en_GB: {
+          '': {
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Plural-Forms': 'nplurals=2; plural=(n != 1);',
+          },
+          hi: [null, 'hai'],
+        },
+        en_AU: {
+          '': {
+            'Content-Type': 'text/plain; charset=UTF-8',
+            'Plural-Forms': 'nplurals=2; plural=(n != 1);',
+          },
+          hi: [null, 'oi'],
+        },
+      }
+      expect(
+        getTranslation(set, 'en', null, 'hi', null, null, {
+          defaultLocale: 'en',
+        })
+      ).toMatch('hi')
+      expect(
+        getTranslation(set, 'en_AU', null, 'hi', null, null, {
+          defaultLocale: 'en',
+        })
+      ).toMatch('oi')
+      expect(
+        getTranslation(set, 'en_GB', null, 'hi', null, null, {
+          defaultLocale: 'en_AU',
+        })
+      ).toMatch('hai')
+      expect(
+        getTranslation(set, 'en', null, 'hi', null, null, {
+          defaultLocale: 'en_AU',
+        })
+      ).toMatch('oi')
+      expect(
+        getTranslation(set, 'invalid', null, 'hi', null, null, {
+          defaultLocale: 'en_AU',
+        })
+      ).toMatch('hi')
+    })
   })
 
   describe('fails on missing plural data', () => {
     beforeEach(() => {
-      jest.spyOn(console, 'warn').mockImplementation(() => {})
+      jest.spyOn(console, 'warn').mockImplementation(() => opts)
     })
 
     it('fail on a plural string', () => {
@@ -161,7 +218,7 @@ describe('translate', () => {
         '{n} day',
         '{n} days',
         null,
-        { verbose: true }
+        { verbose: true, defaultLocale: 'en' }
       )
       expect(logSpy).toHaveBeenCalledWith(
         'translations are missing Plural-Forms setting'

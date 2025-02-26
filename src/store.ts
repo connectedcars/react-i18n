@@ -2,6 +2,7 @@ import { Translations } from './types'
 
 export interface I18nStoreState {
   locale: string
+  defaultLocale: string
   translations: Translations
 }
 
@@ -11,11 +12,13 @@ class I18nStore {
   private listeners: I18nStoreCallback[]
   private translations: Translations
   private locale: string
+  private defaultLocale: string
 
-  constructor({ translations, locale }: I18nStoreState) {
+  constructor({ translations, locale, defaultLocale }: I18nStoreState) {
     this.listeners = []
     this.translations = translations
     this.locale = locale
+    this.defaultLocale = defaultLocale
   }
 
   setLocale = (locale: string) => {
@@ -42,6 +45,7 @@ class I18nStore {
     return {
       translations: this.translations,
       locale: this.locale,
+      defaultLocale: this.defaultLocale,
     }
   }
 

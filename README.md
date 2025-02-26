@@ -133,6 +133,7 @@ const translations = {
 const store = new I18nStore({
   translations,
   locale: 'da',
+  defaultLocale: 'en',
 })
 
 class ExampleA extends React.Component {

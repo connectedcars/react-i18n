@@ -11,7 +11,7 @@ export const getTranslation = (
   singular: string,
   plural?: string | null,
   context?: string | null,
-  options: TranslationOptions = {}
+  options: TranslationOptions = { defaultLocale: 'en' }
 ): string => {
   // Clean our translation.
   singular = normalizeContent(singular, options.content)
@@ -25,6 +25,7 @@ export const getTranslation = (
   const translationSet = getTranslationSetGracefully(
     translations,
     locale,
+    options.defaultLocale,
     msgid
   )
   const msgstr = (translationSet?.[msgid] || []).slice()
@@ -85,29 +86,39 @@ const getPluralFunc = (pluralForms: string) => {
 const getTranslationSetGracefully = (
   translations: Translations,
   locale: string,
+  defaultLocale: string,
   msgid: string
 ) => {
-  const supportedLanguages = Object.keys(translations).filter((l) => {
-    const userLocale = parseLocale(locale)
-    const supportedLocale = parseLocale(l)
-    return (
-      userLocale.languageCode.toLowerCase() ===
-      supportedLocale.languageCode.toLowerCase()
-    )
-  })
+  const supportedLanguages = [defaultLocale]
+    .concat(Object.keys(translations))
+    .filter((l) => {
+      const userLocale = parseLocale(locale)
+      const supportedLocale = parseLocale(l)
+      return (
+        userLocale.languageCode.toLowerCase() ===
+        supportedLocale.languageCode.toLowerCase()
+      )
+    })
+
+  const exists = (locale: string, msgid: string) => {
+    return Array.isArray(translations?.[locale]?.[msgid])
+  }
 
   // Find translation set gracefully
   // - If we have supported languages: `es_ES, es_XX, es` and the language is set to `es_YY` then fall back on `es` (strip the `_xx` suffix).
   // - If we have supported languages: `es_ES, es_XX` but not `es` and the language is `es_YY` we should just take the first available `es*` in the list.
-  // - If we have `es_YY` but no `es*` supported, fallback to `en` or whatever the organization default is.
+  // - If we have `es_YY` but no `es*` supported, fallback to whatever the `defaultLocale` is.
 
   const directMatch = supportedLanguages.find((v) => isSameLocale(locale, v))
-  if (Array.isArray(translations?.[directMatch]?.[msgid])) {
+  if (exists(directMatch, msgid)) {
     return translations[directMatch]
+  }
+  if (directMatch === defaultLocale) {
+    return null
   }
 
   const sansLocale = parseLocale(locale).languageCode
-  if (Array.isArray(translations?.[sansLocale]?.[msgid])) {
+  if (exists(sansLocale, msgid)) {
     return translations[sansLocale]
   }
 
@@ -118,7 +129,8 @@ const getTranslationSetGracefully = (
     }
     return !isSameLocale(locale, v)
   })
-  if (Array.isArray(translations?.[firstMatchWithCountryCode]?.[msgid])) {
+
+  if (exists(firstMatchWithCountryCode, msgid)) {
     return translations[firstMatchWithCountryCode]
   }
 
