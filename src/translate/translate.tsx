@@ -125,6 +125,8 @@ const getTranslationSetGracefully = (
   if (exists(directMatch, msgid)) {
     return translations[directMatch]
   }
+  // If we have a direct with the `defaultLocale` but it wasn't found in the translation set
+  // then it means the source language is not being translated so return `null`.
   if (directMatch === defaultLocale) {
     return null
   }
