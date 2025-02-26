@@ -82,29 +82,31 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   }
 
   t: TranslateFunc = (message, data, context) => {
-    const msg = getTranslation(
-      this.state.storeState.translations,
-      this.state.storeState.locale,
-      null,
-      message,
-      null,
+    const msg = getTranslation({
+      translations: this.state.storeState.translations,
+      locale: this.state.storeState.locale,
+      defaultLocale: this.state.storeState.defaultLocale,
+      n: null,
+      singular: message,
+      plural: null,
       context,
-      this.props.options
-    )
+      options: this.props.options,
+    })
 
     return replaceString(msg, this.genData(data), this.props.options)
   }
 
   tx: TranslateJsxFunc = (message, data, context) => {
-    const msg = getTranslation(
-      this.state.storeState.translations,
-      this.state.storeState.locale,
-      null,
-      message,
-      null,
+    const msg = getTranslation({
+      translations: this.state.storeState.translations,
+      locale: this.state.storeState.locale,
+      defaultLocale: this.state.storeState.defaultLocale,
+      n: null,
+      singular: message,
+      plural: null,
       context,
-      this.props.options
-    )
+      options: this.props.options,
+    })
 
     return replaceJsx(msg, this.genData(data), this.props.options).map(
       (el, idx) => <React.Fragment key={idx}>{el}</React.Fragment>
@@ -112,29 +114,31 @@ class I18nProvider extends PureComponent<I18nProviderProps, I18nProviderState> {
   }
 
   tn: TranslatePluralFunc = (count, singular, plural, data, context) => {
-    const message = getTranslation(
-      this.state.storeState.translations,
-      this.state.storeState.locale,
-      count,
+    const message = getTranslation({
+      translations: this.state.storeState.translations,
+      locale: this.state.storeState.locale,
+      defaultLocale: this.state.storeState.defaultLocale,
+      n: count,
       singular,
       plural,
       context,
-      this.props.options
-    )
+      options: this.props.options,
+    })
 
     return replaceString(message, this.genData(data, count), this.props.options)
   }
 
   tnx: TranslatePluralJsxFunc = (count, singular, plural, data, context) => {
-    const message = getTranslation(
-      this.state.storeState.translations,
-      this.state.storeState.locale,
-      count,
+    const message = getTranslation({
+      translations: this.state.storeState.translations,
+      locale: this.state.storeState.locale,
+      defaultLocale: this.state.storeState.defaultLocale,
+      n: count,
       singular,
       plural,
       context,
-      this.props.options
-    )
+      options: this.props.options,
+    })
 
     return replaceJsx(
       message,
