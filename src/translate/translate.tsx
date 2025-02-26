@@ -4,15 +4,27 @@ import { normalizeContent } from './normalize-content'
 
 const CONTEXT_GLUE = '\u0004'
 
-export const getTranslation = (
-  translations: Translations,
-  locale: string,
-  n: number | null,
-  singular: string,
-  plural?: string | null,
-  context?: string | null,
-  options: TranslationOptions = { defaultLocale: 'en' }
-): string => {
+interface GetTranslationOptions {
+  translations: Translations
+  locale: string
+  defaultLocale: string
+  n: number | null
+  singular: string
+  plural?: string | null
+  context?: string | null
+  options?: TranslationOptions
+}
+
+export const getTranslation = ({
+  translations,
+  locale,
+  defaultLocale,
+  n,
+  singular,
+  plural,
+  context,
+  options = {},
+}: GetTranslationOptions): string => {
   // Clean our translation.
   singular = normalizeContent(singular, options.content)
 
@@ -25,7 +37,7 @@ export const getTranslation = (
   const translationSet = getTranslationSetGracefully(
     translations,
     locale,
-    options.defaultLocale,
+    defaultLocale,
     msgid
   )
   const msgstr = (translationSet?.[msgid] || []).slice()

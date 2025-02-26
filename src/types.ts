@@ -29,7 +29,6 @@ export interface TranslationOptions {
   verbose?: boolean
   jsxWhitelist?: TranslateDataWithJSX
   replaceStringRegex?: ReplaceStringRegex
-  defaultLocale: string
 
   content?: {
     trimWhiteSpace?: boolean
