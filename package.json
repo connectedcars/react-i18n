@@ -1,7 +1,7 @@
 {
   "name": "@connectedcars/react-i18n",
   "author": "Connected Cars <oss@connectedcars.io>",
-  "version": "2.3.6",
+  "version": "2.4.0",
   "description": "Translations!",
   "license": "MIT",
   "homepage": "https://github.com/connectedcars/react-i18n#readme",
